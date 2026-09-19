@@ -242,5 +242,4 @@ Adding a new dialect requires only two data additions:
 
 ---
 
-*Developed for Smart India Hackathon 2026 — Problem Statement SIH 26042.*  
-*Maintained by Team Psyduck • Author: Puneet Mehta (`puneetmehta288@gmail.com`).*
+*Developed for Smart India Hackathon 2026 — Problem Statement SIH 26042.*
