@@ -241,4 +241,8 @@ Adding a new dialect requires only two data additions:
 
 ---
 
+<<<<<<< HEAD
 *Developed & Maintained by Ambivert's Team.*
+=======
+*Developed for Smart India Hackathon 2026 — Problem Statement SIH 26042.*
+>>>>>>> a485509f6ebd0a4850084bfe9ed488ac6e3d27d2
