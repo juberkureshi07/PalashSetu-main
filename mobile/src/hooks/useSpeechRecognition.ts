@@ -53,8 +53,11 @@ export const useSpeechRecognition = (defaultLang = 'hi-IN') => {
   const [interimTranscript, setInterimTranscript] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isSupported, setIsSupported] = useState(true);
+  const [isHandsFreeMode, setIsHandsFreeMode] = useState(true); // Default: Hands-Free Lecture Mode
 
   const recognitionRef = useRef<any>(null);
+  const wantListeningRef = useRef(false);
+  const restartTimerRef = useRef<any>(null);
 
   useEffect(() => {
     const SpeechRecognition =
@@ -71,8 +74,7 @@ export const useSpeechRecognition = (defaultLang = 'hi-IN') => {
 
     try {
       const recognition = new SpeechRecognition();
-      // Use single-sentence mode to prevent compounding loops on Android
-      recognition.continuous = false;
+      recognition.continuous = true; // Enable native continuous listening
       recognition.interimResults = true;
       recognition.lang = defaultLang;
 
@@ -85,8 +87,8 @@ export const useSpeechRecognition = (defaultLang = 'hi-IN') => {
         let bestTranscript = '';
         let isFinalResult = false;
 
-        // In Android, inspect all results up to latest
-        for (let i = 0; i < event.results.length; ++i) {
+        const startIndex = event.resultIndex !== undefined ? event.resultIndex : 0;
+        for (let i = startIndex; i < event.results.length; ++i) {
           const item = event.results[i];
           if (item && item[0] && item[0].transcript) {
             bestTranscript = item[0].transcript;
@@ -107,22 +109,53 @@ export const useSpeechRecognition = (defaultLang = 'hi-IN') => {
 
       recognition.onerror = (event: any) => {
         console.warn('Speech recognition error:', event.error);
+        
         if (event.error === 'no-speech') {
-          // Normal when user pauses, don't show as fatal error
+          // Normal during teacher pauses in lecture! Keep mic active in Hands-Free mode.
+          if (!wantListeningRef.current) {
+            setIsListening(false);
+          }
           return;
         }
-        if (event.error === 'not-allowed') {
-          setError('Microphone permission was denied. Please allow microphone access in your browser address bar.');
-        } else if (event.error === 'network') {
-          setError('Network required for online speech recognition in browser. (On Android APK, offline speech engine is used).');
-        } else {
-          setError(`Speech error: ${event.error}`);
+
+        if (event.error === 'aborted') {
+          // Internal reset or restart, ignore if user wants mic active
+          return;
         }
-        setIsListening(false);
+
+        if (event.error === 'not-allowed' || event.error === 'permission-denied') {
+          wantListeningRef.current = false;
+          setIsListening(false);
+          setError('Microphone permission was denied. Please grant microphone permissions in device settings.');
+        } else if (event.error === 'network' || event.error === 'service-not-allowed') {
+          wantListeningRef.current = false;
+          setIsListening(false);
+          setError('✈️ Offline / Airplane Mode: Speech-to-Text requires internet or Android Offline Speech Pack. Use 1-Tap Quick Phrases below for instant offline voice!');
+        } else {
+          if (!wantListeningRef.current) {
+            setIsListening(false);
+            setError(`Speech recognition paused (${event.error}). Tap 1-Tap Quick Phrases below for offline voice.`);
+          }
+        }
       };
 
       recognition.onend = () => {
-        setIsListening(false);
+        // Auto-restart loop for Hands-Free Lecture Mode
+        if (wantListeningRef.current) {
+          setIsListening(true);
+          if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
+          restartTimerRef.current = setTimeout(() => {
+            if (wantListeningRef.current && recognitionRef.current) {
+              try {
+                recognitionRef.current.start();
+              } catch (e) {
+                // Ignore if already active
+              }
+            }
+          }, 120);
+        } else {
+          setIsListening(false);
+        }
       };
 
       recognitionRef.current = recognition;
@@ -133,6 +166,8 @@ export const useSpeechRecognition = (defaultLang = 'hi-IN') => {
     }
 
     return () => {
+      wantListeningRef.current = false;
+      if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
       if (recognitionRef.current) {
         try {
           recognitionRef.current.stop();
@@ -143,39 +178,81 @@ export const useSpeechRecognition = (defaultLang = 'hi-IN') => {
     };
   }, [defaultLang]);
 
+  useEffect(() => {
+    // Register native Android Speech Recognizer Callbacks
+    (window as any).onNativeSpeechResult = (text: string) => {
+      if (text) {
+        const cleaned = cleanSpeechText(text);
+        setTranscript(cleaned);
+        setInterimTranscript('');
+      }
+      setIsListening(false);
+    };
+
+    (window as any).onNativeSpeechError = (err: any) => {
+      console.warn('Native speech recognizer error:', err);
+      setIsListening(false);
+      setError('✈️ Offline Speech: Speech recognition paused or offline. Tap any 1-Tap Quick Phrase below for instant voice!');
+    };
+
+    (window as any).onNativeSpeechEvent = (evt: string) => {
+      if (evt === 'ready' || evt === 'speaking') {
+        setIsListening(true);
+        setError(null);
+      } else if (evt === 'end') {
+        setIsListening(false);
+      }
+    };
+  }, []);
+
   const startListening = useCallback(() => {
     setError(null);
     setTranscript('');
     setInterimTranscript('');
+    wantListeningRef.current = true;
+    setIsListening(true);
+
+    // 1. Try Native Android Speech Recognizer (Supports 100% Offline Intent)
+    if ((window as any).AndroidVoiceBridge?.startListening) {
+      try {
+        (window as any).AndroidVoiceBridge.startListening();
+        return;
+      } catch (e) {
+        console.warn('Native startListening failed, falling back to Web Speech API', e);
+      }
+    }
 
     if (!recognitionRef.current) {
-      setError('Speech recognition engine not initialized.');
+      wantListeningRef.current = false;
+      setIsListening(false);
+      setError('Speech recognition engine not initialized. Tap 1-Tap Quick Phrases below for offline voice.');
       return;
     }
 
     try {
       recognitionRef.current.start();
     } catch (e: any) {
-      // If already started, restart
-      try {
-        recognitionRef.current.stop();
-        setTimeout(() => {
-          recognitionRef.current.start();
-        }, 100);
-      } catch (inner) {
-        setError('Could not start microphone. Please refresh or check permissions.');
-      }
+      // If already started, re-sync wantListening state
     }
   }, []);
 
   const stopListening = useCallback(() => {
+    wantListeningRef.current = false;
+    setIsListening(false);
+
+    if ((window as any).AndroidVoiceBridge?.stopListening) {
+      try {
+        (window as any).AndroidVoiceBridge.stopListening();
+      } catch (e) {}
+    }
+
+    if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
     if (recognitionRef.current) {
       try {
         recognitionRef.current.stop();
       } catch (e) {
         // ignore
       }
-      setIsListening(false);
     }
   }, []);
 
@@ -188,5 +265,7 @@ export const useSpeechRecognition = (defaultLang = 'hi-IN') => {
     stopListening,
     error,
     isSupported,
+    isHandsFreeMode,
+    setIsHandsFreeMode,
   };
 };

@@ -10,67 +10,52 @@ interface DashboardProps {
 
 const STUDENT_ACTIONS = [
   {
+    to: '/translate',
+    icon: '🎙️',
+    title: 'आवाज अनुवाद (Voice)',
+    santali: 'ᱥᱟᱱᱛᱟᱲᱤ ᱨᱚᱲ',
+    badge: 'Live Voice',
+    color: '#ed8936',
+  },
+  {
+    to: '/flashcards',
+    icon: '🃏',
+    title: 'चित्रात्मक फ्लैशकार्ड',
+    santali: 'ᱪᱤᱛᱟᱹᱨ ᱠᱟᱨᱰ',
+    badge: 'Visual Cards',
+    color: '#38a169',
+  },
+  {
     to: '/practice',
     icon: '🎮',
     title: 'बच्चों का खेल अभ्यास',
     santali: 'ᱜᱤᱫᱽᱨᱟᱹ ᱠᱷᱮᱞᱚᱸᱰ',
-    desc: 'कक्षा 1–3 के बच्चों के लिए ऑडियो और चित्रों पर आधारित शिक्षण खेल।',
-    badge: 'ऑडियो खेल',
+    badge: 'Play & Learn',
     color: '#ec4899',
+  },
+  {
+    to: '/worksheets',
+    icon: '📝',
+    title: 'अभ्यास पत्र (Worksheets)',
+    santali: 'ᱠᱟᱹᱢᱤ ᱥᱟᱠᱟᱢ',
+    badge: 'Print Worksheets',
+    color: '#805ad5',
+  },
+  {
+    to: '/books',
+    icon: '📖',
+    title: 'द्विभाषी पुस्तकें',
+    santali: 'ᱡᱮᱥᱤᱤᱟᱨᱴᱤ ᱯᱩᱛᱷᱤ',
+    badge: 'Audio Books',
+    color: '#0d9488',
   },
   {
     to: '/student-view',
     icon: '📡',
     title: 'शिक्षिका कक्षा से जुड़ें',
     santali: 'ᱥᱴᱩᱰᱮᱱᱴ ᱵᱷᱤᱭᱩ',
-    desc: 'शिक्षिका के टैबलेट से 6-अंक के PIN या QR से सीधे लाइव अनुवाद प्राप्त करें।',
     badge: 'LAN P2P',
     color: '#06b6d4',
-  },
-  {
-    to: '/flashcards',
-    icon: '🃏',
-    title: 'चित्र फ्लैशकार्ड',
-    santali: 'ᱪᱤᱛᱟᱹᱨ ᱠᱟᱨᱰ',
-    desc: '30+ 3D चित्र कार्ड: जानवर, फल, सब्जियां, और आकार।',
-    badge: '30+ कार्ड',
-    color: '#38a169',
-  },
-  {
-    to: '/books',
-    icon: '📖',
-    title: 'JCERT द्विभाषी पुस्तकें',
-    santali: 'ᱡᱮᱥᱤᱤᱟᱨᱴᱤ ᱯᱩᱛᱷᱤ',
-    desc: 'राज्य प्राथमिक गणित और भाषा की पुस्तकें संताली ऑडियो के साथ।',
-    badge: 'पुस्तकें',
-    color: '#0d9488',
-  },
-  {
-    to: '/lessons',
-    icon: '📚',
-    title: 'पाठशाला (पाठ योजना)',
-    santali: 'ᱯᱟᱲᱦᱟᱣ ᱯᱚᱛᱷᱤ',
-    desc: 'NIPUN भारत 5-चरणीय द्विभाषी पाठ योजना।',
-    badge: 'पाठ योजना',
-    color: '#3182ce',
-  },
-  {
-    to: '/worksheets',
-    icon: '📝',
-    title: 'अभ्यास पत्र',
-    santali: 'ᱠᱟᱹᱢᱤ ᱥᱟᱠᱟᱢ',
-    desc: 'गणित और अक्षरों के अभ्यास पत्र।',
-    badge: 'प्रिंट A4',
-    color: '#805ad5',
-  },
-  {
-    to: '/contribute',
-    icon: '🤝',
-    title: 'सामुदायिक योगदान',
-    santali: 'ᱜᱚᱲᱚ ᱥᱟᱠᱟᱢ',
-    desc: 'नए संताली शब्द जोड़ें।',
-    badge: 'योगदान',
-    color: '#10b981',
   },
 ];
 
@@ -78,74 +63,50 @@ const TEACHER_ACTIONS = [
   {
     to: '/translate',
     icon: '🎙️',
-    title: 'लाइव आवाज प्रसारण',
+    title: 'आवाज अनुवाद (Live Voice)',
     santali: 'ᱥᱟᱱᱛᱟᱲᱤ ᱨᱚᱲ',
-    desc: 'हिंदी और संताली (ᱚᱞ ᱪᱤᱠᱤ) का तात्कालिक ऑन-डिवाइस अनुवाद एवं कक्षा प्रसारण।',
-    badge: '100% ऑफ़लाइन',
+    badge: 'Live Voice',
     color: '#ed8936',
-  },
-  {
-    to: '/pronounce',
-    icon: '🗣️',
-    title: 'शिक्षिका उच्चारण अभ्यास',
-    santali: 'ᱨᱚᱲ ᱥᱮᱪᱮᱫ',
-    desc: 'शिक्षिका के आवाज की लय और स्वर का संताली उच्चारण से मिलान।',
-    badge: 'उच्चारण',
-    color: '#8b5cf6',
-  },
-  {
-    to: '/student-view',
-    icon: '📡',
-    title: 'कक्षा छात्र मॉनिटर',
-    santali: 'ᱥᱴᱩᱰᱮᱱᱴ ᱵᱷᱤᱭᱩ',
-    desc: 'कक्षा के कनेक्टेड छात्रों की संख्या और PIN/QR प्रसारण स्थिति देखें।',
-    badge: 'LAN P2P',
-    color: '#06b6d4',
-  },
-  {
-    to: '/contribute/review',
-    icon: '🛡️',
-    title: 'योगदान समीक्षा द्वार',
-    santali: 'ᱜᱚᱲᱚ ᱥᱟᱠᱟᱢ ᱥᱟᱯᱲᱟᱣ',
-    desc: 'सामुदायिक योगदानकर्ताओं द्वारा भेजे गए नए शब्दों को सत्यापित कर लाइव dictionary में जोड़ें।',
-    badge: 'सत्यापन',
-    color: '#10b981',
-  },
-  {
-    to: '/lessons',
-    icon: '📚',
-    title: 'पाठशाला (पाठ योजना)',
-    santali: 'ᱯᱟᱲᱦᱟᱣ ᱯᱚᱛᱷᱤ',
-    desc: 'NIPUN भारत 5-चरणीय द्विभाषी पाठ योजना।',
-    badge: 'पाठ योजना',
-    color: '#3182ce',
   },
   {
     to: '/worksheets',
     icon: '📝',
-    title: 'अभ्यास पत्र जनरेटर',
+    title: 'वर्कशीट जनरेटर',
     santali: 'ᱠᱟᱹᱢᱤ ᱥᱟᱠᱟᱢ',
-    desc: 'गणित और अक्षरों के अनगिनत प्रिंट करने योग्य अभ्यास पत्र।',
-    badge: 'प्रिंट A4',
+    badge: 'Print A4',
     color: '#805ad5',
   },
   {
     to: '/flashcards',
     icon: '🃏',
-    title: 'चित्र फ्लैशकार्ड',
+    title: 'दृश्य फ्लैशकार्ड सेट',
     santali: 'ᱪᱤᱛᱟᱹᱨ ᱠᱟᱨᱰ',
-    desc: '30+ 3D चित्र कार्ड: जानवर, फल, सब्जियां, और आकार।',
-    badge: '30+ कार्ड',
+    badge: '30+ Cards',
     color: '#38a169',
+  },
+  {
+    to: '/pronounce',
+    icon: '🗣️',
+    title: 'उच्चारण अभ्यास',
+    santali: 'ᱨᱚᱲ ᱥᱮᱪᱮᱫ',
+    badge: 'Voice Coach',
+    color: '#8b5cf6',
   },
   {
     to: '/books',
     icon: '📖',
     title: 'JCERT द्विभाषी पुस्तकें',
     santali: 'ᱡᱮᱥᱤᱤᱟᱨᱴᱤ ᱯᱩᱛᱷᱤ',
-    desc: 'राज्य प्राथमिक गणित और भाषा की पुस्तकें संताली ऑडियो के साथ।',
-    badge: 'पुस्तकें',
+    badge: 'Audio Books',
     color: '#0d9488',
+  },
+  {
+    to: '/student-view',
+    icon: '📡',
+    title: 'कक्षा छात्र मॉनिटर',
+    santali: 'ᱥᱴᱩᱰᱮᱱᱴ ᱵᱷᱤᱭᱩ',
+    badge: 'LAN Sync',
+    color: '#06b6d4',
   },
 ];
 
@@ -366,22 +327,19 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTeacher }) => {
               </div>
 
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
-                  <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-main)', margin: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px' }}>
+                  <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-main)', margin: 0 }}>
                     {action.title}
                   </h3>
                 </div>
-                <div style={{ fontSize: '0.9rem', color: action.color, fontWeight: 700, marginBottom: '6px' }}>
+                <div style={{ fontSize: '1rem', color: action.color, fontWeight: 800, fontFamily: 'var(--font-santali)' }}>
                   {action.santali}
                 </div>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', margin: 0, lineHeight: 1.45 }}>
-                  {action.desc}
-                </p>
               </div>
 
-              <div style={{ marginTop: '1.25rem', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem', fontWeight: 700, color: action.color }}>
-                <span>उपकरण खोलें</span>
-                <span>→</span>
+              <div style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem', fontWeight: 800, color: action.color }}>
+                <span>शुरू करें</span>
+                <span>➔</span>
               </div>
             </Link>
           ))}

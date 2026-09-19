@@ -100,6 +100,27 @@ export const OfflineVoiceModal: React.FC<OfflineVoiceModalProps> = ({ isOpen, on
           Bhasha Gyan works <strong>100% offline</strong> in rural classrooms. Tap the buttons below to enable offline voice directly from your device:
         </p>
 
+        {/* Santali 0B Engine Resolution Card */}
+        <div
+          style={{
+            backgroundColor: '#ebf8ff',
+            border: '1px solid #bee3f8',
+            borderRadius: '14px',
+            padding: '1rem',
+            marginBottom: '1rem',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+            <span style={{ fontSize: '1.1rem' }}>ℹ️</span>
+            <strong style={{ color: '#2b6cb0', fontSize: '0.92rem' }}>
+              Why Android System displays "Santali 0B / Unavailable"?
+            </strong>
+          </div>
+          <p style={{ fontSize: '0.82rem', color: '#2c5282', margin: 0, lineHeight: 1.45 }}>
+            Google Text-to-Speech does not ship pre-installed Santali voice packages on Android. <strong>Bhasha Gyan solves this automatically</strong> using a built-in Phonetic Acoustic Bridge and Web Audio Synthesizer! It converts Ol Chiki text into natural acoustic Indic sounds and speaks them clearly using the pre-installed <strong>Hindi (hi-IN)</strong> voice on your phone.
+          </p>
+        </div>
+
         {/* Step 1: Microphone */}
         <div
           style={{

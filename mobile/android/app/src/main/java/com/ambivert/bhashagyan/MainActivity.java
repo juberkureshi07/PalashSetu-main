@@ -1,18 +1,24 @@
 package com.ambivert.bhashagyan;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.webkit.PermissionRequest;
 import android.webkit.WebChromeClient;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.getcapacitor.BridgeActivity;
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends BridgeActivity {
     private TextToSpeech nativeTts;
+    private SpeechRecognizer nativeSpeechRecognizer;
     private boolean isTtsReady = false;
     private String pendingSpeak = null;
 
@@ -24,6 +30,14 @@ public class MainActivity extends BridgeActivity {
             } catch (Exception ignored) {}
             nativeTts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "BhashaGyanTTS_" + System.currentTimeMillis());
         }
+    }
+
+    private void notifyJs(String jsCode) {
+        runOnUiThread(() -> {
+            if (bridge != null && bridge.getWebView() != null) {
+                bridge.getWebView().evaluateJavascript(jsCode, null);
+            }
+        });
     }
 
     @Override
@@ -52,6 +66,47 @@ public class MainActivity extends BridgeActivity {
                 }
             }
         });
+
+        // Initialize Native 100% Offline SpeechRecognizer
+        if (SpeechRecognizer.isRecognitionAvailable(this)) {
+            nativeSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+            nativeSpeechRecognizer.setRecognitionListener(new RecognitionListener() {
+                @Override
+                public void onReadyForSpeech(Bundle params) {
+                    notifyJs("window.onNativeSpeechEvent && window.onNativeSpeechEvent('ready')");
+                }
+                @Override
+                public void onBeginningOfSpeech() {
+                    notifyJs("window.onNativeSpeechEvent && window.onNativeSpeechEvent('speaking')");
+                }
+                @Override
+                public void onRmsChanged(float rmsdB) {}
+                @Override
+                public void onBufferReceived(byte[] buffer) {}
+                @Override
+                public void onEndOfSpeech() {
+                    notifyJs("window.onNativeSpeechEvent && window.onNativeSpeechEvent('end')");
+                }
+                @Override
+                public void onError(int error) {
+                    notifyJs("window.onNativeSpeechError && window.onNativeSpeechError('" + error + "')");
+                }
+                @Override
+                public void onResults(Bundle results) {
+                    if (results != null) {
+                        ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                        if (matches != null && !matches.isEmpty()) {
+                            String recognizedText = matches.get(0).replace("'", "\\'");
+                            notifyJs("window.onNativeSpeechResult && window.onNativeSpeechResult('" + recognizedText + "')");
+                        }
+                    }
+                }
+                @Override
+                public void onPartialResults(Bundle partialResults) {}
+                @Override
+                public void onEvent(int eventType, Bundle params) {}
+            });
+        }
 
         // Request runtime RECORD_AUDIO permission if not yet granted
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
@@ -84,6 +139,34 @@ public class MainActivity extends BridgeActivity {
                 }
 
                 @android.webkit.JavascriptInterface
+                public void startListening() {
+                    runOnUiThread(() -> {
+                        if (nativeSpeechRecognizer != null) {
+                            try {
+                                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "hi-IN");
+                                intent.putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true); // Force 100% Offline Intent
+                                nativeSpeechRecognizer.startListening(intent);
+                            } catch (Exception e) {
+                                notifyJs("window.onNativeSpeechError && window.onNativeSpeechError('" + e.getMessage() + "')");
+                            }
+                        }
+                    });
+                }
+
+                @android.webkit.JavascriptInterface
+                public void stopListening() {
+                    runOnUiThread(() -> {
+                        if (nativeSpeechRecognizer != null) {
+                            try {
+                                nativeSpeechRecognizer.stopListening();
+                            } catch (Exception ignored) {}
+                        }
+                    });
+                }
+
+                @android.webkit.JavascriptInterface
                 public void print() {
                     runOnUiThread(() -> {
                         try {
@@ -103,13 +186,13 @@ public class MainActivity extends BridgeActivity {
                 @android.webkit.JavascriptInterface
                 public void openVoiceInputSettings() {
                     try {
-                        android.content.Intent intent = new android.content.Intent(android.provider.Settings.ACTION_VOICE_INPUT_SETTINGS);
-                        intent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent intent = new Intent(android.provider.Settings.ACTION_VOICE_INPUT_SETTINGS);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     } catch (Exception e) {
                         try {
-                            android.content.Intent fallback = new android.content.Intent(android.provider.Settings.ACTION_LOCALE_SETTINGS);
-                            fallback.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
+                            Intent fallback = new Intent(android.provider.Settings.ACTION_LOCALE_SETTINGS);
+                            fallback.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(fallback);
                         } catch (Exception ignored) {}
                     }
@@ -118,8 +201,8 @@ public class MainActivity extends BridgeActivity {
                 @android.webkit.JavascriptInterface
                 public void installTtsData() {
                     try {
-                        android.content.Intent intent = new android.content.Intent(android.speech.tts.TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-                        intent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent intent = new Intent(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     } catch (Exception e) {
                         openTtsSettings();
@@ -129,13 +212,13 @@ public class MainActivity extends BridgeActivity {
                 @android.webkit.JavascriptInterface
                 public void openTtsSettings() {
                     try {
-                        android.content.Intent intent = new android.content.Intent("com.android.settings.TTS_SETTINGS");
-                        intent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent intent = new Intent("com.android.settings.TTS_SETTINGS");
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     } catch (Exception e) {
                         try {
-                            android.content.Intent fallback = new android.content.Intent(android.provider.Settings.ACTION_SETTINGS);
-                            fallback.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
+                            Intent fallback = new Intent(android.provider.Settings.ACTION_SETTINGS);
+                            fallback.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(fallback);
                         } catch (Exception ignored) {}
                     }
@@ -146,6 +229,9 @@ public class MainActivity extends BridgeActivity {
 
     @Override
     public void onDestroy() {
+        if (nativeSpeechRecognizer != null) {
+            nativeSpeechRecognizer.destroy();
+        }
         if (nativeTts != null) {
             nativeTts.stop();
             nativeTts.shutdown();

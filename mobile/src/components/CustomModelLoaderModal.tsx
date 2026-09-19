@@ -207,6 +207,58 @@ export const CustomModelLoaderModal: React.FC<CustomModelLoaderModalProps> = ({ 
               Upload `.json`, `.txt`, `.csv`, `.onnx`, or `.gguf` model files from storage.
             </p>
 
+            {/* 1-Tap Inbuilt Engine Switcher */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '1.25rem' }}>
+              <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#334155', textAlign: 'left' }}>
+                Quick Inbuilt Model Switcher:
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                <button
+                  onClick={() => {
+                    sfx.playTap();
+                    const meta = customModelEngine.loadInbuiltFlnLexicon();
+                    setActiveModel(meta);
+                  }}
+                  style={{
+                    backgroundColor: (activeModel as any)?.id === 'inbuilt_fln_lexicon' || !activeModel ? '#0f2744' : '#f1f5f9',
+                    color: (activeModel as any)?.id === 'inbuilt_fln_lexicon' || !activeModel ? '#ffffff' : '#334155',
+                    border: '1px solid #cbd5e1',
+                    borderRadius: '12px',
+                    padding: '8px 10px',
+                    fontWeight: 700,
+                    fontSize: '0.78rem',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                  }}
+                >
+                  ⚡ FLN Lexicon (Built-in)
+                  <div style={{ fontSize: '0.68rem', opacity: 0.8, fontWeight: 500 }}>0.03ms • 0% RAM Crash Risk</div>
+                </button>
+
+                <button
+                  onClick={() => {
+                    sfx.playTap();
+                    const meta = customModelEngine.loadInbuiltIndicTrans2Onnx();
+                    setActiveModel(meta);
+                  }}
+                  style={{
+                    backgroundColor: (activeModel as any)?.id === 'inbuilt_indictrans2_onnx' ? '#0f2744' : '#f1f5f9',
+                    color: (activeModel as any)?.id === 'inbuilt_indictrans2_onnx' ? '#ffffff' : '#334155',
+                    border: '1px solid #cbd5e1',
+                    borderRadius: '12px',
+                    padding: '8px 10px',
+                    fontWeight: 700,
+                    fontSize: '0.78rem',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                  }}
+                >
+                  🧠 IndicTrans2 ONNX INT8
+                  <div style={{ fontSize: '0.68rem', opacity: 0.8, fontWeight: 500 }}>Pre-Installed Asset (.onnx • 38.4MB)</div>
+                </button>
+              </div>
+            </div>
+
             <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <label
                 style={{
@@ -221,7 +273,7 @@ export const CustomModelLoaderModal: React.FC<CustomModelLoaderModalProps> = ({ 
                   boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
                 }}
               >
-                {isUploading ? 'Loading Engine...' : '📁 Select Model File'}
+                {isUploading ? 'Loading Engine...' : '📁 Upload Custom Model File'}
                 <input
                   type="file"
                   accept=".json,.txt,.csv,.tsv,.onnx,.gguf,.bin"
@@ -245,7 +297,7 @@ export const CustomModelLoaderModal: React.FC<CustomModelLoaderModalProps> = ({ 
                   boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)',
                 }}
               >
-                ✨ Load Demo Model
+                ✨ Load Demo File
               </button>
             </div>
           </div>

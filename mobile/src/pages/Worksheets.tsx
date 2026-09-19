@@ -596,31 +596,24 @@ const Worksheets: React.FC = () => {
   return (
     <div className="fade-in" style={{ maxWidth: '980px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 
-      {/* Header */}
+      {/* Clean Header */}
       <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
         <div>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', backgroundColor: '#f3e8ff', color: '#6b21a8', padding: '3px 12px', borderRadius: '12px', fontSize: '0.78rem', fontWeight: 700, marginBottom: '0.35rem' }}>
-            📝 NIPUN Bharat Grade-Adaptive Worksheet Engine
-          </div>
-          <h1 style={{ color: '#0f2744', fontSize: '1.75rem', fontWeight: 800, margin: 0 }}>
-            Bilingual Worksheet Generator
+          <h1 style={{ color: '#0f2744', fontSize: '1.75rem', fontWeight: 900, margin: 0 }}>
+            📝 Worksheet Generator
           </h1>
-          <p style={{ color: '#64748b', fontSize: '0.88rem', margin: '4px 0 0' }}>
-            Select Grade → Domain (Literacy/Numeracy) → Drill Type → Generate. Each worksheet uses real NIPUN Bharat competency targets.
+          <p style={{ color: '#64748b', fontSize: '0.85rem', margin: '2px 0 0', fontWeight: 600 }}>
+            Generate &amp; print bilingual practice sheets in Santali &amp; Hindi
           </p>
         </div>
         {questions.length > 0 && (
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-            <button onClick={() => { sfx.playTap(); setShowHints(!showHints); }}
-              style={{ padding: '8px 14px', borderRadius: '10px', border: '1px solid #cbd5e1', backgroundColor: showHints ? '#fef3c7' : '#fff', color: showHints ? '#92400e' : '#475569', fontWeight: 700, fontSize: '0.82rem', cursor: 'pointer', boxShadow: showHints ? '0 0 8px rgba(234, 179, 8, 0.4)' : 'none' }}>
-              💡 {showHints ? 'Hide Hints' : 'Show Hints'}
-            </button>
             <button onClick={() => { if (!showAnswers) sfx.playSuccess(); else sfx.playTap(); setShowAnswers(!showAnswers); }}
               style={{ padding: '8px 14px', borderRadius: '10px', border: '1px solid #cbd5e1', backgroundColor: showAnswers ? '#f0fdf4' : '#fff', color: showAnswers ? '#166534' : '#475569', fontWeight: 700, fontSize: '0.82rem', cursor: 'pointer' }}>
-              {showAnswers ? '👁️ Hide Answers' : '🔑 Show Answer Key'}
+              {showAnswers ? '👁️ Hide Answers' : '🔑 Answer Key'}
             </button>
             <button onClick={handlePrint}
-              style={{ padding: '8px 16px', borderRadius: '10px', border: 'none', backgroundColor: '#0f2744', color: '#fff', fontWeight: 700, fontSize: '0.82rem', cursor: 'pointer', boxShadow: '0 2px 8px rgba(15,39,68,0.25)' }}>
+              style={{ padding: '8px 16px', borderRadius: '10px', border: 'none', backgroundColor: '#0f2744', color: '#fff', fontWeight: 800, fontSize: '0.85rem', cursor: 'pointer', boxShadow: '0 2px 8px rgba(15,39,68,0.25)' }}>
               🖨️ Print / PDF
             </button>
           </div>

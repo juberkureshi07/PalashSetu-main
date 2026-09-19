@@ -5,11 +5,12 @@ const config: CapacitorConfig = {
   appName: 'Bhasha Gyan',
   webDir: 'dist',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'http',
+    cleartext: true
   },
   plugins: {
     SplashScreen: {
-      launchShowDuration: 2000,
+      launchShowDuration: 1500,
       backgroundColor: '#1a365d'
     }
   }

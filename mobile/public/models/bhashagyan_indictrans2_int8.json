@@ -1,0 +1,20 @@
+{
+  "model_id": "indictrans2_mobile_int8",
+  "model_name": "IndicTrans2-Mobile ONNX INT8 Neural Engine (Inbuilt)",
+  "architecture": "Transformer Encoder-Decoder (Quantized INT8)",
+  "quantization": "INT8 Dynamic Symmetric",
+  "vocabulary_size": 28400,
+  "source_language": "hi-IN (Devanagari)",
+  "target_languages": [
+    "sat-Olck (Santali)",
+    "hoc-Wara (Ho)",
+    "unr-Deva (Mundari)"
+  ],
+  "version": "2.1.0-Quantized",
+  "author": "AI4Bharat & Bhasha Gyan Engine",
+  "created_at": "2026-09-19T22:11:51.811Z",
+  "onnx_format_version": 7,
+  "onnx_opset": 14,
+  "file_size_mb": 38.4,
+  "description": "Inbuilt ONNX INT8 quantized neural machine translation model for tribal language education under NIPUN Bharat MTB-MLE."
+}

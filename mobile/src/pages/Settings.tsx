@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { speakText } from '../utils/santaliSpeech';
 import { sfx } from '../utils/sfx';
 import { authService, TeacherProfile } from '../services/authService';
+import { CustomModelLoaderModal } from '../components/CustomModelLoaderModal';
+import { customModelEngine, CustomModelMetadata } from '../utils/customModelEngine';
 
 export const JHARKHAND_TRIBAL_DISTRICTS = [
   { name: 'Dumka', sat: 'ᱫᱩᱢᱠᱟᱹ', region: 'Santhal Pargana' },
@@ -41,6 +43,13 @@ const Settings: React.FC = () => {
   // 4. UI Feedback states
   const [savedSuccess, setSavedSuccess] = useState(false);
   const [isPlayingTest, setIsPlayingTest] = useState(false);
+  const [showCustomModelModal, setShowCustomModelModal] = useState(false);
+  const [activeCustomModel, setActiveCustomModel] = useState<CustomModelMetadata | null>(() => customModelEngine.getActiveModel());
+
+  useEffect(() => {
+    const unsub = customModelEngine.subscribe((meta) => setActiveCustomModel(meta));
+    return unsub;
+  }, []);
 
   // Sync state if active profile changes
   useEffect(() => {
@@ -411,6 +420,71 @@ const Settings: React.FC = () => {
           </div>
         </div>
 
+        {/* ─── SECTION 4: CUSTOM AI MODEL & LEXICON LOADER ─── */}
+        <div style={{ backgroundColor: '#ffffff', padding: '1.5rem', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 2px 8px rgba(0,0,0,0.03)', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #f1f5f9', paddingBottom: '0.75rem', flexWrap: 'wrap', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '1.3rem' }}>🧠</span>
+              <div>
+                <h2 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f2744', margin: 0 }}>
+                  Custom AI Language Models & Custom Lexicons
+                </h2>
+                <div style={{ fontSize: '0.78rem', color: '#64748b' }}>
+                  Load custom GGUF, ONNX, JSON dictionary, or TXT vocabulary manifests on-the-fly.
+                </div>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                sfx.playTap();
+                setShowCustomModelModal(true);
+              }}
+              style={{
+                backgroundColor: '#ed8936',
+                color: '#ffffff',
+                border: 'none',
+                padding: '8px 16px',
+                borderRadius: '10px',
+                fontWeight: 700,
+                fontSize: '0.85rem',
+                cursor: 'pointer',
+                boxShadow: '0 2px 6px rgba(237,137,54,0.3)',
+              }}
+            >
+              🧠 Load Custom Model
+            </button>
+          </div>
+
+          {activeCustomModel ? (
+            <div style={{ backgroundColor: '#f0fdf4', border: '1px solid #86efac', padding: '12px 16px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
+              <div>
+                <div style={{ fontWeight: 800, color: '#166534', fontSize: '0.9rem' }}>
+                  Active Custom Model: {activeCustomModel.name} ({activeCustomModel.format})
+                </div>
+                <div style={{ fontSize: '0.78rem', color: '#15803d' }}>
+                  Vocabulary: {activeCustomModel.vocabularyCount} words • Loaded: {activeCustomModel.loadedAt}
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  sfx.playTap();
+                  customModelEngine.unloadCustomModel();
+                  setActiveCustomModel(null);
+                }}
+                style={{ backgroundColor: '#fee2e2', color: '#991b1b', border: 'none', padding: '4px 10px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer' }}
+              >
+                Unload
+              </button>
+            </div>
+          ) : (
+            <div style={{ fontSize: '0.82rem', color: '#64748b', backgroundColor: '#f8fafc', padding: '10px 14px', borderRadius: '10px' }}>
+              No custom model loaded. Default built-in 7,500+ Ol Chiki / Santali / Ho / Mundari dictionary is currently active.
+            </div>
+          )}
+        </div>
+
         {/* ─── ACTION BUTTONS ─── */}
         <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '12px' }}>
           <button
@@ -434,6 +508,10 @@ const Settings: React.FC = () => {
 
       </form>
 
+      <CustomModelLoaderModal
+        isOpen={showCustomModelModal}
+        onClose={() => setShowCustomModelModal(false)}
+      />
     </div>
   );
 };

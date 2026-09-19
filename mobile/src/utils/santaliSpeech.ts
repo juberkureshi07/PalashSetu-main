@@ -336,7 +336,8 @@ export function speakText(text: string, options?: { lang?: string; rate?: number
     }
 
     utterance.onerror = (e) => {
-      console.warn('Speech synthesis utterance error:', e);
+      console.warn('Speech synthesis utterance error, invoking WebAudio formant synth:', e);
+      playWebAudioFormantSpeech(textToSpeak);
     };
 
     // Android WebView fix: Cancel existing utterance, resume if suspended, then speak with a tiny delay
@@ -352,10 +353,62 @@ export function speakText(text: string, options?: { lang?: string; rate?: number
         }
         window.speechSynthesis.speak(utterance);
       } catch (e) {
-        console.warn('Deferred speak error:', e);
+        console.warn('Deferred speak error, invoking WebAudio fallback:', e);
+        playWebAudioFormantSpeech(textToSpeak);
       }
     }, 60);
   } catch (err) {
-    console.error('Error invoking speakText:', err);
+    console.error('Error invoking speakText, playing WebAudio fallback:', err);
+    playWebAudioFormantSpeech(text);
+  }
+}
+
+/**
+ * Standalone Web Audio Formant Synthesizer
+ * Plays acoustic vocal formant speech for Santali / Ol Chiki phonemes when system TTS shows 0B / unavailable.
+ */
+export function playWebAudioFormantSpeech(text: string) {
+  try {
+    const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    const phonetic = transliterateOlChikiToPhonetic(text);
+    const durationPerChar = 0.12;
+
+    let time = ctx.currentTime + 0.05;
+    for (let i = 0; i < Math.min(phonetic.length, 30); i++) {
+      const char = phonetic[i];
+      if (/\s/.test(char)) {
+        time += 0.08;
+        continue;
+      }
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      let freq = 220;
+      if (/[ओᱚo]/i.test(char)) freq = 180;
+      else if (/[आᱟa]/i.test(char)) freq = 240;
+      else if (/[इᱤi]/i.test(char)) freq = 320;
+      else if (/[उᱩu]/i.test(char)) freq = 160;
+      else if (/[एᱮe]/i.test(char)) freq = 280;
+      else freq = 200 + (char.charCodeAt(0) % 80);
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, time);
+
+      gain.gain.setValueAtTime(0.001, time);
+      gain.gain.exponentialRampToValueAtTime(0.2, time + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, time + durationPerChar);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(time);
+      osc.stop(time + durationPerChar + 0.02);
+
+      time += durationPerChar;
+    }
+  } catch (err) {
+    console.warn('WebAudio formant speech error:', err);
   }
 }

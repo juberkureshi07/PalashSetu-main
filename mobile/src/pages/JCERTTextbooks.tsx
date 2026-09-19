@@ -68,22 +68,14 @@ const JCERTTextbooks: React.FC = () => {
   return (
     <div className="fade-in" style={{ maxWidth: '1060px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
       
-      {/* ─── Top Header & Badges (Hidden in Print) ─── */}
+      {/* Clean Header */}
       <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '0.35rem' }}>
-            <span style={{ backgroundColor: '#ebf8ff', color: '#2b6cb0', padding: '3px 10px', borderRadius: '12px', fontSize: '0.78rem', fontWeight: 700 }}>
-              📖 Official JCERT Jharkhand Textbooks
-            </span>
-            <span style={{ backgroundColor: '#ecfdf5', color: '#047857', padding: '3px 10px', borderRadius: '12px', fontSize: '0.78rem', fontWeight: 700 }}>
-              🏹 Complete Syllabus in ᱥᱟᱱᱛᱟᱲᱤ ᱚᱞ ᱪᱤᱠᱤ
-            </span>
-          </div>
-          <h1 style={{ color: '#0f2744', fontSize: '1.75rem', fontWeight: 800, margin: 0 }}>
-            📚 JCERT State Textbooks Library (ᱡᱮᱥᱤᱤᱟᱨᱴᱤ ᱯᱩᱛᱷᱤ)
+          <h1 style={{ color: '#0f2744', fontSize: '1.75rem', fontWeight: 900, margin: 0 }}>
+            📖 Textbooks Library
           </h1>
-          <p style={{ color: '#64748b', fontSize: '0.9rem', margin: '4px 0 0 0' }}>
-            Complete primary textbooks for Balvatika, Class 1, 2, and 3 with full chapter text side-by-side in Hindi & Santali Ol Chiki.
+          <p style={{ color: '#64748b', fontSize: '0.85rem', margin: '2px 0 0 0', fontWeight: 600 }}>
+            Bilingual state textbooks in Hindi &amp; Santali (Ol Chiki ᱚᱞ ᱪᱤᱠᱤ)
           </p>
         </div>
 

@@ -9,17 +9,17 @@ interface BottomNavProps {
 export const BottomNav: React.FC<BottomNavProps> = ({ role = 'student' }) => {
   const studentTabs = [
     { to: '/', label: 'Home', icon: '🏠' },
-    { to: '/practice', label: 'Practice', icon: '🎮' },
+    { to: '/translate', label: 'Voice AI', icon: '🎙️' },
     { to: '/student-view', label: 'Join Class', icon: '📡' },
-    { to: '/flashcards', label: 'Cards', icon: '🃏' },
-    { to: '/books', label: 'Books', icon: '📖' },
+    { to: '/flashcards', label: 'Flashcards', icon: '🃏' },
+    { to: '/worksheets', label: 'Worksheets', icon: '📝' },
   ];
 
   const teacherTabs = [
     { to: '/', label: 'Home', icon: '🏠' },
-    { to: '/translate', label: 'Broadcast', icon: '🎙️' },
-    { to: '/pronounce', label: 'Coach', icon: '🗣️' },
-    { to: '/contribute/review', label: 'Review', icon: '🛡️' },
+    { to: '/translate', label: 'Voice AI', icon: '🎙️' },
+    { to: '/worksheets', label: 'Worksheets', icon: '📝' },
+    { to: '/flashcards', label: 'Flashcards', icon: '🃏' },
     { to: '/lessons', label: 'Lessons', icon: '📚' },
   ];
 

@@ -113,6 +113,7 @@ const CATEGORIZED_PHRASES = {
 
 const LiveTranslation: React.FC = () => {
   const [mode, setMode] = useState<'teacher' | 'student'>('teacher');
+  const [targetLanguage, setTargetLanguage] = useState<'santali' | 'ho' | 'mundari'>('santali');
   const [sourceText, setSourceText] = useState('');
   const [translatedText, setTranslatedText] = useState('');
   const [pronunciation, setPronunciation] = useState('');
@@ -468,25 +469,39 @@ const translateClientSide = (text: string, currentMode: 'teacher' | 'student'): 
   };
 
   return (
-    <div className="fade-in" style={{ maxWidth: '980px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-      {/* Title Bar */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
+    <div className="fade-in" style={{ maxWidth: '980px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+      {/* Clean Top Header Bar */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '0.35rem' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', backgroundColor: '#ebf8ff', color: '#2b6cb0', padding: '3px 10px', borderRadius: '12px', fontSize: '0.78rem', fontWeight: 700 }}>
-              <span>⚡ Sub-10ms On-Tablet Engine</span>
-            </div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', backgroundColor: '#ecfdf5', color: '#047857', padding: '3px 10px', borderRadius: '12px', fontSize: '0.78rem', fontWeight: 700 }}>
-              <span>📦 7,500+ Offline Vocab (100% Standalone)</span>
-            </div>
-          </div>
-          <h1 style={{ color: '#0f2744', fontSize: '1.85rem', fontWeight: 800, margin: 0 }}>
-            🎙️ Live Classroom Voice Translator
+          <h1 style={{ color: '#0f2744', fontSize: '1.75rem', fontWeight: 900, margin: 0 }}>
+            🎙️ Live Voice Translator
           </h1>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-          {/* 📡 Classroom LAN Broadcast Toggle Button */}
+          {/* Target Language Dropdown */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: '#fffaf0', border: '1px solid #feebc8', padding: '6px 12px', borderRadius: '14px' }}>
+            <span style={{ fontSize: '0.8rem', fontWeight: 800, color: '#c05621' }}>Target:</span>
+            <select
+              value={targetLanguage}
+              onChange={(e) => setTargetLanguage(e.target.value as any)}
+              style={{
+                backgroundColor: 'transparent',
+                color: '#c05621',
+                border: 'none',
+                fontWeight: 800,
+                fontSize: '0.85rem',
+                cursor: 'pointer',
+                outline: 'none',
+              }}
+            >
+              <option value="santali">Santali (Ol Chiki ᱚᱞ ᱪᱤᱠᱤ)</option>
+              <option value="ho">Ho (Warang Chiti 𑢹𑣁𑣜9𑣡)</option>
+              <option value="mundari">Mundari (Devanagari ᱢᱩᱱᱰᱟᱨᱤ)</option>
+            </select>
+          </div>
+
+          {/* LAN Broadcast Button */}
           <button
             onClick={() => {
               sfx.playTap();
@@ -495,58 +510,24 @@ const translateClientSide = (text: string, currentMode: 'teacher' | 'student'): 
               broadcastService.setBroadcasting(nextState);
             }}
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
               backgroundColor: isBroadcasting ? '#cffafe' : '#f8fafc',
               border: isBroadcasting ? '1px solid #06b6d4' : '1px solid #cbd5e1',
               padding: '6px 14px',
-              borderRadius: '20px',
+              borderRadius: '14px',
               fontSize: '0.8rem',
               color: isBroadcasting ? '#0891b2' : '#475569',
               fontWeight: 800,
               cursor: 'pointer',
-              boxShadow: '0 2px 4px rgba(6,182,212,0.15)',
             }}
           >
-            <span>{isBroadcasting ? '📡 LAN Broadcast ON' : '📡 Start LAN Broadcast'}</span>
+            {isBroadcasting ? '📡 LAN Broadcast ON' : '📡 Start LAN'}
           </button>
-
-          {/* 1-Tap In-App Offline Voice Setup Button */}
-          <button
-            onClick={() => {
-              sfx.playTap();
-              setShowOfflineModal(true);
-            }}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              backgroundColor: '#fffaf0',
-              border: '1px solid #feebc8',
-              padding: '6px 14px',
-              borderRadius: '20px',
-              fontSize: '0.8rem',
-              color: '#c05621',
-              fontWeight: 700,
-              cursor: 'pointer',
-              boxShadow: '0 2px 4px rgba(237,137,54,0.15)',
-            }}
-          >
-            <span>⚡ 1-Tap Offline Setup</span>
-          </button>
-
-          {/* Active Model Indicator Pill */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0', padding: '6px 14px', borderRadius: '20px', fontSize: '0.8rem', color: '#166534', fontWeight: 700 }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#22c55e', boxShadow: '0 0 6px #22c55e' }} />
-            <span>{activeModel}</span>
-          </div>
         </div>
       </div>
 
-      {/* Bidirectional Mode Selector */}
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <div style={{ display: 'inline-flex', backgroundColor: '#e2e8f0', padding: '4px', borderRadius: '20px', gap: '4px', boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.1)' }}>
+      {/* Mode Selector Tabs */}
+      <div style={{ display: 'flex', justifyContent: 'center', margin: '0.25rem 0' }}>
+        <div style={{ display: 'inline-flex', backgroundColor: '#e2e8f0', padding: '4px', borderRadius: '20px', gap: '4px' }}>
           <button
             onClick={() => {
               sfx.playTap();
@@ -556,22 +537,21 @@ const translateClientSide = (text: string, currentMode: 'teacher' | 'student'): 
               setPronunciation('');
             }}
             style={{
-              padding: '10px 22px',
+              padding: '10px 24px',
               borderRadius: '16px',
               border: 'none',
               backgroundColor: mode === 'teacher' ? '#0f2744' : 'transparent',
               color: mode === 'teacher' ? '#ffffff' : '#475569',
-              fontWeight: 700,
-              fontSize: '0.92rem',
+              fontWeight: 800,
+              fontSize: '0.95rem',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              boxShadow: mode === 'teacher' ? '0 2px 8px rgba(15,39,68,0.25)' : 'none',
               transition: 'all 0.15s ease',
             }}
           >
-            👨‍🏫 <strong>Teacher Mode</strong>: Hindi → Santali
+            👨‍🏫 <strong>Teacher Mode</strong> (Hindi ➔ Santali)
           </button>
           <button
             onClick={() => {
@@ -583,25 +563,21 @@ const translateClientSide = (text: string, currentMode: 'teacher' | 'student'): 
               setPhraseCategory('responses');
             }}
             style={{
-              padding: '10px 20px',
+              padding: '10px 24px',
               borderRadius: '16px',
               border: 'none',
               backgroundColor: mode === 'student' ? '#c05621' : 'transparent',
               color: mode === 'student' ? '#ffffff' : '#475569',
-              fontWeight: 700,
-              fontSize: '0.92rem',
+              fontWeight: 800,
+              fontSize: '0.95rem',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              boxShadow: mode === 'student' ? '0 2px 8px rgba(192,86,33,0.25)' : 'none',
               transition: 'all 0.15s ease',
             }}
           >
-            <span>👧 <strong>Student Mode</strong>: Santali → Hindi</span>
-            <span style={{ fontSize: '0.72rem', backgroundColor: mode === 'student' ? 'rgba(255,255,255,0.25)' : '#fed7aa', color: mode === 'student' ? '#ffffff' : '#9a3412', padding: '2px 8px', borderRadius: '10px', fontWeight: 800 }}>
-              👆 Tap-to-Respond
-            </span>
+            👧 <strong>Student Mode</strong> (Santali ➔ Hindi)
           </button>
         </div>
       </div>

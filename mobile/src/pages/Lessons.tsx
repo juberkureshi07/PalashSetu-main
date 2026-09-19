@@ -97,25 +97,14 @@ const Lessons: React.FC = () => {
   return (
     <div className="fade-in" style={{ maxWidth: '960px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
 
-      {/* Header Banner */}
+      {/* Clean Header */}
       <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
         <div>
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '0.4rem' }}>
-            <span style={{ backgroundColor: '#ebf8ff', color: '#2b6cb0', padding: '3px 10px', borderRadius: '12px', fontSize: '0.78rem', fontWeight: 700 }}>
-              🏛️ NIPUN Bharat Mission
-            </span>
-            <span style={{ backgroundColor: '#ecfdf5', color: '#047857', padding: '3px 10px', borderRadius: '12px', fontSize: '0.78rem', fontWeight: 700 }}>
-              ✨ Panchaadi 5-Step Pedagogy
-            </span>
-            <span style={{ backgroundColor: '#fdf4ff', color: '#7e22ce', padding: '3px 10px', borderRadius: '12px', fontSize: '0.78rem', fontWeight: 700 }}>
-              🏹 Santali MTB-MLE
-            </span>
-          </div>
-          <h1 style={{ color: '#0f2744', fontSize: '1.75rem', fontWeight: 800, margin: 0 }}>
-            📚 NIPUN Bharat Lesson Studio
+          <h1 style={{ color: '#0f2744', fontSize: '1.75rem', fontWeight: 900, margin: 0 }}>
+            📚 Lesson Studio
           </h1>
-          <p style={{ color: '#64748b', fontSize: '0.9rem', margin: '4px 0 0 0' }}>
-            Generate structured 5-part Panchaadi lesson plans with dual Hindi & Santali Ol Chiki scripts, teacher talk scripts, and assessments.
+          <p style={{ color: '#64748b', fontSize: '0.85rem', margin: '2px 0 0 0', fontWeight: 600 }}>
+            Interactive lesson plans with dual Hindi &amp; Santali Ol Chiki audio
           </p>
         </div>
       </div>
