@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { broadcastService, BroadcastCaptionEvent } from '../services/broadcastService';
-import { playSantaliTTS } from '../utils/santaliSpeech';
+import { speakText as playSantaliTTS } from '../utils/santaliSpeech';
 import { sfx } from '../utils/sfx';
 
 export const StudentBroadcastView: React.FC = () => {
@@ -14,7 +14,7 @@ export const StudentBroadcastView: React.FC = () => {
       setHistory((prev) => [event, ...prev.slice(0, 15)]);
 
       if (isAudioAutoPlay && event.targetSantaliOlChiki) {
-        playSantaliTTS(event.targetSantaliOlChiki, 0.85);
+        playSantaliTTS(event.targetSantaliOlChiki, { rate: 0.85 });
       }
     });
 
@@ -40,7 +40,7 @@ export const StudentBroadcastView: React.FC = () => {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ width: '48px', height: '48px', borderRadius: '16px', backgroundColor: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyCenter: 'center', fontSize: '1.8rem' }}>
+          <div style={{ width: '48px', height: '48px', borderRadius: '16px', backgroundColor: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.8rem' }}>
             📡
           </div>
           <div>
@@ -120,7 +120,7 @@ export const StudentBroadcastView: React.FC = () => {
 
             {/* Manual Play Audio Button */}
             <button
-              onClick={() => playSantaliTTS(currentCaption.targetSantaliOlChiki, 0.85)}
+              onClick={() => playSantaliTTS(currentCaption.targetSantaliOlChiki, { rate: 0.85 })}
               style={{
                 alignSelf: 'center',
                 backgroundColor: '#06b6d4',
@@ -184,7 +184,7 @@ export const StudentBroadcastView: React.FC = () => {
                 </div>
 
                 <button
-                  onClick={() => playSantaliTTS(item.targetSantaliOlChiki, 0.85)}
+                  onClick={() => playSantaliTTS(item.targetSantaliOlChiki, { rate: 0.85 })}
                   style={{
                     backgroundColor: 'var(--surface-bg)',
                     border: '1px solid var(--border-subtle)',

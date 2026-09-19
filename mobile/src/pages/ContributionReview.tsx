@@ -51,7 +51,7 @@ export const ContributionReview: React.FC = () => {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ width: '48px', height: '48px', borderRadius: '16px', backgroundColor: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyCenter: 'center', fontSize: '1.8rem' }}>
+          <div style={{ width: '48px', height: '48px', borderRadius: '16px', backgroundColor: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.8rem' }}>
             🛡️
           </div>
           <div>

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { playSantaliTTS } from '../utils/santaliSpeech';
+import { speakText as playSantaliTTS } from '../utils/santaliSpeech';
 import { sfx } from '../utils/sfx';
 import {
   computeDTWDistance,
@@ -79,7 +79,7 @@ export const PronunciationCoach: React.FC = () => {
   };
 
   const handlePlayReference = () => {
-    playSantaliTTS(selectedPhrase.santaliOlChiki, 0.85);
+    playSantaliTTS(selectedPhrase.santaliOlChiki, { rate: 0.85 });
   };
 
   const startRecording = async () => {
@@ -160,7 +160,7 @@ export const PronunciationCoach: React.FC = () => {
       audio.play();
     } else {
       // Audio playback fallback hint
-      playSantaliTTS(selectedPhrase.santaliOlChiki, 0.95);
+      playSantaliTTS(selectedPhrase.santaliOlChiki, { rate: 0.95 });
     }
   };
 

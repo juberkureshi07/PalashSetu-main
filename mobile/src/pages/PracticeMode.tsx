@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { playSantaliTTS } from '../utils/santaliSpeech';
+import { speakText as playSantaliTTS } from '../utils/santaliSpeech';
 import { sfx } from '../utils/sfx';
 
 // Game 1: Ol Chiki Script & Sound Matching Data
@@ -165,11 +165,11 @@ export const PracticeMode: React.FC = () => {
 
   // Play audio for script item
   const handlePlayScriptSound = (text: string) => {
-    playSantaliTTS(text, 0.8);
+    playSantaliTTS(text, { rate: 0.8 });
   };
 
   const handleScriptChoice = (isCorrect: boolean, audioText: string) => {
-    playSantaliTTS(audioText, 0.85);
+    playSantaliTTS(audioText, { rate: 0.85 });
     if (isCorrect) {
       sfx.playSuccess();
       setScriptFeedback('correct');
@@ -188,7 +188,7 @@ export const PracticeMode: React.FC = () => {
 
   const handlePictureChoice = (isCorrect: boolean) => {
     if (isCorrect) {
-      playSantaliTTS(currentPictureGame.wordSantali, 0.85);
+      playSantaliTTS(currentPictureGame.wordSantali, { rate: 0.85 });
       sfx.playSuccess();
       setPictureFeedback('correct');
       setPersonalStreak((prev) => prev + 1);
@@ -209,7 +209,7 @@ export const PracticeMode: React.FC = () => {
     const nextTap = tappedCount + 1;
     setTappedCount(nextTap);
     if (nextTap === currentCountingGame.num) {
-      playSantaliTTS(currentCountingGame.santaliText, 0.8);
+      playSantaliTTS(currentCountingGame.santaliText, { rate: 0.8 });
       sfx.playSuccess();
       setPersonalStreak((prev) => prev + 1);
       setTotalStars((prev) => prev + 1);
@@ -237,7 +237,7 @@ export const PracticeMode: React.FC = () => {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ width: '48px', height: '48px', borderRadius: '16px', backgroundColor: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyCenter: 'center', fontSize: '1.8rem' }}>
+          <div style={{ width: '48px', height: '48px', borderRadius: '16px', backgroundColor: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.8rem' }}>
             🎮
           </div>
           <div>
@@ -453,7 +453,7 @@ export const PracticeMode: React.FC = () => {
 
           {/* Audio Speaker Trigger */}
           <button
-            onClick={() => playSantaliTTS(currentPictureGame.wordSantali, 0.8)}
+            onClick={() => playSantaliTTS(currentPictureGame.wordSantali, { rate: 0.8 })}
             style={{
               padding: '1rem 2rem',
               borderRadius: '20px',

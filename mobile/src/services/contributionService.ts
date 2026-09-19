@@ -4,7 +4,7 @@
  * and dynamic injection into active in-memory dictionary.
  */
 
-import { SANTALI_COMPREHENSIVE_DICTIONARY } from '../data/santali_comprehensive_dictionary';
+import { COMPREHENSIVE_HINDI_TO_SANTALI } from '../data/santali_comprehensive_dictionary';
 
 export interface ContributionItem {
   id: string;
@@ -79,7 +79,7 @@ export const contributionService = {
 
     // Dynamically inject approved contribution into active live dictionary lookup
     if (item.sourceTextHi && item.targetTextSantali) {
-      SANTALI_COMPREHENSIVE_DICTIONARY[item.sourceTextHi.toLowerCase()] = item.targetTextSantali;
+      COMPREHENSIVE_HINDI_TO_SANTALI[item.sourceTextHi.toLowerCase()] = item.targetTextSantali;
     }
     return true;
   },
@@ -105,7 +105,7 @@ export const contributionService = {
     const approved = this.getContributions().filter((c) => c.status === 'approved');
     approved.forEach((item) => {
       if (item.sourceTextHi && item.targetTextSantali) {
-        SANTALI_COMPREHENSIVE_DICTIONARY[item.sourceTextHi.toLowerCase()] = item.targetTextSantali;
+        COMPREHENSIVE_HINDI_TO_SANTALI[item.sourceTextHi.toLowerCase()] = item.targetTextSantali;
       }
     });
   },
