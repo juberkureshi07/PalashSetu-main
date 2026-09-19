@@ -121,6 +121,7 @@ const LiveTranslation: React.FC = () => {
   const [isTranslating, setIsTranslating] = useState(false);
   const [phraseCategory, setPhraseCategory] = useState<'greetings' | 'commands' | 'numeracy' | 'responses'>('greetings');
   const [showOfflineModal, setShowOfflineModal] = useState(false);
+  const [isBroadcasting, setIsBroadcasting] = useState(broadcastService.getIsBroadcasting());
 
   const { isListening, startListening, stopListening, transcript } = useSpeechRecognition();
 
@@ -413,8 +414,14 @@ const translateClientSide = (text: string, currentMode: 'teacher' | 'student'): 
       const elapsed = Math.max(1, Math.round(performance.now() - startTime));
       setLatencyMs(elapsed);
       setTranslatedText(clientTranslated);
-      setPronunciation(computePhonetic(rawInput, clientTranslated, mode));
-      setActiveModel('⚡ Palash On-Device Engine (7,500+ Offline Vocab)');
+      const computedPhonetic = computePhonetic(rawInput, clientTranslated, mode);
+      setPronunciation(computedPhonetic);
+      setActiveModel('⚡ SetuVani On-Device Engine (7,500+ Offline Vocab)');
+
+      // 📡 Broadcast live caption to student devices on classroom LAN
+      if (isBroadcasting && mode === 'teacher' && clientTranslated) {
+        broadcastService.broadcastCaption(rawInput, clientTranslated, computedPhonetic);
+      }
 
       // 🎙️ AUTOMATIC VOICE PLAYBACK: Speak translated voice out loud immediately
       if (clientTranslated) {
@@ -479,6 +486,32 @@ const translateClientSide = (text: string, currentMode: 'teacher' | 'student'): 
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+          {/* 📡 Classroom LAN Broadcast Toggle Button */}
+          <button
+            onClick={() => {
+              sfx.playTap();
+              const nextState = !isBroadcasting;
+              setIsBroadcasting(nextState);
+              broadcastService.setBroadcasting(nextState);
+            }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              backgroundColor: isBroadcasting ? '#cffafe' : '#f8fafc',
+              border: isBroadcasting ? '1px solid #06b6d4' : '1px solid #cbd5e1',
+              padding: '6px 14px',
+              borderRadius: '20px',
+              fontSize: '0.8rem',
+              color: isBroadcasting ? '#0891b2' : '#475569',
+              fontWeight: 800,
+              cursor: 'pointer',
+              boxShadow: '0 2px 4px rgba(6,182,212,0.15)',
+            }}
+          >
+            <span>{isBroadcasting ? '📡 LAN Broadcast ON' : '📡 Start LAN Broadcast'}</span>
+          </button>
+
           {/* 1-Tap In-App Offline Voice Setup Button */}
           <button
             onClick={() => {

@@ -1,7 +1,8 @@
-# PalashSetu (पलाश सेतु)
+# SetuVani (सेतुवाणी)
 ### 100% Standalone On-Device Tablet App for Mother Tongue-Based Multilingual Education (MTB-MLE)
 **Smart India Hackathon 2026 — Problem Statement SIH 26042**  
-*Govt. of Jharkhand • Department of School Education & Literacy*
+*Govt. of Jharkhand • Department of School Education & Literacy*  
+*Developed & Maintained by Ambivert's Team*
 
 ---
 
@@ -11,62 +12,72 @@ In rural and tribal primary classrooms across Jharkhand (particularly Santhal Pa
 
 Most remote village schools (Anganwadis, Balvatikas, and Government Primary Schools) have **zero cellular connectivity** and operate on budget Android tablets (often running Android 7.0–9.0 with 2 GB RAM).
 
-**PalashSetu** is a **100% standalone, fully on-device Android tablet application** that bridges the linguistic divide without relying on internet, external servers, or cloud APIs. Everything runs directly inside the Android tablet with sub-millisecond algorithmic execution and a lightweight memory footprint (~55 MB RAM).
+**SetuVani** is a **100% standalone, fully on-device Android tablet application** that bridges the linguistic divide without relying on internet, external servers, or cloud APIs. Everything runs directly inside the Android tablet with sub-millisecond algorithmic execution and a lightweight memory footprint (~55 MB RAM).
 
 > **Core Philosophy:** A modular, plug-and-play MTB-MLE architecture with **Santali (Ol Chiki)** as the live **Phase 1 flagship pilot**, architected for seamless expansion to other indigenous dialects (**Ho, Mundari, Kurukh, and Kharia**).
 
 ---
 
-## 2. System Architecture (4-Layer Framework)
+## 2. Differentiating Additions (Ambivert's Team Enhancements)
+
+In addition to core live translation and lesson tools, **SetuVani** introduces 4 high-impact pedagogical capabilities:
+
+1. 🎮 **Kid-Facing Gamified Practice Mode (`/practice`):**
+   - Audio-first, icon-guided FLN games for non-reading Grade 1–3 children.
+   - 3 interactive game modes: Ol Chiki Sound Matching, Picture-Word Audio Matching, and FLN Santali Counting (1–10).
+   - **No competitive leaderboards** (pedagogical constraint strictly enforced to prevent discouraging early learners).
+2. 🗣️ **Teacher Pronunciation Coaching (`/pronounce`):**
+   - On-device Web Audio API spectral energy envelope analysis paired with Dynamic Time Warping (DTW).
+   - Honest AI stance: Compares teacher voice rhythm and tone with native reference clips; includes dual "Listen & Compare" playback for self-assessment by ear.
+3. 🤝 **Community Content-Contribution Loop (`/contribute` & `/contribute/review`):**
+   - Enables community speakers and volunteers to submit new phrases or correct existing dictionary items.
+   - **Mandatory 2-Stage Moderation Gate:** Submissions remain pending offline until a teacher approves them before dynamically updating live translation lookups.
+4. 📡 **Classroom LAN Caption Broadcast (`/translate` & `/student-view`):**
+   - Teacher's live translations broadcast over local classroom LAN/hotspot.
+   - Student receiver view renders real-time high-contrast captions with 1-tap audio playback.
+
+---
+
+## 3. System Architecture (4-Layer Framework)
 
 ```
 +-----------------------------------------------------------------------------------+
-|               PALASHSETU STANDALONE TABLET ARCHITECTURE                           |
+|                SETUVANI STANDALONE TABLET ARCHITECTURE                            |
 |       (100% On-Device • Zero Server • Airplane Mode Ready • ~55 MB RAM)           |
 +-----------------------------------------------------------------------------------+
 |                                                                                   |
 |  [ LAYER 1: TABLET-FIRST PEDAGOGICAL INTERFACE ]                                  |
 |  • Framework: React 18.3 + TypeScript + Vite 5 + Capacitor 6.1                     |
 |  • High-Contrast Touch UI (Min 48px targets designed for rural tablets)            |
-|  • 5 Classroom Tools:                                                             |
+|  • 9 Classroom Tools:                                                             |
 |    - 🎙️ Live Classroom Voice Translator (Bidirectional Walkie-Talkie)             |
+|    - 🎮 Kid-Facing Gamified Practice Mode (FLN Audio/Icon Games)                 |
+|    - 🗣️ Teacher Pronunciation Coach (MFCC/DTW Signal Matching)                    |
+|    - 🤝 Community Content Contribution Loop (Offline Moderation Gate)             |
+|    - 📡 Student Receiver LAN Broadcast (Real-Time Classroom Captioning)          |
 |    - 📚 36 NIPUN Bharat Structured Bilingual Lessons (Class 1-3 Math & FLN)       |
 |    - 📝 Dynamic Bilingual Worksheet & Drill Generator (Printable A4)               |
 |    - 🃏 30+ Interactive 3D Ol Chiki Illustrated Flashcard Decks (96+ Cards)        |
 |    - 📖 Official JCERT State Textbooks Library (Balvatika to Grade 3)             |
-|    - ⚙️ Teacher Profile & District Settings (10 Jharkhand Tribal Districts)       |
 |                                                                                   |
 |  [ LAYER 2: ON-DEVICE LINGUISTIC TRANSLATION ENGINE ]                            |
 |  • Latency: < 1 ms • Pure In-Memory Hash Lookup • Zero Network Latency             |
-|  • 7,503 Curated Vocabulary Entries:                                              |
-|    - 100% AI4Bharat IndicTrans2 Santali Tokens (5,448 tokens / 4,597 roots)       |
-|    - Complete NIPUN FLN Class 1-3 Math (0-100 universal counting in Ol Chiki)    |
-|    - Complete Pronoun Paradigms (आपकी, तुम्हारा, मेरा, हमारा, उसका, उनका)        |
-|    - Abstract & Cultural Lexicon (किस्मत, जिंदगी, विचार, जोहार, झारखंड, रांची)    |
+|  • 7,503 Curated Vocabulary Entries + Dynamic Community Injection                 |
 |  • 4-Tier Resilient Fallback Pipeline:                                            |
 |    1. Direct Dictionary Match (< 0.001 ms)                                        |
 |    2. Longest-Match Phrasebook Regex Parser (Classroom commands & greetings)      |
-|    3. Grammatical Particle & Case Suffix Parser (ᱠᱷᱚᱱ, ᱦᱟᱹᱵᱤᱡ, ᱟᱨ, ᱨᱮ, ᱠᱚ, ᱠᱟᱱᱟ)       |
-|    4. Ol Chiki Transliteration Fallback (proper nouns & student names never fail) |
+|    3. Grammatical Particle & Case Suffix Parser                                   |
+|    4. Ol Chiki Transliteration Fallback (proper nouns never fail)                 |
 |                                                                                   |
 |  [ LAYER 3: NOVEL ACOUSTIC-PHONETIC TTS SYNTHESIZER ]                             |
-|  • The Challenge: Android OS has zero native Ol Chiki (sat_Olck) voice packages.  |
-|  • The Solution: Custom `santaliSpeech.ts` acoustic mapping compiler.             |
+|  • Custom `santaliSpeech.ts` acoustic mapping compiler.                           |
 |  • Compiles Ol Chiki Unicode syllables into phonetic Devanagari & Indic phonemes  |
 |    pronounced with authentic phonetics by Android's built-in offline `hi-IN` TTS. |
-|  • 100% Offline • Zero Cloud Audio • Adjustable Pedagogical Speech Speed (0.6x-1.2x)
+|  • 100% Offline • Zero Cloud Audio • Adjustable Speech Speed (0.6x-1.2x)          |
 |                                                                                   |
 |  [ LAYER 4: ANDROID NATIVE OS & HARDWARE RUNTIME ]                                |
 |  • Bridge: Capacitor 6.1 Native Bridge                                            |
 |  • Target OS: Android 7.0 (API 24) to Android 14+ (API 34)                        |
-|  • Hardware Optimizations: android:largeHeap="true", hardwareAccelerated="true"    |
-|  • Offline Speech Input: Native Android SpeechRecognizer with offline language    |
-|  • Local Persistence: Capacitor Preferences & SHA-256 Local Teacher Auth Storage  |
-+-----------------------------------------------------------------------------------+
-```
-
----
-
 ## 3. Key Technical Specifications
 
 | Parameter | Specification | Why It Matters for Rural Jharkhand |
