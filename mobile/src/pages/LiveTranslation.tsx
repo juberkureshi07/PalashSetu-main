@@ -116,7 +116,7 @@ const LiveTranslation: React.FC = () => {
   const [sourceText, setSourceText] = useState('');
   const [translatedText, setTranslatedText] = useState('');
   const [pronunciation, setPronunciation] = useState('');
-  const [activeModel, setActiveModel] = useState('⚡ Palash On-Device Engine (7,500+ Offline Vocab)');
+  const [activeModel, setActiveModel] = useState('⚡ SetuVani On-Device Engine (7,500+ Offline Vocab)');
   const [latencyMs, setLatencyMs] = useState<number>(0);
   const [isTranslating, setIsTranslating] = useState(false);
   const [phraseCategory, setPhraseCategory] = useState<'greetings' | 'commands' | 'numeracy' | 'responses'>('greetings');
@@ -453,7 +453,7 @@ const translateClientSide = (text: string, currentMode: 'teacher' | 'student'): 
       alert(
         '👧 Student Mode: Interactive Tap-to-Respond Active!\n\n' +
         'In rural primary classrooms, children use the intuitive 1-tap visual response cards below to speak Hindi to the teacher.\n\n' +
-        'Direct spoken Santali ASR via on-device quantized IndicWav2Vec is planned for PalashSetu v2.0!'
+        'Direct spoken Santali ASR via on-device quantized IndicWav2Vec is planned for SetuVani v2.0!'
       );
       return;
     }
@@ -873,14 +873,14 @@ const translateClientSide = (text: string, currentMode: 'teacher' | 'student'): 
                   setTranslatedText(phrase.hindi);
                   setPronunciation(phrase.pronunciation || '');
                   setLatencyMs(1);
-                  setActiveModel('⚡ Palash On-Device Engine (Santali ➔ Hindi)');
+                  setActiveModel('⚡ SetuVani On-Device Engine (Santali ➔ Hindi)');
                   speakText(phrase.hindi, { rate: 0.85, lang: 'hi-IN' });
                 } else {
                   setSourceText(phrase.hindi);
                   setTranslatedText(phrase.santali);
                   setPronunciation(phrase.pronunciation || '');
                   setLatencyMs(1);
-                  setActiveModel('⚡ Palash On-Device Engine (Hindi ➔ Santali)');
+                  setActiveModel('⚡ SetuVani On-Device Engine (Hindi ➔ Santali)');
                   speakText(phrase.santali, { rate: 0.85 });
                 }
               }}

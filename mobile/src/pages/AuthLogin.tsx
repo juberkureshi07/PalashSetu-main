@@ -70,10 +70,10 @@ const AuthLogin: React.FC<AuthLoginProps> = ({ onLoginSuccess }) => {
       {/* Brand Header */}
       <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
         <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#f6ad55', marginBottom: '4px' }}>
-          🌿 PalashSetu (पलाश सेतु)
+          🌿 SetuVani (सेतुवाणी)
         </div>
         <div style={{ fontSize: '1rem', color: '#e2e8f0' }}>
-          Govt. of Jharkhand • PALASH MTB-MLE Shared Tablet Portal
+          SetuVani • Offline Bilingual Primary Education Portal
         </div>
       </div>
 

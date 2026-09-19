@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { speakText as playSantaliTTS } from '../utils/santaliSpeech';
 import { sfx } from '../utils/sfx';
 
-// Game 1: Ol Chiki Script & Sound Matching Data
 interface OlChikiGameItem {
   character: string;
   nameHi: string;
@@ -53,7 +52,6 @@ const OL_CHIKI_GAMES: OlChikiGameItem[] = [
   },
 ];
 
-// Game 2: Picture-Word Audio Matching Data
 interface PictureWordItem {
   id: string;
   wordSantali: string;
@@ -118,13 +116,12 @@ const PICTURE_WORD_GAMES: PictureWordItem[] = [
   },
 ];
 
-// Game 3: FLN Counting Data (1 to 10)
 interface CountingItem {
   num: number;
   olChiki: string;
   santaliText: string;
   hindiText: string;
-  items: string; // Emoji
+  items: string;
 }
 
 const COUNTING_ITEMS: CountingItem[] = [
@@ -142,20 +139,15 @@ const COUNTING_ITEMS: CountingItem[] = [
 
 export const PracticeMode: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'script' | 'picture' | 'counting'>('script');
-
-  // Personal Progress & Streak (No comparative leaderboards)
   const [personalStreak, setPersonalStreak] = useState<number>(0);
   const [totalStars, setTotalStars] = useState<number>(0);
 
-  // Script Game State
   const [scriptIndex, setScriptIndex] = useState(0);
   const [scriptFeedback, setScriptFeedback] = useState<'correct' | 'wrong' | null>(null);
 
-  // Picture Game State
   const [pictureIndex, setPictureIndex] = useState(0);
   const [pictureFeedback, setPictureFeedback] = useState<'correct' | 'wrong' | null>(null);
 
-  // Counting Game State
   const [countIndex, setCountIndex] = useState(0);
   const [tappedCount, setTappedCount] = useState(0);
 
@@ -163,7 +155,6 @@ export const PracticeMode: React.FC = () => {
   const currentPictureGame = PICTURE_WORD_GAMES[pictureIndex];
   const currentCountingGame = COUNTING_ITEMS[countIndex];
 
-  // Play audio for script item
   const handlePlayScriptSound = (text: string) => {
     playSantaliTTS(text, { rate: 0.8 });
   };
@@ -223,7 +214,7 @@ export const PracticeMode: React.FC = () => {
   return (
     <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '900px', margin: '0 auto' }}>
       
-      {/* Top Banner: Non-competitive personal growth indicators */}
+      {/* Top Banner */}
       <div
         style={{
           background: 'linear-gradient(135deg, #ec4899 0%, #be185d 100%)',
@@ -242,28 +233,27 @@ export const PracticeMode: React.FC = () => {
           </div>
           <div>
             <h1 style={{ fontSize: '1.6rem', fontWeight: 800, margin: 0 }}>
-              ᱜᱤᱫᱽᱨᱟᱹ ᱠᱷᱮᱞᱚᱸᱰ (Kid Practice Hub)
+              ᱜᱤᱫᱽᱨᱟᱹ ᱠᱷᱮᱞᱚᱸᱰ (बच्चों का खेल केंद्र)
             </h1>
             <p style={{ margin: '2px 0 0', fontSize: '0.85rem', opacity: 0.9 }}>
-              FLN Audio-First Learning for Grade 1–3 • Ol Chiki & Santali
+              कक्षा 1–3 के लिए संताली ऑडियो और चित्रों पर आधारित शिक्षण
             </p>
           </div>
         </div>
 
-        {/* Personal Streak Badge (Non-competitive) */}
         <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
           <div style={{ backgroundColor: 'rgba(255,255,255,0.2)', padding: '8px 14px', borderRadius: '14px', textAlign: 'center' }}>
             <span style={{ fontSize: '1.2rem', fontWeight: 800 }}>🔥 {personalStreak}</span>
-            <div style={{ fontSize: '0.68rem', fontWeight: 600 }}>My Streak</div>
+            <div style={{ fontSize: '0.68rem', fontWeight: 600 }}>अभ्यास अंक</div>
           </div>
           <div style={{ backgroundColor: 'rgba(255,255,255,0.2)', padding: '8px 14px', borderRadius: '14px', textAlign: 'center' }}>
             <span style={{ fontSize: '1.2rem', fontWeight: 800 }}>⭐ {totalStars}</span>
-            <div style={{ fontSize: '0.68rem', fontWeight: 600 }}>My Stars</div>
+            <div style={{ fontSize: '0.68rem', fontWeight: 600 }}>तारे (Stars)</div>
           </div>
         </div>
       </div>
 
-      {/* Mode Selector Tabs (Large Icon Buttons for easy touch) */}
+      {/* Mode Selector Tabs */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
         <button
           onClick={() => { sfx.playTap(); setActiveTab('script'); }}
@@ -283,7 +273,7 @@ export const PracticeMode: React.FC = () => {
           }}
         >
           <span style={{ fontSize: '1.8rem' }}>🔤</span>
-          <span>1. Ol Chiki Sound</span>
+          <span>1. अक्षर आवाज (Ol Chiki)</span>
         </button>
 
         <button
@@ -304,7 +294,7 @@ export const PracticeMode: React.FC = () => {
           }}
         >
           <span style={{ fontSize: '1.8rem' }}>🖼️</span>
-          <span>2. Picture Matching</span>
+          <span>2. चित्र मिलान</span>
         </button>
 
         <button
@@ -325,13 +315,11 @@ export const PracticeMode: React.FC = () => {
           }}
         >
           <span style={{ fontSize: '1.8rem' }}>🔢</span>
-          <span>3. FLN Counting</span>
+          <span>3. संताली गिनती (1-10)</span>
         </button>
       </div>
 
-      {/* GAME AREA */}
-
-      {/* GAME 1: Ol Chiki Letter & Sound Matching */}
+      {/* GAME 1: Ol Chiki Script & Sound Matching */}
       {activeTab === 'script' && (
         <div
           style={{
@@ -347,11 +335,10 @@ export const PracticeMode: React.FC = () => {
             gap: '1.5rem',
           }}
         >
-          <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontWeight: 600 }}>
-            Tap the big letter to hear it, then tap the matching sound below!
+          <div style={{ fontSize: '0.95rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+            अक्षर सुनने के लिए बड़े कार्ड को दबाएं, फिर सही आवाज चुनें!
           </div>
 
-          {/* Big Ol Chiki Letter Card */}
           <button
             onClick={() => handlePlayScriptSound(currentScriptGame.character)}
             style={{
@@ -368,7 +355,6 @@ export const PracticeMode: React.FC = () => {
               border: '4px solid #ed8936',
               boxShadow: '0 12px 25px rgba(237,137,54,0.3)',
               cursor: 'pointer',
-              transition: 'transform 0.15s ease',
             }}
           >
             {currentScriptGame.character}
@@ -387,10 +373,9 @@ export const PracticeMode: React.FC = () => {
               cursor: 'pointer',
             }}
           >
-            🔊 Tap to Listen ({currentScriptGame.nameHi})
+            🔊 आवाज सुनें ({currentScriptGame.nameHi})
           </button>
 
-          {/* Options Grid */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', width: '100%', maxWidth: '500px' }}>
             {currentScriptGame.options.map((opt) => (
               <button
@@ -408,7 +393,6 @@ export const PracticeMode: React.FC = () => {
                   flexDirection: 'column',
                   alignItems: 'center',
                   gap: '6px',
-                  transition: 'all 0.15s ease',
                 }}
               >
                 <span>{opt.icon}</span>
@@ -417,15 +401,14 @@ export const PracticeMode: React.FC = () => {
             ))}
           </div>
 
-          {/* Feedback popup */}
           {scriptFeedback === 'correct' && (
             <div className="fade-in" style={{ fontSize: '1.3rem', fontWeight: 800, color: '#38a169' }}>
-              🌟 ᱟᱹᱰᱤ ᱱᱟᱯᱟᱭ! Great Job! 🌟
+              🌟 ᱟᱹᱰᱤ ᱱᱟᱯᱟᱭ! शाबाश! 🌟
             </div>
           )}
           {scriptFeedback === 'wrong' && (
             <div className="fade-in" style={{ fontSize: '1.1rem', fontWeight: 700, color: '#e53e3e' }}>
-              Try again! Tap the top letter for a hint!
+              फिर से कोशिश करें!
             </div>
           )}
         </div>
@@ -447,11 +430,10 @@ export const PracticeMode: React.FC = () => {
             gap: '1.5rem',
           }}
         >
-          <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontWeight: 600 }}>
-            Listen to the Santali word, then tap the matching picture!
+          <div style={{ fontSize: '0.95rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+            संताली शब्द सुनें, फिर सही चित्र दबाएं!
           </div>
 
-          {/* Audio Speaker Trigger */}
           <button
             onClick={() => playSantaliTTS(currentPictureGame.wordSantali, { rate: 0.8 })}
             style={{
@@ -473,7 +455,6 @@ export const PracticeMode: React.FC = () => {
             <span>{currentPictureGame.wordSantali} ({currentPictureGame.wordHi})</span>
           </button>
 
-          {/* Picture Grid */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.25rem', width: '100%', maxWidth: '450px' }}>
             {currentPictureGame.options.map((opt, i) => (
               <button
@@ -491,7 +472,6 @@ export const PracticeMode: React.FC = () => {
                   alignItems: 'center',
                   gap: '8px',
                   boxShadow: 'var(--shadow-sm)',
-                  transition: 'transform 0.15s ease',
                 }}
               >
                 <span>{opt.icon}</span>
@@ -502,12 +482,12 @@ export const PracticeMode: React.FC = () => {
 
           {pictureFeedback === 'correct' && (
             <div className="fade-in" style={{ fontSize: '1.3rem', fontWeight: 800, color: '#38a169' }}>
-              🎉 ᱥᱟᱹᱨᱤ ᱜᱮᱭᱟ! Perfect Match! 🎉
+              🎉 ᱥᱟᱹᱨᱤ ᱜᱮᱭᱟ! बिल्कुल सही! 🎉
             </div>
           )}
           {pictureFeedback === 'wrong' && (
             <div className="fade-in" style={{ fontSize: '1.1rem', fontWeight: 700, color: '#e53e3e' }}>
-              Listen again! Tap the audio button above!
+              फिर से सुनें!
             </div>
           )}
         </div>
@@ -529,11 +509,10 @@ export const PracticeMode: React.FC = () => {
             gap: '1.5rem',
           }}
         >
-          <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontWeight: 600 }}>
-            Tap each item one by one to count to {currentCountingGame.num} in Santali!
+          <div style={{ fontSize: '0.95rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+            एक-एक करके सभी वस्तुओं को दबाएं और {currentCountingGame.num} तक संताली में गिनें!
           </div>
 
-          {/* Number & Santali Word Banner */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <div
               style={{
@@ -556,12 +535,11 @@ export const PracticeMode: React.FC = () => {
                 {currentCountingGame.santaliText} ({currentCountingGame.hindiText})
               </div>
               <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-                Progress: {tappedCount} / {currentCountingGame.num} tapped
+                गिनती: {tappedCount} / {currentCountingGame.num}
               </div>
             </div>
           </div>
 
-          {/* Items to tap */}
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '12px', maxWidth: '500px', minHeight: '120px', alignItems: 'center' }}>
             {Array.from({ length: currentCountingGame.num }).map((_, idx) => (
               <button
@@ -578,7 +556,6 @@ export const PracticeMode: React.FC = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  transition: 'all 0.15s ease',
                   transform: idx < tappedCount ? 'scale(1.1)' : 'scale(1)',
                 }}
               >
@@ -589,7 +566,7 @@ export const PracticeMode: React.FC = () => {
 
           {tappedCount === currentCountingGame.num && (
             <div className="fade-in" style={{ fontSize: '1.3rem', fontWeight: 800, color: '#38a169' }}>
-              ✨ ᱞᱮᱠᱷᱟ ᱯᱩᱨᱟᱹᱣᱮᱱᱟ! Count Complete! ✨
+              ✨ ᱞᱮᱠᱷᱟ ᱯᱩᱨᱟᱹᱣᱮᱱᱟ! गिनती पूरी हुई! ✨
             </div>
           )}
         </div>

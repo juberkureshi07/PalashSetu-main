@@ -1,5 +1,5 @@
 /**
- * Teacher Authentication & Profile Service for Shared School Tablets
+ * Teacher Profile & Local Authentication Service
  * 100% Offline with local SHA-256 PIN Hashing
  */
 
@@ -15,12 +15,12 @@ export interface TeacherProfile {
   createdAt: string;
 }
 
-const STORAGE_KEY_PROFILES = 'palashsetu_teacher_profiles';
-const STORAGE_KEY_ACTIVE_SESSION = 'palashsetu_active_teacher_id';
+const STORAGE_KEY_PROFILES = 'setuvani_teacher_profiles';
+const STORAGE_KEY_ACTIVE_SESSION = 'setuvani_active_teacher_id';
 
 const AVATAR_COLORS = ['#1a365d', '#2b6cb0', '#2c7a7b', '#285e61', '#744210', '#6b46c1'];
 
-// Simple lightweight SHA-256 hasher using Web Crypto API or fast fallback
+// Simple SHA-256 hasher using Web Crypto API
 export async function hashPin(pin: string): Promise<string> {
   if (window.crypto && window.crypto.subtle) {
     const msgBuffer = new TextEncoder().encode(pin);
@@ -28,7 +28,6 @@ export async function hashPin(pin: string): Promise<string> {
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
   }
-  // Fallback simple hash for compatibility
   let hash = 0;
   for (let i = 0; i < pin.length; i++) {
     const char = pin.charCodeAt(i);
@@ -43,33 +42,7 @@ export const authService = {
     try {
       const data = localStorage.getItem(STORAGE_KEY_PROFILES);
       if (!data) {
-        // Seed default demo teacher profile for instant evaluation
-        const defaultProfiles: TeacherProfile[] = [
-          {
-            id: 'teacher-1',
-            name: 'Sunita Kumari',
-            teacherId: 'EVV-JH-849201',
-            district: 'Dumka',
-            block: 'Kathikund',
-            assignedGrade: 'Class 1',
-            pinHash: '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', // "1234"
-            avatarColor: '#1a365d',
-            createdAt: new Date().toISOString(),
-          },
-          {
-            id: 'teacher-2',
-            name: 'Ramesh Murmu',
-            teacherId: 'EVV-JH-912044',
-            district: 'East Singhbhum',
-            block: 'Ghatshila',
-            assignedGrade: 'Balvatika',
-            pinHash: '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', // "1234"
-            avatarColor: '#2b6cb0',
-            createdAt: new Date().toISOString(),
-          },
-        ];
-        localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(defaultProfiles));
-        return defaultProfiles;
+        return [];
       }
       return JSON.parse(data);
     } catch {
@@ -90,12 +63,12 @@ export const authService = {
     const colorIndex = profiles.length % AVATAR_COLORS.length;
 
     const newProfile: TeacherProfile = {
-      id: `teacher-${Date.now()}`,
+      id: `teacher_${Date.now()}`,
       name: name.trim(),
       teacherId: teacherId.trim() || `EVV-JH-${Math.floor(100000 + Math.random() * 900000)}`,
-      district: district || 'Dumka',
-      block: block || 'Sadar',
-      assignedGrade: assignedGrade || 'Class 1',
+      district: district || 'दुमका (Dumka)',
+      block: block || 'सदर (Sadar)',
+      assignedGrade: assignedGrade || 'कक्षा 1 (Class 1)',
       pinHash,
       avatarColor: AVATAR_COLORS[colorIndex],
       createdAt: new Date().toISOString(),
@@ -112,25 +85,20 @@ export const authService = {
     const profile = profiles.find((p) => p.id === teacherId);
     if (!profile) return false;
 
-    // Direct check for master demo PIN "1234" or hash check
-    if (enteredPin === '1234') return true;
-
     const enteredHash = await hashPin(enteredPin);
     return enteredHash === profile.pinHash;
   },
 
   getActiveProfile(): TeacherProfile | null {
     const activeId = localStorage.getItem(STORAGE_KEY_ACTIVE_SESSION);
+    const profiles = this.getProfiles();
     if (!activeId) {
-      // Default to first profile if exists
-      const profiles = this.getProfiles();
       if (profiles.length > 0) {
         localStorage.setItem(STORAGE_KEY_ACTIVE_SESSION, profiles[0].id);
         return profiles[0];
       }
       return null;
     }
-    const profiles = this.getProfiles();
     return profiles.find((p) => p.id === activeId) || (profiles[0] ?? null);
   },
 

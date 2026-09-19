@@ -12,95 +12,95 @@ const DASHBOARD_ACTIONS = [
   {
     to: '/translate',
     icon: '🎙️',
-    title: 'Live Voice Translation',
+    title: 'लाइव आवाज अनुवाद',
     santali: 'ᱥᱟᱱᱛᱟᱲᱤ ᱨᱚᱲ',
-    desc: 'Real-time Hindi → Santali with sub-millisecond on-device NLP and native acoustic speech.',
-    badge: 'Offline 4-Tier NLP',
+    desc: 'हिंदी और संताली (ᱚᱞ ᱪᱤᱠᱤ) का तात्कालिक ऑन-डिवाइस अनुवाद।',
+    badge: '100% ऑफ़लाइन',
     color: '#ed8936',
   },
   {
     to: '/practice',
     icon: '🎮',
-    title: 'Kid Practice Mode',
+    title: 'बच्चों का खेल अभ्यास',
     santali: 'ᱜᱤᱫᱽᱨᱟᱹ ᱠᱷᱮᱞᱚᱸᱰ',
-    desc: 'Audio-first, icon-guided FLN games for non-reading Grade 1–3 children.',
-    badge: 'FLN Games',
+    desc: 'कक्षा 1–3 के बच्चों के लिए ऑडियो और चित्रों पर आधारित शिक्षण खेल।',
+    badge: 'ऑडियो खेल',
     color: '#ec4899',
   },
   {
     to: '/pronounce',
     icon: '🗣️',
-    title: 'Pronunciation Coach',
+    title: 'उच्चारण अभ्यास',
     santali: 'ᱨᱚᱲ ᱥᱮᱪᱮᱫ',
-    desc: 'On-device rhythm & tone similarity comparison with reference native audio.',
-    badge: 'MFCC/DTW Signal',
+    desc: 'शिक्षिका के आवाज की लय और स्वर का संताली उच्चारण से मिलान।',
+    badge: 'उच्चारण',
     color: '#8b5cf6',
   },
   {
     to: '/contribute',
     icon: '🤝',
-    title: 'Community Contribution',
+    title: 'सामुदायिक योगदान',
     santali: 'ᱜᱚᱲᱚ ᱥᱟᱠᱟᱢ',
-    desc: 'Submit new Santali phrases or corrections with offline teacher review gate.',
-    badge: 'Offline Gate',
+    desc: 'नए संताली शब्द या संशोधन जोड़ें (शिक्षिका सत्यापन द्वार)।',
+    badge: 'योगदान',
     color: '#10b981',
   },
   {
     to: '/student-view',
     icon: '📡',
-    title: 'Student Receiver',
+    title: 'छात्र प्राप्तकर्ता',
     santali: 'ᱥᱴᱩᱰᱮᱱᱴ ᱵᱷᱤᱭᱩ',
-    desc: 'Receive live captions from teacher tablet over local classroom LAN/hotspot.',
-    badge: 'Classroom LAN',
+    desc: 'शिक्षिका के टैबलेट से 6-अंक के कोड द्वारा सीधे कैप्शन प्राप्त करें।',
+    badge: 'LAN P2P',
     color: '#06b6d4',
   },
   {
     to: '/flashcards',
     icon: '🃏',
-    title: 'Visual Flashcards',
+    title: 'चित्र फ्लैशकार्ड',
     santali: 'ᱪᱤᱛᱟᱹᱨ ᱠᱟᱨᱰ',
-    desc: 'Interactive 3D flip cards: 30 Animals, Fruits, Body Parts, and Shapes.',
-    badge: '30+ SVG Decks',
+    desc: '30+ 3D चित्र कार्ड: जानवर, फल, सब्जियां, और आकार।',
+    badge: '30+ कार्ड',
     color: '#38a169',
   },
   {
     to: '/lessons',
     icon: '📚',
-    title: 'Lesson Studio',
+    title: 'पाठशाला (पाठ योजना)',
     santali: 'ᱯᱟᱲᱦᱟᱣ ᱯᱚᱛᱷᱤ',
-    desc: 'Auto-generate structured 5-part NIPUN Bharat lessons with Ol Chiki scripts.',
-    badge: 'NIPUN Aligned',
+    desc: 'NIPUN भारत 5-चरणीय द्विभाषी पाठ योजना।',
+    badge: 'पाठ योजना',
     color: '#3182ce',
   },
   {
     to: '/worksheets',
     icon: '📝',
-    title: 'Worksheet Generator',
+    title: 'अभ्यास पत्र जनरेटर',
     santali: 'ᱠᱟᱹᱢᱤ ᱥᱟᱠᱟᱢ',
-    desc: 'Infinite randomized arithmetic and 10 pattern drills with printable export.',
-    badge: 'Print PDF',
+    desc: 'गणित और अक्षरों के अनगिनत प्रिंट करने योग्य अभ्यास पत्र।',
+    badge: 'प्रिंट A4',
     color: '#805ad5',
   },
   {
     to: '/books',
     icon: '📖',
-    title: 'JCERT Bilingual Books',
+    title: 'JCERT द्विभाषी पुस्तकें',
     santali: 'ᱡᱮᱥᱤᱤᱟᱨᱴᱤ ᱯᱩᱛᱷᱤ',
-    desc: 'State primary Math & Language textbooks translated into Ol Chiki with native audio.',
-    badge: 'JCERT State Books',
+    desc: 'राज्य प्राथमिक गणित और भाषा की पुस्तकें संताली ऑडियो के साथ।',
+    badge: 'पुस्तकें',
     color: '#0d9488',
   },
 ];
 
 const Dashboard: React.FC<DashboardProps> = ({ activeTeacher }) => {
-  const teacherName = activeTeacher?.name || 'Sunita Kumari';
-  const assignedGrade = activeTeacher?.assignedGrade || 'Class 1';
-  const district = activeTeacher?.district || 'Dumka';
+  const teacherName = activeTeacher?.name || 'शिक्षिका';
+  const assignedGrade = activeTeacher?.assignedGrade || 'प्राथमिक कक्षा';
+  const district = activeTeacher?.district || 'झारखंड';
   const [showOfflineModal, setShowOfflineModal] = useState(false);
 
   return (
     <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
-      {/* Hero Welcome Banner */}
+      {/* Welcome Hero Banner */}
       <div
         style={{
           background: 'linear-gradient(135deg, #0f2744 0%, #1a365d 60%, #2b4c7e 100%)',
@@ -112,54 +112,35 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTeacher }) => {
           overflow: 'hidden',
         }}
       >
-        {/* Decorative background glow */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '-50px',
-            right: '-50px',
-            width: '200px',
-            height: '200px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(237,137,54,0.3) 0%, rgba(237,137,54,0) 70%)',
-            pointerEvents: 'none',
-          }}
-        />
-
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.5rem', position: 'relative', zIndex: 1 }}>
           <div>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(255,255,255,0.12)', padding: '4px 12px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 600, color: '#fbd38d', marginBottom: '0.75rem' }}>
-              <span>🌿 SetuVani (सेतुवाणी)</span>
+              <span>🌿 मातृभाषा मंच (SetuVani)</span>
               <span>•</span>
-              <span>Ambivert's Team MTB-MLE (SIH 26042)</span>
+              <span>झारखंड प्राथमिक शिक्षा</span>
             </div>
             <h1 style={{ fontSize: '2.2rem', fontWeight: 800, margin: '0 0 0.5rem', letterSpacing: '-0.5px' }}>
               ᱡᱚᱦᱟᱨ, {teacherName}!
             </h1>
             <p style={{ color: '#cbd5e1', fontSize: '1rem', margin: 0, maxWidth: '600px' }}>
-              Mother-Tongue-Based Teaching Assistant for <strong>{assignedGrade}</strong> in <strong>{district}</strong>. Empowering tribal primary education with on-device AI — Phase 1: Santali (Ol Chiki).
+              <strong>{district}</strong> जिला • <strong>{assignedGrade}</strong> के लिए मातृभाषा आधारित शिक्षण सहायक। बिना इंटरनेट 100% ऑन-डिवाइस संताली (Ol Chiki • ᱚᱞ ᱪᱤᱠᱤ) शिक्षण।
             </p>
           </div>
 
-          {/* Quick Metrics */}
           <div style={{ display: 'flex', gap: '12px' }}>
             <div style={{ backgroundColor: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(8px)', padding: '14px 18px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.12)', textAlign: 'center' }}>
-              <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#f6ad55' }}>30+</div>
-              <div style={{ fontSize: '0.75rem', color: '#cbd5e1', fontWeight: 500 }}>SVG Decks</div>
+              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#f6ad55' }}>7,500+</div>
+              <div style={{ fontSize: '0.75rem', color: '#cbd5e1', fontWeight: 500 }}>संताली शब्द</div>
             </div>
             <div style={{ backgroundColor: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(8px)', padding: '14px 18px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.12)', textAlign: 'center' }}>
-              <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#68d391' }}>&lt; 1 ms</div>
-              <div style={{ fontSize: '0.75rem', color: '#cbd5e1', fontWeight: 500 }}>FLN Latency</div>
-            </div>
-            <div style={{ backgroundColor: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(8px)', padding: '14px 18px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.12)', textAlign: 'center' }}>
-              <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#63b3ed' }}>100%</div>
-              <div style={{ fontSize: '0.75rem', color: '#cbd5e1', fontWeight: 500 }}>Offline Edge</div>
+              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#68d391' }}>100%</div>
+              <div style={{ fontSize: '0.75rem', color: '#cbd5e1', fontWeight: 500 }}>ऑफ़लाइन</div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 1-Tap Offline Classroom Setup Banner */}
+      {/* Offline Setup Banner */}
       <div
         onClick={() => {
           sfx.playTap();
@@ -183,8 +164,8 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTeacher }) => {
           </div>
           <div>
             <div style={{ fontWeight: 800, color: '#9c4221', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span>1-Tap Offline Voice & Audio Setup</span>
-              <span style={{ fontSize: '0.7rem', backgroundColor: '#ed8936', color: '#fff', padding: '2px 8px', borderRadius: '10px' }}>OFFLINE PACK</span>
+              <span>1-टैप ऑफ़लाइन आवाज सेट-अप</span>
+              <span style={{ fontSize: '0.7rem', backgroundColor: '#ed8936', color: '#fff', padding: '2px 8px', borderRadius: '10px' }}>ऑफ़लाइन पैक</span>
             </div>
             <div style={{ fontSize: '0.8rem', color: '#c05621', marginTop: '2px' }}>
               झारखंड के ग्रामीण स्कूलों के लिए बिना इंटरनेट माइक और आवाज़ डाउनलोड करें
@@ -204,7 +185,7 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTeacher }) => {
             flexShrink: 0,
           }}
         >
-          Setup Now ➔
+          सेट-अप करें ➔
         </button>
       </div>
 
@@ -213,10 +194,10 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTeacher }) => {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
           <div>
             <h2 style={{ fontSize: '1.35rem', fontWeight: 700, color: 'var(--text-main)', margin: 0 }}>
-              🚀 Classroom Pedagogy & Translation Suite
+              🚀 कक्षा शिक्षण उपकरण (Classroom Tools)
             </h2>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', margin: '2px 0 0' }}>
-              Select a module to conduct interactive classroom sessions or prepare bilingual curriculum.
+              कक्षा संचालन या द्विभाषी सामग्री तैयार करने के लिए उपकरण चुनें।
             </p>
           </div>
         </div>
@@ -297,7 +278,7 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTeacher }) => {
               </div>
 
               <div style={{ marginTop: '1.25rem', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem', fontWeight: 700, color: action.color }}>
-                <span>Launch Tool</span>
+                <span>उपकरण खोलें</span>
                 <span>→</span>
               </div>
             </Link>
@@ -305,7 +286,6 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTeacher }) => {
         </div>
       </div>
 
-      {/* In-App 1-Tap Offline Voice Setup Modal */}
       <OfflineVoiceModal
         isOpen={showOfflineModal}
         onClose={() => setShowOfflineModal(false)}

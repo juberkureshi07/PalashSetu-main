@@ -10,18 +10,18 @@ interface NavItemConfig {
 }
 
 const NAV_ITEMS: NavItemConfig[] = [
-  { to: '/', icon: '🏠', label: 'Dashboard' },
-  { to: '/translate', icon: '🎙️', label: 'Live Voice', badge: '< 1ms NLP' },
-  { to: '/practice', icon: '🎮', label: 'Kid Practice', badge: 'FLN Games' },
-  { to: '/pronounce', icon: '🗣️', label: 'Pronounce Coach', badge: 'Signal Match' },
-  { to: '/contribute', icon: '🤝', label: 'Community Gate', badge: 'Review' },
-  { to: '/student-view', icon: '📡', label: 'Student Receiver', badge: 'LAN Stream' },
-  { to: '/flashcards', icon: '🃏', label: 'Flashcards', badge: '30+ SVG' },
-  { to: '/lessons', icon: '📚', label: 'Lesson Studio', badge: 'NIPUN' },
-  { to: '/worksheets', icon: '📝', label: 'Worksheets', badge: 'Dynamic' },
-  { to: '/books', icon: '📖', label: 'JCERT Books', badge: 'Bilingual' },
-  { to: '/settings', icon: '⚙️', label: 'Settings' },
-  { to: '/report', icon: '🚩', label: 'Report Issue', badge: 'Offline' },
+  { to: '/', icon: '🏠', label: 'मुख्य पृष्ठ (Dashboard)' },
+  { to: '/translate', icon: '🎙️', label: 'लाइव अनुवाद (ᱥᱟᱱᱛᱟᱲᱤ ᱨᱚᱲ)', badge: '< 1ms' },
+  { to: '/practice', icon: '🎮', label: 'बच्चों का खेल (ᱜᱤᱫᱽᱨᱟᱹ ᱠᱷᱮᱞᱚᱸᱰ)', badge: 'खेल' },
+  { to: '/pronounce', icon: '🗣️', label: 'उच्चारण अभ्यास (ᱨᱚᱲ ᱥᱮᱪᱮᱫ)', badge: 'आवाज़' },
+  { to: '/contribute', icon: '🤝', label: 'सामुदायिक योगदान (ᱜᱚᱲᱚ)', badge: 'योगदान' },
+  { to: '/student-view', icon: '📡', label: 'छात्र प्राप्तकर्ता (ᱥᱴᱩᱰᱮᱱᱴ)', badge: 'LAN P2P' },
+  { to: '/flashcards', icon: '🃏', label: 'चित्र कार्ड (ᱪᱤᱛᱟᱹᱨ ᱠᱟᱨᱰ)', badge: '30+ कार्ड' },
+  { to: '/lessons', icon: '📚', label: 'पाठशाला (ᱯᱟᱲᱦᱟᱣ ᱯᱚᱛᱷᱤ)', badge: 'NIPUN' },
+  { to: '/worksheets', icon: '📝', label: 'अभ्यास पत्र (ᱠᱟᱹᱢᱤ ᱥᱟᱠᱟᱢ)', badge: 'प्रिंट' },
+  { to: '/books', icon: '📖', label: 'पाठ्य पुस्तक (ᱡᱮᱥᱤᱤᱟᱨᱴᱤ)', badge: 'द्विभाषी' },
+  { to: '/settings', icon: '⚙️', label: 'सेटिंग्स (ᱥᱮᱴᱤᱝᱥ)' },
+  { to: '/report', icon: '🚩', label: 'रिपोर्ट / प्रतिक्रिया', badge: 'ऑफ़लाइन' },
 ];
 
 interface SidebarProps {
@@ -51,7 +51,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
       <aside
         className={`app-sidebar ${isOpen ? 'mobile-open' : ''}`}
         style={{
-          width: '260px',
+          width: '275px',
           backgroundColor: '#0f2744',
           color: '#ffffff',
           display: 'flex',
@@ -96,7 +96,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
                   SetuVani
                 </div>
                 <div style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 500 }}>
-                  सेतुवाणी • MTB-MLE
+                  ᱥᱮᱛᱩᱵᱟᱹᱬᱤ • मातृभाषा मंच
                 </div>
               </div>
             </div>
@@ -132,27 +132,27 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  padding: '10px 14px',
+                  padding: '9px 12px',
                   borderRadius: '10px',
                   textDecoration: 'none',
                   color: isActive ? '#ffffff' : '#94a3b8',
                   backgroundColor: isActive ? 'rgba(237, 137, 54, 0.22)' : 'transparent',
                   borderLeft: isActive ? '3px solid #ed8936' : '3px solid transparent',
                   fontWeight: isActive ? 700 : 500,
-                  fontSize: '0.92rem',
+                  fontSize: '0.85rem',
                   transition: 'all 0.15s ease',
                 })}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span style={{ fontSize: '1.2rem' }}>{item.icon}</span>
+                  <span style={{ fontSize: '1.1rem' }}>{item.icon}</span>
                   <span>{item.label}</span>
                 </div>
                 {item.badge && (
                   <span
                     style={{
-                      fontSize: '0.68rem',
-                      padding: '2px 7px',
-                      borderRadius: '12px',
+                      fontSize: '0.65rem',
+                      padding: '2px 6px',
+                      borderRadius: '10px',
                       backgroundColor: 'rgba(255, 255, 255, 0.1)',
                       color: '#fed7aa',
                       fontWeight: 600,
@@ -180,8 +180,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
         >
           <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#48bb78', boxShadow: '0 0 8px #48bb78' }} />
           <div style={{ fontSize: '0.75rem', color: '#cbd5e1' }}>
-            <div style={{ fontWeight: 600, color: '#ffffff' }}>100% Offline Edge Ready</div>
-            <div style={{ color: '#94a3b8', fontSize: '0.68rem' }}>AI4Bharat IndicTrans2 320M</div>
+            <div style={{ fontWeight: 600, color: '#ffffff' }}>100% बिना इंटरनेट (Offline)</div>
+            <div style={{ color: '#94a3b8', fontSize: '0.68rem' }}>संताली (Ol Chiki • ᱚᱞ ᱪᱤᱠᱤ)</div>
           </div>
         </div>
       </aside>
