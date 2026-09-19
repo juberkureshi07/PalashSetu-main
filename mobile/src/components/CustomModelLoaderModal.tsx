@@ -39,7 +39,36 @@ export const CustomModelLoaderModal: React.FC<CustomModelLoaderModalProps> = ({ 
       sfx.playSuccess();
       setActiveModel(meta);
     } catch (err: any) {
-      setErrorMsg(err.message || 'Failed to parse custom model');
+      setErrorMsg(err.message || 'Failed to parse custom model file.');
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleLoadSampleModel = async () => {
+    setIsUploading(true);
+    setErrorMsg('');
+    sfx.playTap();
+
+    try {
+      const sampleDict = {
+        "dictionary": {
+          "नमस्ते": "ᱡᱚᱦᱟᱨ",
+          "स्कूल": "ᱟᱥᱲᱟ",
+          "किताब": "ᱯᱩᱛᱷᱤ",
+          "कलम": "ᱠᱚᱞᱚᱢ",
+          "पानी": "ᱫᱟᱜ",
+          "शिक्षक": "ᱢᱟᱪᱮᱛ",
+          "छात्र": "ᱪᱮᱛᱮᱫᱤᱭᱟᱹ"
+        }
+      };
+      const blob = new Blob([JSON.stringify(sampleDict, null, 2)], { type: 'application/json' });
+      const sampleFile = new File([blob], 'bhashagyan_sample_lexicon.json', { type: 'application/json' });
+      const meta = await customModelEngine.loadModelFromFile(sampleFile);
+      sfx.playSuccess();
+      setActiveModel(meta);
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Failed to load sample model.');
     } finally {
       setIsUploading(false);
     }
@@ -49,7 +78,7 @@ export const CustomModelLoaderModal: React.FC<CustomModelLoaderModalProps> = ({ 
     if (!testInput.trim()) return;
     sfx.playTap();
     const result = customModelEngine.translate(testInput);
-    setTestResult(result || 'No match found in custom model dictionary.');
+    setTestResult(result || 'No match found in custom model vocabulary.');
   };
 
   const handleUnload = () => {
@@ -79,7 +108,7 @@ export const CustomModelLoaderModal: React.FC<CustomModelLoaderModalProps> = ({ 
         className="fade-in"
         style={{
           width: '100%',
-          maxWidth: '560px',
+          maxWidth: '580px',
           backgroundColor: 'var(--card-bg, #ffffff)',
           borderRadius: '24px',
           padding: '2rem',
@@ -110,7 +139,7 @@ export const CustomModelLoaderModal: React.FC<CustomModelLoaderModalProps> = ({ 
             🧠 Custom AI Model Engine
           </h2>
           <p style={{ fontSize: '0.85rem', color: '#64748b', margin: 0 }}>
-            Load & execute custom GGUF, ONNX, or JSON vocabulary models from storage.
+            Load &amp; execute custom GGUF, ONNX, JSON, or TXT vocabulary models smoothly.
           </p>
         </div>
 
@@ -130,6 +159,11 @@ export const CustomModelLoaderModal: React.FC<CustomModelLoaderModalProps> = ({ 
                 <span style={{ fontSize: '0.75rem', fontWeight: 800, backgroundColor: '#10b981', color: '#ffffff', padding: '2px 8px', borderRadius: '6px' }}>
                   ACTIVE MODEL ({activeModel.format})
                 </span>
+                {activeModel.isInMemoryOnly && (
+                  <span style={{ fontSize: '0.7rem', fontWeight: 700, backgroundColor: '#f59e0b', color: '#ffffff', padding: '2px 6px', borderRadius: '6px', marginLeft: '6px' }}>
+                    ⚡ RAM Only
+                  </span>
+                )}
                 <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#065f46', margin: '6px 0 2px' }}>
                   {activeModel.name}
                 </h3>
@@ -170,35 +204,55 @@ export const CustomModelLoaderModal: React.FC<CustomModelLoaderModalProps> = ({ 
               No Custom Model Loaded
             </div>
             <p style={{ fontSize: '0.8rem', color: '#64748b', margin: '4px 0 1rem' }}>
-              Upload `.json`, `.onnx`, `.gguf`, or `.bin` model files from device storage.
+              Upload `.json`, `.txt`, `.csv`, `.onnx`, or `.gguf` model files from storage.
             </p>
 
-            <label
-              style={{
-                backgroundColor: '#3b82f6',
-                color: '#ffffff',
-                padding: '10px 20px',
-                borderRadius: '12px',
-                fontWeight: 800,
-                fontSize: '0.9rem',
-                cursor: 'pointer',
-                display: 'inline-block',
-                boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
-              }}
-            >
-              {isUploading ? 'Loading Engine...' : '📁 Select Model File'}
-              <input
-                type="file"
-                accept=".json,.onnx,.gguf,.bin"
-                onChange={handleFileUpload}
-                style={{ display: 'none' }}
-              />
-            </label>
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <label
+                style={{
+                  backgroundColor: '#3b82f6',
+                  color: '#ffffff',
+                  padding: '10px 18px',
+                  borderRadius: '12px',
+                  fontWeight: 800,
+                  fontSize: '0.88rem',
+                  cursor: 'pointer',
+                  display: 'inline-block',
+                  boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
+                }}
+              >
+                {isUploading ? 'Loading Engine...' : '📁 Select Model File'}
+                <input
+                  type="file"
+                  accept=".json,.txt,.csv,.tsv,.onnx,.gguf,.bin"
+                  onChange={handleFileUpload}
+                  style={{ display: 'none' }}
+                />
+              </label>
+
+              <button
+                onClick={handleLoadSampleModel}
+                disabled={isUploading}
+                style={{
+                  backgroundColor: '#10b981',
+                  color: '#ffffff',
+                  border: 'none',
+                  padding: '10px 18px',
+                  borderRadius: '12px',
+                  fontWeight: 800,
+                  fontSize: '0.88rem',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)',
+                }}
+              >
+                ✨ Load Demo Model
+              </button>
+            </div>
           </div>
         )}
 
         {errorMsg && (
-          <div style={{ backgroundColor: '#fee2e2', color: '#b91c1c', padding: '10px', borderRadius: '10px', fontSize: '0.85rem', fontWeight: 700, marginBottom: '1rem' }}>
+          <div style={{ backgroundColor: '#fee2e2', color: '#b91c1c', padding: '10px 14px', borderRadius: '12px', fontSize: '0.85rem', fontWeight: 700, marginBottom: '1rem' }}>
             ⚠️ {errorMsg}
           </div>
         )}
@@ -221,7 +275,7 @@ export const CustomModelLoaderModal: React.FC<CustomModelLoaderModalProps> = ({ 
                 type="text"
                 value={testInput}
                 onChange={(e) => setTestInput(e.target.value)}
-                placeholder="Enter word to test e.g. custom_greeting"
+                placeholder="Enter word to test e.g. नमस्ते or स्कूल"
                 style={{ flex: 1, padding: '10px 12px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '0.9rem', outline: 'none' }}
               />
               <button

@@ -9,18 +9,29 @@ interface NavItemConfig {
   badge?: string;
 }
 
-const NAV_ITEMS: NavItemConfig[] = [
+const STUDENT_NAV_ITEMS: NavItemConfig[] = [
   { to: '/', icon: '🏠', label: 'मुख्य पृष्ठ (Dashboard)' },
-  { to: '/translate', icon: '🎙️', label: 'लाइव अनुवाद (ᱥᱟᱱᱛᱟᱲᱤ ᱨᱚᱲ)', badge: '< 1ms' },
   { to: '/practice', icon: '🎮', label: 'बच्चों का खेल (ᱜᱤᱫᱽᱨᱟᱹ ᱠᱷᱮᱞᱚᱸᱰ)', badge: 'खेल' },
-  { to: '/pronounce', icon: '🗣️', label: 'उच्चारण अभ्यास (ᱨᱚᱲ ᱥᱮᱪᱮᱫ)', badge: 'आवाज़' },
-  { to: '/govt-portal', icon: '🏛️', label: 'सरकारी पोर्टल (Govt Portal)', badge: 'Supabase' },
-  { to: '/contribute', icon: '🤝', label: 'सामुदायिक योगदान (ᱜᱚᱲᱚ)', badge: 'योगदान' },
-  { to: '/student-view', icon: '📡', label: 'छात्र प्राप्तकर्ता (ᱥᱴᱩᱰᱮᱱᱴ)', badge: 'LAN P2P' },
+  { to: '/student-view', icon: '📡', label: 'शिक्षिका कक्षा से जुड़ें', badge: 'LAN P2P' },
   { to: '/flashcards', icon: '🃏', label: 'चित्र कार्ड (ᱪᱤᱛᱟᱹᱨ ᱠᱟᱨᱰ)', badge: '30+ कार्ड' },
+  { to: '/books', icon: '📖', label: 'पाठ्य पुस्तक (ᱡᱮᱥᱤᱤᱟᱨᱴᱤ)', badge: 'द्विभाषी' },
   { to: '/lessons', icon: '📚', label: 'पाठशाला (ᱯᱟᱲᱦᱟᱣ ᱯᱚᱛᱷᱤ)', badge: 'NIPUN' },
   { to: '/worksheets', icon: '📝', label: 'अभ्यास पत्र (ᱠᱟᱹᱢᱤ ᱥᱟᱠᱟᱢ)', badge: 'प्रिंट' },
+  { to: '/contribute', icon: '🤝', label: 'सामुदायिक योगदान (ᱜᱚᱲᱚ)', badge: 'योगदान' },
+  { to: '/settings', icon: '⚙️', label: 'सेटिंग्स (ᱥᱮᱴᱤᱝᱥ)' },
+];
+
+const TEACHER_NAV_ITEMS: NavItemConfig[] = [
+  { to: '/', icon: '🏠', label: 'मुख्य पृष्ठ (Dashboard)' },
+  { to: '/translate', icon: '🎙️', label: 'लाइव आवाज प्रसारण', badge: '< 1ms' },
+  { to: '/pronounce', icon: '🗣️', label: 'उच्चारण अभ्यास (ᱨᱚᱲ ᱥᱮᱪᱮᱫ)', badge: 'आवाज़' },
+  { to: '/student-view', icon: '📡', label: 'कक्षा छात्र मॉनिटर', badge: 'LAN P2P' },
+  { to: '/contribute/review', icon: '🛡️', label: 'योगदान समीक्षा द्वार', badge: 'सत्यापन' },
+  { to: '/lessons', icon: '📚', label: 'पाठशाला (ᱯᱟᱲᱦᱟᱣ ᱯᱚᱛᱷᱤ)', badge: 'NIPUN' },
+  { to: '/worksheets', icon: '📝', label: 'अभ्यास पत्र (ᱠᱟᱹᱢᱤ ᱥᱟᱠᱟᱢ)', badge: 'प्रिंट' },
+  { to: '/flashcards', icon: '🃏', label: 'चित्र कार्ड (ᱪᱤᱛᱟᱹᱨ ᱠᱟᱨᱰ)', badge: '30+ कार्ड' },
   { to: '/books', icon: '📖', label: 'पाठ्य पुस्तक (ᱡᱮᱥᱤᱤᱟᱨᱴᱤ)', badge: 'द्विभाषी' },
+  { to: '/contribute', icon: '🤝', label: 'सामुदायिक योगदान (ᱜᱚᱲᱚ)', badge: 'योगदान' },
   { to: '/settings', icon: '⚙️', label: 'सेटिंग्स (ᱥᱮᱴᱤᱝᱥ)' },
   { to: '/report', icon: '🚩', label: 'रिपोर्ट / प्रतिक्रिया', badge: 'ऑफ़लाइन' },
 ];
@@ -28,9 +39,11 @@ const NAV_ITEMS: NavItemConfig[] = [
 interface SidebarProps {
   isOpen?: boolean;
   onClose?: () => void;
+  role?: 'teacher' | 'student';
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose, role = 'student' }) => {
+  const navItems = role === 'teacher' ? TEACHER_NAV_ITEMS : STUDENT_NAV_ITEMS;
   return (
     <>
       {/* Mobile Backdrop Overlay */}
@@ -121,7 +134,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
 
           {/* Navigation Links */}
           <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            {NAV_ITEMS.map((item) => (
+            {navItems.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}

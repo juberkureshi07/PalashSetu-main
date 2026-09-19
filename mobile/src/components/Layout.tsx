@@ -39,6 +39,7 @@ const Layout: React.FC<LayoutProps> = ({ activeTeacher, onSwitchTeacher }) => {
       <Sidebar
         isOpen={isMobileSidebarOpen}
         onClose={() => setIsMobileSidebarOpen(false)}
+        role={userRole}
       />
 
       <div className="main-content">
@@ -115,7 +116,7 @@ const Layout: React.FC<LayoutProps> = ({ activeTeacher, onSwitchTeacher }) => {
         </div>
 
         {/* Native Mobile Sticky Bottom Tab Bar */}
-        <BottomNav />
+        <BottomNav role={userRole} />
       </div>
 
       {/* QR Code & 6-Digit PIN Pairing Modal */}

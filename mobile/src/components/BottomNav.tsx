@@ -2,14 +2,28 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { sfx } from '../utils/sfx';
 
-export const BottomNav: React.FC = () => {
-  const tabs = [
+interface BottomNavProps {
+  role?: 'teacher' | 'student';
+}
+
+export const BottomNav: React.FC<BottomNavProps> = ({ role = 'student' }) => {
+  const studentTabs = [
     { to: '/', label: 'Home', icon: '🏠' },
     { to: '/practice', label: 'Practice', icon: '🎮' },
-    { to: '/translate', label: 'Class Sync', icon: '📡' },
-    { to: '/dictionary', label: 'Dict', icon: '📖' },
-    { to: '/govt-portal', label: 'Govt Portal', icon: '🏛️' },
+    { to: '/student-view', label: 'Join Class', icon: '📡' },
+    { to: '/flashcards', label: 'Cards', icon: '🃏' },
+    { to: '/books', label: 'Books', icon: '📖' },
   ];
+
+  const teacherTabs = [
+    { to: '/', label: 'Home', icon: '🏠' },
+    { to: '/translate', label: 'Broadcast', icon: '🎙️' },
+    { to: '/pronounce', label: 'Coach', icon: '🗣️' },
+    { to: '/contribute/review', label: 'Review', icon: '🛡️' },
+    { to: '/lessons', label: 'Lessons', icon: '📚' },
+  ];
+
+  const tabs = role === 'teacher' ? teacherTabs : studentTabs;
 
   return (
     <div

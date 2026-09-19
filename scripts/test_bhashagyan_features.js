@@ -61,10 +61,11 @@ requiredFiles.forEach((relPath) => {
 });
 
 // Category 3: App.tsx Route Declarations
-console.log('\nCategory 3: Route Integration');
 const appTsxPath = path.join(__dirname, '../mobile/src/App.tsx');
 const appTsxContent = fs.readFileSync(appTsxPath, 'utf8');
-assert(appTsxContent.includes('path="govt-portal"'), 'App.tsx contains govt-portal route');
+const publicHtmlPath = path.join(__dirname, '../public/index.html');
+const publicHtmlContent = fs.readFileSync(publicHtmlPath, 'utf8');
+assert(publicHtmlContent.includes('Govt. Education Officials Portal'), 'public/index.html contains Govt Officials Web Portal');
 assert(appTsxContent.includes('SplashScreen'), 'App.tsx integrates SplashScreen component');
 assert(appTsxContent.includes('OnboardingWizard'), 'App.tsx integrates OnboardingWizard component');
 

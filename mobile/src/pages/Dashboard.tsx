@@ -8,16 +8,7 @@ interface DashboardProps {
   activeTeacher?: TeacherProfile | null;
 }
 
-const DASHBOARD_ACTIONS = [
-  {
-    to: '/translate',
-    icon: '🎙️',
-    title: 'लाइव आवाज अनुवाद',
-    santali: 'ᱥᱟᱱᱛᱟᱲᱤ ᱨᱚᱲ',
-    desc: 'हिंदी और संताली (ᱚᱞ ᱪᱤᱠᱤ) का तात्कालिक ऑन-डिवाइस अनुवाद।',
-    badge: '100% ऑफ़लाइन',
-    color: '#ed8936',
-  },
+const STUDENT_ACTIONS = [
   {
     to: '/practice',
     icon: '🎮',
@@ -28,29 +19,11 @@ const DASHBOARD_ACTIONS = [
     color: '#ec4899',
   },
   {
-    to: '/pronounce',
-    icon: '🗣️',
-    title: 'उच्चारण अभ्यास',
-    santali: 'ᱨᱚᱲ ᱥᱮᱪᱮᱫ',
-    desc: 'शिक्षिका के आवाज की लय और स्वर का संताली उच्चारण से मिलान।',
-    badge: 'उच्चारण',
-    color: '#8b5cf6',
-  },
-  {
-    to: '/contribute',
-    icon: '🤝',
-    title: 'सामुदायिक योगदान',
-    santali: 'ᱜᱚᱲᱚ ᱥᱟᱠᱟᱢ',
-    desc: 'नए संताली शब्द या संशोधन जोड़ें (शिक्षिका सत्यापन द्वार)।',
-    badge: 'योगदान',
-    color: '#10b981',
-  },
-  {
     to: '/student-view',
     icon: '📡',
-    title: 'छात्र प्राप्तकर्ता',
+    title: 'शिक्षिका कक्षा से जुड़ें',
     santali: 'ᱥᱴᱩᱰᱮᱱᱴ ᱵᱷᱤᱭᱩ',
-    desc: 'शिक्षिका के टैबलेट से 6-अंक के कोड द्वारा सीधे कैप्शन प्राप्त करें।',
+    desc: 'शिक्षिका के टैबलेट से 6-अंक के PIN या QR से सीधे लाइव अनुवाद प्राप्त करें।',
     badge: 'LAN P2P',
     color: '#06b6d4',
   },
@@ -62,6 +35,81 @@ const DASHBOARD_ACTIONS = [
     desc: '30+ 3D चित्र कार्ड: जानवर, फल, सब्जियां, और आकार।',
     badge: '30+ कार्ड',
     color: '#38a169',
+  },
+  {
+    to: '/books',
+    icon: '📖',
+    title: 'JCERT द्विभाषी पुस्तकें',
+    santali: 'ᱡᱮᱥᱤᱤᱟᱨᱴᱤ ᱯᱩᱛᱷᱤ',
+    desc: 'राज्य प्राथमिक गणित और भाषा की पुस्तकें संताली ऑडियो के साथ।',
+    badge: 'पुस्तकें',
+    color: '#0d9488',
+  },
+  {
+    to: '/lessons',
+    icon: '📚',
+    title: 'पाठशाला (पाठ योजना)',
+    santali: 'ᱯᱟᱲᱦᱟᱣ ᱯᱚᱛᱷᱤ',
+    desc: 'NIPUN भारत 5-चरणीय द्विभाषी पाठ योजना।',
+    badge: 'पाठ योजना',
+    color: '#3182ce',
+  },
+  {
+    to: '/worksheets',
+    icon: '📝',
+    title: 'अभ्यास पत्र',
+    santali: 'ᱠᱟᱹᱢᱤ ᱥᱟᱠᱟᱢ',
+    desc: 'गणित और अक्षरों के अभ्यास पत्र।',
+    badge: 'प्रिंट A4',
+    color: '#805ad5',
+  },
+  {
+    to: '/contribute',
+    icon: '🤝',
+    title: 'सामुदायिक योगदान',
+    santali: 'ᱜᱚᱲᱚ ᱥᱟᱠᱟᱢ',
+    desc: 'नए संताली शब्द जोड़ें।',
+    badge: 'योगदान',
+    color: '#10b981',
+  },
+];
+
+const TEACHER_ACTIONS = [
+  {
+    to: '/translate',
+    icon: '🎙️',
+    title: 'लाइव आवाज प्रसारण',
+    santali: 'ᱥᱟᱱᱛᱟᱲᱤ ᱨᱚᱲ',
+    desc: 'हिंदी और संताली (ᱚᱞ ᱪᱤᱠᱤ) का तात्कालिक ऑन-डिवाइस अनुवाद एवं कक्षा प्रसारण।',
+    badge: '100% ऑफ़लाइन',
+    color: '#ed8936',
+  },
+  {
+    to: '/pronounce',
+    icon: '🗣️',
+    title: 'शिक्षिका उच्चारण अभ्यास',
+    santali: 'ᱨᱚᱲ ᱥᱮᱪᱮᱫ',
+    desc: 'शिक्षिका के आवाज की लय और स्वर का संताली उच्चारण से मिलान।',
+    badge: 'उच्चारण',
+    color: '#8b5cf6',
+  },
+  {
+    to: '/student-view',
+    icon: '📡',
+    title: 'कक्षा छात्र मॉनिटर',
+    santali: 'ᱥᱴᱩᱰᱮᱱᱴ ᱵᱷᱤᱭᱩ',
+    desc: 'कक्षा के कनेक्टेड छात्रों की संख्या और PIN/QR प्रसारण स्थिति देखें।',
+    badge: 'LAN P2P',
+    color: '#06b6d4',
+  },
+  {
+    to: '/contribute/review',
+    icon: '🛡️',
+    title: 'योगदान समीक्षा द्वार',
+    santali: 'ᱜᱚᱲᱚ ᱥᱟᱠᱟᱢ ᱥᱟᱯᱲᱟᱣ',
+    desc: 'सामुदायिक योगदानकर्ताओं द्वारा भेजे गए नए शब्दों को सत्यापित कर लाइव dictionary में जोड़ें।',
+    badge: 'सत्यापन',
+    color: '#10b981',
   },
   {
     to: '/lessons',
@@ -82,6 +130,15 @@ const DASHBOARD_ACTIONS = [
     color: '#805ad5',
   },
   {
+    to: '/flashcards',
+    icon: '🃏',
+    title: 'चित्र फ्लैशकार्ड',
+    santali: 'ᱪᱤᱛᱟᱹᱨ ᱠᱟᱨᱰ',
+    desc: '30+ 3D चित्र कार्ड: जानवर, फल, सब्जियां, और आकार।',
+    badge: '30+ कार्ड',
+    color: '#38a169',
+  },
+  {
     to: '/books',
     icon: '📖',
     title: 'JCERT द्विभाषी पुस्तकें',
@@ -93,17 +150,44 @@ const DASHBOARD_ACTIONS = [
 ];
 
 const Dashboard: React.FC<DashboardProps> = ({ activeTeacher }) => {
-  const teacherName = activeTeacher?.name || 'शिक्षिका';
-  const assignedGrade = activeTeacher?.assignedGrade || 'प्राथमिक कक्षा';
-  const district = activeTeacher?.district || 'झारखंड';
   const [showOfflineModal, setShowOfflineModal] = useState(false);
+
+  // Read saved user profile from localStorage
+  const savedProfileStr = localStorage.getItem('bhashagyan_user_profile');
+  let userRole: 'teacher' | 'student' = 'teacher';
+  let displayName = activeTeacher?.name || 'शिक्षिका';
+  let schoolName = 'Govt. Primary School';
+  let district = activeTeacher?.district || 'झारखंड';
+  let gradeOrId = activeTeacher?.assignedGrade || '';
+
+  if (savedProfileStr) {
+    try {
+      const p = JSON.parse(savedProfileStr);
+      userRole = p.role || 'teacher';
+      displayName = p.name || displayName;
+      schoolName = p.schoolName || schoolName;
+      district = p.district || district;
+      gradeOrId = userRole === 'student' ? (p.grade || 'Grade 1') : (p.teacherId || 'T-101');
+    } catch {}
+  }
+
+  const isTeacher = userRole === 'teacher';
+  const actions = isTeacher ? TEACHER_ACTIONS : STUDENT_ACTIONS;
+
+  const handleResetProfile = () => {
+    sfx.playTap();
+    localStorage.removeItem('bhashagyan_user_profile');
+    window.location.reload();
+  };
 
   return (
     <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
       {/* Welcome Hero Banner */}
       <div
         style={{
-          background: 'linear-gradient(135deg, #0f2744 0%, #1a365d 60%, #2b4c7e 100%)',
+          background: isTeacher 
+            ? 'linear-gradient(135deg, #0f2744 0%, #1a365d 60%, #2b4c7e 100%)'
+            : 'linear-gradient(135deg, #0284c7 0%, #0369a1 60%, #075985 100%)',
           borderRadius: '20px',
           padding: '2.25rem 2rem',
           color: '#ffffff',
@@ -114,28 +198,46 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTeacher }) => {
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.5rem', position: 'relative', zIndex: 1 }}>
           <div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(255,255,255,0.12)', padding: '4px 12px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 600, color: '#fcd34d', marginBottom: '0.75rem' }}>
-              <span>📚 Bhasha Gyan (भाषा ज्ञान)</span>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(255,255,255,0.15)', padding: '4px 12px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 700, color: '#fcd34d', marginBottom: '0.75rem' }}>
+              <span>{isTeacher ? '👩‍🏫 Teacher Panel (शिक्षिका कक्ष)' : '👧 Student Panel (छात्र कक्ष)'}</span>
               <span>•</span>
-              <span>झारखंड प्राथमिक शिक्षा</span>
+              <span>{district}</span>
             </div>
             <h1 style={{ fontSize: '2.2rem', fontWeight: 800, margin: '0 0 0.5rem', letterSpacing: '-0.5px' }}>
-              ᱡᱚᱦᱟᱨ, {teacherName}!
+              ᱡᱚᱦᱟᱨ, {displayName}!
             </h1>
-            <p style={{ color: '#cbd5e1', fontSize: '1rem', margin: 0, maxWidth: '600px' }}>
-              <strong>{district}</strong> जिला • <strong>{assignedGrade}</strong> • 100% ऑफ़लाइन मातृभाषा शिक्षण एवं संताली (Ol Chiki • ᱚᱞ ᱪᱤᱠᱤ) मंच।
+            <p style={{ color: '#e0f2fe', fontSize: '0.95rem', margin: 0, maxWidth: '600px' }}>
+              <strong>{schoolName}</strong> ({district}) • {isTeacher ? `Teacher ID: ${gradeOrId}` : `Grade: ${gradeOrId}`} • 100% ऑन-डिवाइस मातृभाषा संताली (Ol Chiki • ᱚᱞ ᱪᱤᱠᱤ) मंच।
             </p>
           </div>
 
-          <div style={{ display: 'flex', gap: '12px' }}>
-            <div style={{ backgroundColor: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(8px)', padding: '14px 18px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.12)', textAlign: 'center' }}>
-              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#f6ad55' }}>7,500+</div>
-              <div style={{ fontSize: '0.75rem', color: '#cbd5e1', fontWeight: 500 }}>संताली शब्द</div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '10px' }}>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <div style={{ backgroundColor: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)', padding: '10px 14px', borderRadius: '14px', border: '1px solid rgba(255,255,255,0.15)', textAlign: 'center' }}>
+                <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#f6ad55' }}>7,500+</div>
+                <div style={{ fontSize: '0.7rem', color: '#cbd5e1', fontWeight: 500 }}>संताली शब्द</div>
+              </div>
+              <div style={{ backgroundColor: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)', padding: '10px 14px', borderRadius: '14px', border: '1px solid rgba(255,255,255,0.15)', textAlign: 'center' }}>
+                <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#68d391' }}>100%</div>
+                <div style={{ fontSize: '0.7rem', color: '#cbd5e1', fontWeight: 500 }}>ऑफ़लाइन</div>
+              </div>
             </div>
-            <div style={{ backgroundColor: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(8px)', padding: '14px 18px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.12)', textAlign: 'center' }}>
-              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#68d391' }}>100%</div>
-              <div style={{ fontSize: '0.75rem', color: '#cbd5e1', fontWeight: 500 }}>ऑफ़लाइन</div>
-            </div>
+
+            <button
+              onClick={handleResetProfile}
+              style={{
+                backgroundColor: 'rgba(255,255,255,0.2)',
+                color: '#fff',
+                border: '1px solid rgba(255,255,255,0.3)',
+                padding: '6px 12px',
+                borderRadius: '10px',
+                fontSize: '0.75rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+              }}
+            >
+              🔄 Switch Role ({isTeacher ? 'Switch to Student' : 'Switch to Teacher'})
+            </button>
           </div>
         </div>
       </div>
@@ -194,16 +296,16 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTeacher }) => {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
           <div>
             <h2 style={{ fontSize: '1.35rem', fontWeight: 700, color: 'var(--text-main)', margin: 0 }}>
-              🚀 कक्षा शिक्षण उपकरण (Classroom Tools)
+              {isTeacher ? '👩‍🏫 शिक्षिका उपकरण (Teacher Classroom Tools)' : '👧 छात्र उपकरण (Student Learning Games & Tools)'}
             </h2>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', margin: '2px 0 0' }}>
-              कक्षा संचालन या द्विभाषी सामग्री तैयार करने के लिए उपकरण चुनें।
+              {isTeacher ? 'लाइव प्रसारण, उच्चारण कोचिंग और शिक्षण उपकरण चुनें।' : 'खेल, फ्लैशकार्ड, पुस्तकें और लाइव कक्षा प्रसारण से जुड़ें।'}
             </p>
           </div>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
-          {DASHBOARD_ACTIONS.map((action) => (
+          {actions.map((action) => (
             <Link
               key={action.to}
               to={action.to}
