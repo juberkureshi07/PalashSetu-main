@@ -4,6 +4,7 @@ import { speakText, transliterateOlChikiToPhonetic, isOlChiki, convertDigitsToOl
 import { sfx } from '../utils/sfx';
 import { OfflineVoiceModal } from '../components/OfflineVoiceModal';
 import { COMPREHENSIVE_HINDI_TO_SANTALI } from '../data/santali_comprehensive_dictionary';
+import { broadcastService } from '../services/broadcastService';
 
 // Comprehensive Client-side FLN Ol Chiki Dictionary for 100% offline edge translation
 const CLIENT_HINDI_TO_SANTALI: Record<string, string> = {
