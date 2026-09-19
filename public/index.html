@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PalashSetu — Received Teacher Complaints</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22><text y=%2226%22 font-size=%2226%22>🌿</text></svg>" />
+  <style>
+    :root {
+      --primary: #0f2744;
+      --accent: #ed8936;
+      --bg: #f1f5f9;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding-bottom: 3rem;
+    }
+    .header {
+      background-color: var(--primary);
+      color: #fff;
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(15, 39, 68, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-icon { font-size: 1.8rem; }
+    .brand-title { font-size: 1.25rem; font-weight: 800; }
+    .brand-sub { font-size: 0.8rem; color: #94a3b8; }
+    .btn-refresh {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .container { max-width: 900px; margin: 2rem auto; padding: 0 1.25rem; }
+    
+    .top-summary {
+      background: #fff;
+      border-radius: 14px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .summary-title { font-size: 1.1rem; font-weight: 800; color: var(--primary); }
+    .summary-count {
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-weight: 800;
+      font-size: 0.85rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    .complaints-list { display: flex; flex-direction: column; gap: 1.25rem; }
+    
+    .complaint-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      overflow: hidden;
+    }
+    
+    /* Teacher Info Bar at top of card */
+    .card-teacher-header {
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .teacher-details { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .teacher-name { font-size: 0.95rem; font-weight: 800; color: var(--primary); }
+    .teacher-tag {
+      background: #e2e8f0;
+      color: #334155;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+    .time-tag { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* Main Complaint Body */
+    .card-body { padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+    
+    .issue-badge-row { display: flex; align-items: center; gap: 8px; }
+    .issue-badge {
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .badge-wrong_translation { background: #fee2e2; color: #991b1b; }
+    .badge-missing_word { background: #fef3c7; color: #92400e; }
+    .badge-audio_issue { background: #dbeafe; color: #1e40af; }
+    .badge-other { background: #f1f5f9; color: #475569; }
+
+    .word-box {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    .word-label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 2px; }
+
+    .complaint-text-box {
+      background: #f8fafc;
+      border-left: 4px solid var(--accent);
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #1e293b;
+    }
+
+    .screenshot-area {
+      margin-top: 4px;
+    }
+    .screenshot-thumb {
+      max-width: 100%;
+      max-height: 320px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      transition: opacity 0.15s;
+    }
+    .screenshot-thumb:hover { opacity: 0.95; }
+    
+    .empty-state {
+      text-align: center;
+      padding: 4rem 1rem;
+      color: var(--text-muted);
+      background: #fff;
+      border-radius: 16px;
+      border: 1px dashed var(--border);
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <div class="brand-icon">🌿</div>
+      <div>
+        <div class="brand-title">PalashSetu — Received Complaints</div>
+        <div class="brand-sub">Real-Time Field Issues from Rural Classroom Tablets (SIH 26042)</div>
+      </div>
+    </div>
+    <button class="btn-refresh" onclick="loadReports()">🔄 Refresh</button>
+  </header>
+
+  <div class="container">
+    <div class="top-summary">
+      <div>
+        <div class="summary-title">Teacher Reports &amp; Field Issues</div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">
+          Automatically received from offline tablet queue when internet is available
+        </div>
+      </div>
+      <div class="summary-count" id="count-badge">Loading...</div>
+    </div>
+
+    <div class="complaints-list" id="complaints-container">
+      <div class="empty-state">Loading complaints...</div>
+    </div>
+  </div>
+
+  <script>
+    let isRefreshing = false;
+
+    async function loadReports() {
+      if (isRefreshing) return;
+      isRefreshing = true;
+      const btn = document.querySelector('.btn-refresh');
+      if (btn) btn.innerHTML = '⏳ Refreshing...';
+
+      const container = document.getElementById('complaints-container');
+      const countBadge = document.getElementById('count-badge');
+      try {
+        let reports = [];
+        try {
+          const res = await fetch('/api/complaints?key=palashsetu-admin&t=' + Date.now());
+          if (res.ok) {
+            const data = await res.json();
+            reports = data.reports || [];
+          }
+        } catch (e) {
+          console.warn('Direct api failed, using fallback:', e);
+        }
+
+        // Direct pubsub fallback if API route has delay
+        if (reports.length === 0) {
+          try {
+            const fbRes = await fetch('https://ntfy.sh/palashsetu_sih26042_complaints/json?poll=1');
+            if (fbRes.ok) {
+              const text = await fbRes.text();
+              const lines = text.trim().split('\n').filter(Boolean);
+              for (const line of lines) {
+                try {
+                  const item = JSON.parse(line);
+                  if (item.message) reports.unshift(JSON.parse(item.message));
+                } catch {}
+              }
+            }
+          } catch {}
+        }
+
+        countBadge.innerText = `${reports.length} Reports Received`;
+
+        if (reports.length === 0) {
+          container.innerHTML = '<div class="empty-state">📭 No teacher complaints received yet.</div>';
+          return;
+        }
+
+        const typeLabels = {
+          wrong_translation: '❌ Wrong Translation',
+          missing_word: '🔍 Missing Word / Vocab',
+          audio_issue: '🔇 Audio / Pronunciation',
+          other: '📝 Classroom Feedback'
+        };
+
+        container.innerHTML = reports.map(r => `
+          <div class="complaint-card">
+            <!-- Teacher Info Header -->
+            <div class="card-teacher-header">
+              <div class="teacher-details">
+                <span class="teacher-name">👩‍🏫 ${escapeHtml(r.teacherName || 'Teacher')}</span>
+                <span class="teacher-tag">📍 ${escapeHtml(r.district || 'Jharkhand')}</span>
+                <span class="teacher-tag">🏫 ${escapeHtml(r.assignedGrade || 'Class 1')}</span>
+              </div>
+              <span class="time-tag">📅 ${new Date(r.timestamp).toLocaleString('en-IN')}</span>
+            </div>
+
+            <!-- Complaint Body -->
+            <div class="card-body">
+              <div class="issue-badge-row">
+                <span class="issue-badge badge-${r.issueType}">
+                  ${typeLabels[r.issueType] || r.issueType}
+                </span>
+                ${r.sourceWord && r.sourceWord !== 'General Complaint' ? `
+                  <span style="font-weight: 700; font-size: 0.88rem; color: #0f2744;">
+                    Word: "${escapeHtml(r.sourceWord)}"
+                  </span>
+                ` : ''}
+              </div>
+
+              <div class="complaint-text-box">
+                ${escapeHtml(r.description || 'No description provided')}
+              </div>
+
+              ${r.screenshot ? `
+                <div class="screenshot-area">
+                  <div style="font-size: 0.75rem; font-weight: 700; color: #64748b; margin-bottom: 4px;">📷 ATTACHED SCREENSHOT:</div>
+                  <a href="${r.screenshot}" target="_blank">
+                    <img src="${r.screenshot}" class="screenshot-thumb" alt="Teacher Screenshot" />
+                  </a>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        container.innerHTML = '<div class="empty-state">⚠️ Error loading reports. Please refresh.</div>';
+        countBadge.innerText = 'Error';
+      } finally {
+        isRefreshing = false;
+        const btn = document.querySelector('.btn-refresh');
+        if (btn) btn.innerHTML = '🔄 Refresh';
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // Auto-load on open + auto-poll every 6 seconds
+    loadReports();
+    setInterval(loadReports, 6000);
+  </script>
+</body>
+</html>
