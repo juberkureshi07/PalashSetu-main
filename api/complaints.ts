@@ -74,7 +74,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
   // Fetch real-time submitted reports from pubsub
   const liveReports: any[] = [];
   try {
-    const pubsubRes = await fetch('https://ntfy.sh/palashsetu_sih26042_complaints/json?poll=1');
+    const pubsubRes = await fetch('https://ntfy.sh/setuvani_field_complaints/json?poll=1');
     if (pubsubRes.ok) {
       const text = await pubsubRes.text();
       const lines = text.trim().split('\n').filter(Boolean);

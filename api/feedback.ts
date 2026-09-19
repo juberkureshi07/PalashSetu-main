@@ -71,7 +71,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
 
     // Persist across serverless containers via pub-sub
     try {
-      await fetch('https://ntfy.sh/palashsetu_sih26042_complaints', {
+      await fetch('https://ntfy.sh/setuvani_field_complaints', {
         method: 'POST',
         headers: {
           'Title': `${sanitised.teacherName} (${sanitised.district}) - ${sanitised.issueType}`,

@@ -1,6 +1,6 @@
 /**
  * Automated Test Suite for SetuVani New Differentiated Features
- * Ambivert's Team - SIH 26042
+ * Ambivert's Team - SetuVani Project
  */
 
 const fs = require('fs');

@@ -1,6 +1,5 @@
 # SetuVani (सेतुवाणी)
 ### 100% Standalone On-Device Tablet App for Mother Tongue-Based Multilingual Education (MTB-MLE)
-**Smart India Hackathon 2026 — Problem Statement SIH 26042**  
 *Govt. of Jharkhand • Department of School Education & Literacy*  
 *Developed & Maintained by Ambivert's Team*
 
@@ -85,7 +84,7 @@ In addition to core live translation and lesson tools, **SetuVani** introduces 4
 | **App Delivery** | Standalone Android APK (`PalashSetu-v1.0-debug.apk`) | Instant offline installation via Bluetooth, SD card, or USB |
 | **APK File Size** | **4.44 MB** | Lightweight enough to download or share in 2G connectivity zones |
 | **Runtime RAM Usage** | **~55 MB** | Runs smoothly on budget 2GB RAM government school tablets |
-| **Algorithmic Latency** | **0.0035 ms (3.5 μs)** | 600,000× faster than the SIH 3.0-second SLA requirement |
+| **Algorithmic Latency** | **0.0035 ms (3.5 μs)** | 600,000× faster than standard 3.0-second SLA requirements |
 | **End-to-End Latency** | **< 250 ms (including audio)** | Seamless natural classroom conversation without awkward pauses |
 | **Network Dependency** | **ZERO (0% Internet Required)** | Operates 100% in Airplane Mode |
 | **Total Vocabulary** | **7,503 Entries** | Comprehensive primary school, math, and tribal vocabulary |
@@ -242,5 +241,4 @@ Adding a new dialect requires only two data additions:
 
 ---
 
-*Developed for Smart India Hackathon 2026 — Problem Statement SIH 26042.*  
-*Maintained by Team Psyduck • Author: Puneet Mehta (`puneetmehta288@gmail.com`).*
+*Developed & Maintained by Ambivert's Team.*

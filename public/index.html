@@ -172,8 +172,8 @@
     <div class="brand">
       <div class="brand-icon">🌿</div>
       <div>
-        <div class="brand-title">PalashSetu — Received Complaints</div>
-        <div class="brand-sub">Real-Time Field Issues from Rural Classroom Tablets (SIH 26042)</div>
+        <div class="brand-title">SetuVani — Field Issues Portal</div>
+        <div class="brand-sub">Real-Time Field Issues from Rural Classroom Tablets</div>
       </div>
     </div>
     <button class="btn-refresh" onclick="loadReports()">🔄 Refresh</button>
@@ -221,7 +221,7 @@
         // Direct pubsub fallback if API route has delay
         if (reports.length === 0) {
           try {
-            const fbRes = await fetch('https://ntfy.sh/palashsetu_sih26042_complaints/json?poll=1');
+            const fbRes = await fetch('https://ntfy.sh/setuvani_field_complaints/json?poll=1');
             if (fbRes.ok) {
               const text = await fbRes.text();
               const lines = text.trim().split('\n').filter(Boolean);
