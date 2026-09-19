@@ -16,6 +16,9 @@ import PronunciationCoach from './pages/PronunciationCoach';
 import Contribute from './pages/Contribute';
 import ContributionReview from './pages/ContributionReview';
 import StudentBroadcastView from './pages/StudentBroadcastView';
+import GovtMonitoringDashboard from './pages/GovtMonitoringDashboard';
+import SplashScreen from './components/SplashScreen';
+import OnboardingWizard, { UserProfile } from './components/OnboardingWizard';
 import { authService, TeacherProfile } from './services/authService';
 import { ThemeProvider } from './context/ThemeContext';
 
@@ -56,6 +59,7 @@ const AppRoutes: React.FC = () => {
         <Route path="translate" element={<LiveTranslation />} />
         <Route path="practice" element={<PracticeMode />} />
         <Route path="pronounce" element={<PronunciationCoach />} />
+        <Route path="govt-portal" element={<GovtMonitoringDashboard />} />
         <Route path="contribute" element={<Contribute />} />
         <Route path="contribute/review" element={<ContributionReview />} />
         <Route path="student-view" element={<StudentBroadcastView />} />
@@ -71,8 +75,38 @@ const AppRoutes: React.FC = () => {
 };
 
 const App: React.FC = () => {
+  const [showSplash, setShowSplash] = useState(true);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('bhashagyan_user_profile');
+    if (saved) {
+      try {
+        setUserProfile(JSON.parse(saved));
+      } catch {
+        setShowOnboarding(true);
+      }
+    } else {
+      setShowOnboarding(true);
+    }
+  }, []);
+
+  const handleSplashFinish = () => {
+    setShowSplash(false);
+  };
+
+  const handleOnboardingComplete = (profile: UserProfile) => {
+    setUserProfile(profile);
+    setShowOnboarding(false);
+  };
+
   return (
     <ThemeProvider>
+      {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
+      {!showSplash && showOnboarding && (
+        <OnboardingWizard onComplete={handleOnboardingComplete} />
+      )}
       <BrowserRouter>
         <AppRoutes />
       </BrowserRouter>

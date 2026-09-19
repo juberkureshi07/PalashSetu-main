@@ -1,6 +1,6 @@
 # Codebase Inventory & Reconciled Architecture Map
 
-**Project:** SetuVani (formerly PalashSetu) — Mother Tongue-Based Multilingual Education (MTB-MLE)  
+**Project:** Bhasha Gyan (भाषा ज्ञान) — Mother Tongue-Based Multilingual Education (MTB-MLE)  
 **Team:** Ambivert's Team  
 **Date:** September 19, 2026  
 **Reconciliation Version:** 1.0 (Milestone 0 Completed)
@@ -30,7 +30,7 @@ This document reconciles the downloaded codebase snapshot against the initial as
 
 4. **Git Repository Status:**
    - Verified that `.git` folder is absent from the snapshot (`Test-Path .git` returned `False`).
-   - Project rebranding to **SetuVani (Ambivert's Team)** will be applied across package metadata, configs, UI headers, and documentation.
+   - Project rebranding to **Bhasha Gyan (Ambivert's Team)** will be applied across package metadata, configs, UI headers, and documentation.
 
 ---
 
@@ -74,6 +74,6 @@ PalashSetu-main/
 
 ## 4. Rebranding & Identity Actions
 
-- **New App Name:** SetuVani (`सेतुवाणी` — Bridge of Voices for Mother Tongue Pedagogy)
+- **New App Name:** Bhasha Gyan (`भाषा ज्ञान` — Bridge of Voices & Knowledge for Mother Tongue Pedagogy)
 - **Team:** Ambivert's Team
 - **Updates Required:** `package.json`, `capacitor.config.ts`, `Header.tsx`, `Sidebar.tsx`, `Dashboard.tsx`, `AuthLogin.tsx`, and `README.md`.

@@ -22,7 +22,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   useEffect(() => {
     document.documentElement.classList.remove('dark-mode');
     document.body.classList.remove('dark-mode');
-    localStorage.removeItem('palash_theme');
+    localStorage.removeItem('bhashagyan_theme');
   }, []);
 
   const toggleDarkMode = () => {

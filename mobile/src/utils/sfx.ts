@@ -1,5 +1,5 @@
 /**
- * PalashSetu Sound Effects (SFX) Engine
+ * Bhasha Gyan Sound Effects (SFX) Engine
  * 
  * Uses HTML5 Web Audio API to synthesize zero-latency, offline sound effects
  * for educational interactions (tap, success chime, card flip, voice prompt).
@@ -11,7 +11,7 @@ class SoundEffectsEngine {
   private soundEnabled: boolean = true;
 
   constructor() {
-    const saved = localStorage.getItem('palash_sfx_enabled');
+    const saved = localStorage.getItem('bhashagyan_sfx_enabled');
     if (saved !== null) {
       this.soundEnabled = saved === 'true';
     }
@@ -37,7 +37,7 @@ class SoundEffectsEngine {
 
   public toggleSound(): boolean {
     this.soundEnabled = !this.soundEnabled;
-    localStorage.setItem('palash_sfx_enabled', String(this.soundEnabled));
+    localStorage.setItem('bhashagyan_sfx_enabled', String(this.soundEnabled));
     if (this.soundEnabled) {
       this.playTap();
     }

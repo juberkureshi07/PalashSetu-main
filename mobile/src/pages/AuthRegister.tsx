@@ -99,7 +99,7 @@ const AuthRegister: React.FC<AuthRegisterProps> = ({ onRegisterSuccess }) => {
             🌿 Register Teacher Profile
           </div>
           <p style={{ margin: '4px 0 0', color: '#718096', fontSize: '0.9rem' }}>
-            SetuVani • Shared Tablet Onboarding
+            Bhasha Gyan • Shared Tablet Onboarding
           </p>
         </div>
 

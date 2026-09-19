@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PalashSetu — Received Teacher Complaints</title>
+  <title>Bhasha Gyan — Received Teacher Complaints</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22><text y=%2226%22 font-size=%2226%22>🌿</text></svg>" />
   <style>
     :root {
@@ -172,7 +172,7 @@
     <div class="brand">
       <div class="brand-icon">🌿</div>
       <div>
-        <div class="brand-title">SetuVani — Field Issues Portal</div>
+        <div class="brand-title">Bhasha Gyan — Field Issues Portal</div>
         <div class="brand-sub">Real-Time Field Issues from Rural Classroom Tablets</div>
       </div>
     </div>
@@ -209,7 +209,7 @@
       try {
         let reports = [];
         try {
-          const res = await fetch('/api/complaints?key=palashsetu-admin&t=' + Date.now());
+          const res = await fetch('/api/complaints?key=bhashagyan-admin&t=' + Date.now());
           if (res.ok) {
             const data = await res.json();
             reports = data.reports || [];
@@ -221,7 +221,7 @@
         // Direct pubsub fallback if API route has delay
         if (reports.length === 0) {
           try {
-            const fbRes = await fetch('https://ntfy.sh/setuvani_field_complaints/json?poll=1');
+            const fbRes = await fetch('https://ntfy.sh/bhashagyan_field_complaints/json?poll=1');
             if (fbRes.ok) {
               const text = await fbRes.text();
               const lines = text.trim().split('\n').filter(Boolean);

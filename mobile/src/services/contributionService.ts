@@ -19,7 +19,7 @@ export interface ContributionItem {
   synced: number;
 }
 
-const STORAGE_KEY = 'setuvani_community_contributions';
+const STORAGE_KEY = 'bhashagyan_community_contributions';
 
 export const contributionService = {
   // Get all contributions from localStorage

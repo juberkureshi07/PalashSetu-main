@@ -66,12 +66,12 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     };
 
     reportsStore.push(sanitised);
-    if (!((global as any).__palashReports)) (global as any).__palashReports = [];
-    (global as any).__palashReports.unshift(sanitised);
+    if (!((global as any).__bhashaReports)) (global as any).__bhashaReports = [];
+    (global as any).__bhashaReports.unshift(sanitised);
 
     // Persist across serverless containers via pub-sub
     try {
-      await fetch('https://ntfy.sh/setuvani_field_complaints', {
+      await fetch('https://ntfy.sh/bhashagyan_field_complaints', {
         method: 'POST',
         headers: {
           'Title': `${sanitised.teacherName} (${sanitised.district}) - ${sanitised.issueType}`,
@@ -83,11 +83,11 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       console.warn('Pubsub persist note:', e);
     }
 
-    console.log('[PalashSetu Feedback Received]', JSON.stringify({ ...sanitised, screenshot: sanitised.screenshot ? '[IMAGE]' : undefined }));
+    console.log('[Bhasha Gyan Feedback Received]', JSON.stringify({ ...sanitised, screenshot: sanitised.screenshot ? '[IMAGE]' : undefined }));
 
     return res.status(200).json({ success: true, id: sanitised.id });
   } catch (err) {
-    console.error('[PalashSetu Feedback Error]', err);
+    console.error('[Bhasha Gyan Feedback Error]', err);
     return res.status(500).json({ error: 'Internal server error' });
   }
 }

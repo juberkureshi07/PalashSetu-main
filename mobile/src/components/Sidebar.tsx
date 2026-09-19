@@ -14,6 +14,7 @@ const NAV_ITEMS: NavItemConfig[] = [
   { to: '/translate', icon: '🎙️', label: 'लाइव अनुवाद (ᱥᱟᱱᱛᱟᱲᱤ ᱨᱚᱲ)', badge: '< 1ms' },
   { to: '/practice', icon: '🎮', label: 'बच्चों का खेल (ᱜᱤᱫᱽᱨᱟᱹ ᱠᱷᱮᱞᱚᱸᱰ)', badge: 'खेल' },
   { to: '/pronounce', icon: '🗣️', label: 'उच्चारण अभ्यास (ᱨᱚᱲ ᱥᱮᱪᱮᱫ)', badge: 'आवाज़' },
+  { to: '/govt-portal', icon: '🏛️', label: 'सरकारी पोर्टल (Govt Portal)', badge: 'Supabase' },
   { to: '/contribute', icon: '🤝', label: 'सामुदायिक योगदान (ᱜᱚᱲᱚ)', badge: 'योगदान' },
   { to: '/student-view', icon: '📡', label: 'छात्र प्राप्तकर्ता (ᱥᱴᱩᱰᱮᱱᱴ)', badge: 'LAN P2P' },
   { to: '/flashcards', icon: '🃏', label: 'चित्र कार्ड (ᱪᱤᱛᱟᱹᱨ ᱠᱟᱨᱰ)', badge: '30+ कार्ड' },
@@ -89,14 +90,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
                   boxShadow: '0 4px 10px rgba(237,137,54,0.35)',
                 }}
               >
-                🌿
+                📚
               </div>
               <div>
                 <div style={{ fontWeight: 800, fontSize: '1.15rem', letterSpacing: '-0.3px', color: '#ffffff' }}>
-                  SetuVani
+                  Bhasha Gyan
                 </div>
-                <div style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 500 }}>
-                  ᱥᱮᱛᱩᱵᱟᱹᱬᱤ • मातृभाषा मंच
+                <div style={{ fontSize: '0.72rem', color: '#f59e0b', fontWeight: 500 }}>
+                  भाषा ज्ञान • ᱥᱟᱱᱛᱟᱲᱤ ᱚᱞ ᱪᱤᱠᱤ
                 </div>
               </div>
             </div>

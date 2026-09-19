@@ -50,11 +50,11 @@ export const Header: React.FC<HeaderProps> = ({ activeTeacher, onSwitchTeacher, 
 
           <div>
             <div style={{ fontSize: '1.15rem', fontWeight: 800, color: isDarkMode ? '#f8fafc' : '#0f2744', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span>🌿 SetuVani</span>
-              <span style={{ fontSize: '0.8rem', color: '#ed8936', fontWeight: 700 }}>(ᱥᱮᱛᱩᱵᱟᱹᱬᱤ • सेतुवाणी)</span>
+              <span>📚 BHASHA GYAN</span>
+              <span style={{ fontSize: '0.8rem', color: '#f59e0b', fontWeight: 700 }}>(भाषा ज्ञान • ᱥᱟᱱᱛᱟᱲᱤ ᱚᱞ ᱪᱤᱠᱤ)</span>
             </div>
             <div style={{ fontSize: '0.7rem', color: isDarkMode ? '#94a3b8' : '#64748b', fontWeight: 500 }}>
-              झारखंड प्राथमिक शिक्षा • मातृभाषा शिक्षण मंच (100% Offline)
+              Govt. of Jharkhand • Primary Education Portal (100% Offline)
             </div>
           </div>
         </div>

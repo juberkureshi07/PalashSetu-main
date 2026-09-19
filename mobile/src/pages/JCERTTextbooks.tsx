@@ -286,7 +286,7 @@ const JCERTTextbooks: React.FC = () => {
         <div style={{ borderBottom: '2px solid #0f2744', paddingBottom: '0.85rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '10px' }}>
           <div>
             <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#c05621', letterSpacing: '0.5px', textTransform: 'uppercase' }}>
-              झारखंड शैक्षिक अनुसंधान एवं प्रशिक्षण परिषद् (JCERT) • SetuVani पाठ्यपुस्तक
+              झारखंड शैक्षिक अनुसंधान एवं प्रशिक्षण परिषद् (JCERT) • Bhasha Gyan पाठ्यपुस्तक
             </div>
             <h2 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0f2744', margin: '4px 0 2px 0' }}>
               {selectedBook.title_hin} — अध्याय {currentChapter.chapter_no}: {currentChapter.title_hin}

@@ -114,8 +114,8 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTeacher }) => {
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.5rem', position: 'relative', zIndex: 1 }}>
           <div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(255,255,255,0.12)', padding: '4px 12px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 600, color: '#fbd38d', marginBottom: '0.75rem' }}>
-              <span>🌿 मातृभाषा मंच (SetuVani)</span>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(255,255,255,0.12)', padding: '4px 12px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 600, color: '#fcd34d', marginBottom: '0.75rem' }}>
+              <span>📚 Bhasha Gyan (भाषा ज्ञान)</span>
               <span>•</span>
               <span>झारखंड प्राथमिक शिक्षा</span>
             </div>
@@ -123,7 +123,7 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTeacher }) => {
               ᱡᱚᱦᱟᱨ, {teacherName}!
             </h1>
             <p style={{ color: '#cbd5e1', fontSize: '1rem', margin: 0, maxWidth: '600px' }}>
-              <strong>{district}</strong> जिला • <strong>{assignedGrade}</strong> के लिए मातृभाषा आधारित शिक्षण सहायक। बिना इंटरनेट 100% ऑन-डिवाइस संताली (Ol Chiki • ᱚᱞ ᱪᱤᱠᱤ) शिक्षण।
+              <strong>{district}</strong> जिला • <strong>{assignedGrade}</strong> • 100% ऑफ़लाइन मातृभाषा शिक्षण एवं संताली (Ol Chiki • ᱚᱞ ᱪᱤᱠᱤ) मंच।
             </p>
           </div>
 

@@ -1,4 +1,4 @@
-package com.bhashasetu.app;
+package com.ambivert.bhashagyan;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -22,7 +22,7 @@ public class MainActivity extends BridgeActivity {
             try {
                 android.widget.Toast.makeText(MainActivity.this, "🔊 " + text, android.widget.Toast.LENGTH_SHORT).show();
             } catch (Exception ignored) {}
-            nativeTts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "PalashSetuTTS_" + System.currentTimeMillis());
+            nativeTts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "BhashaGyanTTS_" + System.currentTimeMillis());
         }
     }
 
@@ -90,8 +90,8 @@ public class MainActivity extends BridgeActivity {
                             if (bridge != null && bridge.getWebView() != null) {
                                 android.print.PrintManager printManager = (android.print.PrintManager) getSystemService(android.content.Context.PRINT_SERVICE);
                                 if (printManager != null) {
-                                    android.print.PrintDocumentAdapter printAdapter = bridge.getWebView().createPrintDocumentAdapter("PalashSetu_Print");
-                                    printManager.print("PalashSetu Worksheet", printAdapter, new android.print.PrintAttributes.Builder().build());
+                                    android.print.PrintDocumentAdapter printAdapter = bridge.getWebView().createPrintDocumentAdapter("BhashaGyan_Print");
+                                    printManager.print("Bhasha Gyan Worksheet", printAdapter, new android.print.PrintAttributes.Builder().build());
                                 }
                             }
                         } catch (Exception e) {

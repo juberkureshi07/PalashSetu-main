@@ -1,4 +1,4 @@
-# SetuVani (सेतुवाणी)
+# Bhasha Gyan (भाषा ज्ञान)
 ### 100% Standalone On-Device Tablet App for Mother Tongue-Based Multilingual Education (MTB-MLE)
 *Govt. of Jharkhand • Department of School Education & Literacy*  
 *Developed & Maintained by Ambivert's Team*
@@ -11,7 +11,7 @@ In rural and tribal primary classrooms across Jharkhand (particularly Santhal Pa
 
 Most remote village schools (Anganwadis, Balvatikas, and Government Primary Schools) have **zero cellular connectivity** and operate on budget Android tablets (often running Android 7.0–9.0 with 2 GB RAM).
 
-**SetuVani** is a **100% standalone, fully on-device Android tablet application** that bridges the linguistic divide without relying on internet, external servers, or cloud APIs. Everything runs directly inside the Android tablet with sub-millisecond algorithmic execution and a lightweight memory footprint (~55 MB RAM).
+**Bhasha Gyan** is a **100% standalone, fully on-device Android tablet application** that bridges the linguistic divide without relying on internet, external servers, or cloud APIs. Everything runs directly inside the Android tablet with sub-millisecond algorithmic execution and a lightweight memory footprint (~55 MB RAM).
 
 > **Core Philosophy:** A modular, plug-and-play MTB-MLE architecture with **Santali (Ol Chiki)** as the live **Phase 1 flagship pilot**, architected for seamless expansion to other indigenous dialects (**Ho, Mundari, Kurukh, and Kharia**).
 
@@ -19,7 +19,7 @@ Most remote village schools (Anganwadis, Balvatikas, and Government Primary Scho
 
 ## 2. Differentiating Additions (Ambivert's Team Enhancements)
 
-In addition to core live translation and lesson tools, **SetuVani** introduces 4 high-impact pedagogical capabilities:
+In addition to core live translation and lesson tools, **Bhasha Gyan** introduces 4 high-impact pedagogical capabilities:
 
 1. 🎮 **Kid-Facing Gamified Practice Mode (`/practice`):**
    - Audio-first, icon-guided FLN games for non-reading Grade 1–3 children.
@@ -41,7 +41,7 @@ In addition to core live translation and lesson tools, **SetuVani** introduces 4
 
 ```
 +-----------------------------------------------------------------------------------+
-|                SETUVANI STANDALONE TABLET ARCHITECTURE                            |
+|              BHASHA GYAN STANDALONE TABLET ARCHITECTURE                           |
 |       (100% On-Device • Zero Server • Airplane Mode Ready • ~55 MB RAM)           |
 +-----------------------------------------------------------------------------------+
 |                                                                                   |
@@ -81,7 +81,7 @@ In addition to core live translation and lesson tools, **SetuVani** introduces 4
 
 | Parameter | Specification | Why It Matters for Rural Jharkhand |
 |---|---|---|
-| **App Delivery** | Standalone Android APK (`PalashSetu-v1.0-debug.apk`) | Instant offline installation via Bluetooth, SD card, or USB |
+| **App Delivery** | Standalone Android APK (`BhashaGyan-v1.0-debug.apk`) | Instant offline installation via Bluetooth, SD card, or USB |
 | **APK File Size** | **4.44 MB** | Lightweight enough to download or share in 2G connectivity zones |
 | **Runtime RAM Usage** | **~55 MB** | Runs smoothly on budget 2GB RAM government school tablets |
 | **Algorithmic Latency** | **0.0035 ms (3.5 μs)** | 600,000× faster than standard 3.0-second SLA requirements |
@@ -189,7 +189,7 @@ $env:ANDROID_HOME = "$env:LOCALAPPDATA\Android\Sdk"
 ```
 
 **Compiled Standalone APK Output:**  
-📁 `mobile/android/app/build/outputs/apk/debug/PalashSetu-v1.0-debug.apk` *(4.44 MB)*
+📁 `mobile/android/app/build/outputs/apk/debug/BhashaGyan-v1.0-debug.apk` *(4.44 MB)*
 
 ---
 
@@ -216,7 +216,7 @@ Every push to GitHub automatically triggers a live cloud preview while preservin
 
 ## 8. Scalability Roadmap: Extending to Other Tribal Dialects
 
-PalashSetu's decoupled architecture makes expanding to other low-resource indigenous languages straightforward:
+Bhasha Gyan's decoupled architecture makes expanding to other low-resource indigenous languages straightforward:
 
 ```
 ┌────────────────────────────────────────────────────────────┐
@@ -241,8 +241,4 @@ Adding a new dialect requires only two data additions:
 
 ---
 
-<<<<<<< HEAD
-*Developed & Maintained by Ambivert's Team.*
-=======
-*Developed for Smart India Hackathon 2026 — Problem Statement SIH 26042.*
->>>>>>> a485509f6ebd0a4850084bfe9ed488ac6e3d27d2
+*Developed & Maintained by Ambivert's Team for Mother Tongue-Based Multilingual Education (MTB-MLE).*

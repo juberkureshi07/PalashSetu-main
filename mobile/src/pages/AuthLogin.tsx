@@ -70,10 +70,10 @@ const AuthLogin: React.FC<AuthLoginProps> = ({ onLoginSuccess }) => {
       {/* Brand Header */}
       <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
         <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#f6ad55', marginBottom: '4px' }}>
-          🌿 SetuVani (सेतुवाणी)
+          📚 Bhasha Gyan (भाषा ज्ञान)
         </div>
         <div style={{ fontSize: '1rem', color: '#e2e8f0' }}>
-          SetuVani • Offline Bilingual Primary Education Portal
+          Bhasha Gyan • Offline Bilingual Primary Education Portal
         </div>
       </div>
 

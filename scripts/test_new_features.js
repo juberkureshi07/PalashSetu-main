@@ -1,6 +1,6 @@
 /**
- * Automated Test Suite for SetuVani New Differentiated Features
- * Ambivert's Team - SetuVani Project
+ * Automated Test Suite for Bhasha Gyan New Differentiated Features
+ * Ambivert's Team - Bhasha Gyan Project
  */
 
 const fs = require('fs');
@@ -20,7 +20,7 @@ function assert(condition, message) {
 }
 
 console.log('===============================================================');
-console.log('🧪 SETUVANI NEW FEATURES & REBRANDING TEST SUITE');
+console.log('🧪 BHASHA GYAN NEW FEATURES & REBRANDING TEST SUITE');
 console.log('===============================================================');
 
 // 1. Verify Rebranding Files
@@ -34,10 +34,10 @@ const pkgContent = fs.readFileSync(pkgPath, 'utf8');
 const capContent = fs.readFileSync(capPath, 'utf8');
 const readmeContent = fs.readFileSync(readmePath, 'utf8');
 
-assert(pkgContent.includes('setuvani-mobile'), 'package.json renamed to setuvani-mobile');
-assert(capContent.includes('com.ambivert.setuvani'), 'Capacitor config updated to com.ambivert.setuvani');
-assert(capContent.includes("appName: 'SetuVani'"), 'Capacitor appName updated to SetuVani');
-assert(readmeContent.includes("# SetuVani"), 'README.md updated with SetuVani title');
+assert(pkgContent.includes('bhasha-gyan-mobile'), 'package.json renamed to bhasha-gyan-mobile');
+assert(capContent.includes('com.ambivert.bhashagyan'), 'Capacitor config updated to com.ambivert.bhashagyan');
+assert(capContent.includes("appName: 'Bhasha Gyan'"), 'Capacitor appName updated to Bhasha Gyan');
+assert(readmeContent.includes("# Bhasha Gyan"), 'README.md updated with Bhasha Gyan title');
 assert(readmeContent.includes("Ambivert's Team"), "README.md claims ownership for Ambivert's Team");
 
 // 2. Verify Feature Files Exist

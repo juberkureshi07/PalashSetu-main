@@ -1,5 +1,5 @@
 /**
- * PalashSetu Master Hindi to Santali (Ol Chiki) Dictionary
+ * Bhasha Gyan Master Hindi to Santali (Ol Chiki) Dictionary
  * ==========================================================
  * Total Entries: 7503
  *   - Hand-curated authentic Hindi->Santali pairs: 7503

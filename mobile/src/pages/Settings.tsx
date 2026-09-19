@@ -24,16 +24,16 @@ const Settings: React.FC = () => {
   const [activeProfile, setActiveProfile] = useState<TeacherProfile | null>(() => authService.getActiveProfile());
 
   // 2. Form States initialized from actual active teacher profile
-  const [teacherName, setTeacherName] = useState(activeProfile?.name || 'Sunita Kumari');
-  const [teacherId, setTeacherId] = useState(activeProfile?.teacherId || 'EVV-JH-849201');
-  const [schoolName, setSchoolName] = useState(() => localStorage.getItem('palash_school_name') || 'राजकीय उत्क्रमित मध्य विद्यालय');
-  const [selectedDistrict, setSelectedDistrict] = useState(activeProfile?.district || 'Dumka');
-  const [blockName, setBlockName] = useState(activeProfile?.block || 'Kathikund');
+  const [teacherName, setTeacherName] = useState(activeProfile?.name || 'Govt Primary Teacher');
+  const [teacherId, setTeacherId] = useState(activeProfile?.teacherId || 'TCH-849201');
+  const [schoolName, setSchoolName] = useState(() => localStorage.getItem('bhashagyan_school_name') || 'राजकीय उत्क्रमित मध्य विद्यालय');
+  const [selectedDistrict, setSelectedDistrict] = useState(activeProfile?.district || 'Ranchi');
+  const [blockName, setBlockName] = useState(activeProfile?.block || 'Central');
   const [primaryClass, setPrimaryClass] = useState(activeProfile?.assignedGrade || 'Class 1');
 
   // 3. Audio & Speech Preferences
   const [speechRate, setSpeechRate] = useState<number>(() => {
-    const saved = localStorage.getItem('palash_speech_rate');
+    const saved = localStorage.getItem('bhashagyan_speech_rate');
     return saved ? parseFloat(saved) : 0.85;
   });
   const [soundEnabled, setSoundEnabled] = useState<boolean>(() => sfx.isEnabled());
@@ -44,16 +44,14 @@ const Settings: React.FC = () => {
 
   // Sync state if active profile changes
   useEffect(() => {
-    const profile = authService.getActiveProfile();
-    if (profile) {
-      setActiveProfile(profile);
-      setTeacherName(profile.name);
-      setTeacherId(profile.teacherId);
-      setSelectedDistrict(profile.district);
-      setBlockName(profile.block);
-      setPrimaryClass(profile.assignedGrade);
+    if (activeProfile) {
+      setTeacherName(activeProfile.name);
+      setTeacherId(activeProfile.teacherId);
+      setSelectedDistrict(activeProfile.district);
+      setBlockName(activeProfile.block);
+      setPrimaryClass(activeProfile.assignedGrade);
     }
-  }, []);
+  }, [activeProfile]);
 
   const handleSaveSettings = (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,8 +72,8 @@ const Settings: React.FC = () => {
     }
 
     // 2. Save general preferences
-    localStorage.setItem('palash_school_name', schoolName);
-    localStorage.setItem('palash_speech_rate', speechRate.toString());
+    localStorage.setItem('bhashagyan_school_name', schoolName);
+    localStorage.setItem('bhashagyan_speech_rate', speechRate.toString());
 
     setSavedSuccess(true);
     setTimeout(() => setSavedSuccess(false), 3000);

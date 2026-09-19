@@ -1,8 +1,8 @@
-# 🏗️ SetuVani — Simple Tech Stack & Choices Explained
-> **Project Name:** SetuVani (सेतुवाणी)  
+# 🏗️ Bhasha Gyan — Simple Tech Stack & Choices Explained
+> **Project Name:** Bhasha Gyan (भाषा ज्ञान)  
 > **Team Name:** Ambivert's Team  
-> **Target App:** Native Android App (`com.ambivert.setuvani`)  
-> **Built APK:** [`SetuVani-v1.0-debug.apk`](SetuVani-v1.0-debug.apk)  
+> **Target App:** Native Android App (`com.ambivert.bhashagyan`)  
+> **Built APK:** [`BhashaGyan-v1.0-debug.apk`](BhashaGyan-v1.0-debug.apk)  
 
 ---
 
@@ -10,8 +10,8 @@
 
 ```
 ┌───────────────────────────────────────────────────────────────────────────┐
-│                      SETUVANI NATIVE ANDROID APP                          │
-│                      (Package: com.ambivert.setuvani)                     │
+│                      BHASHA GYAN NATIVE ANDROID APP                       │
+│                      (Package: com.ambivert.bhashagyan)                   │
 ├───────────────────────────────────────────────────────────────────────────┤
 │                                                                           │
 │   ┌───────────────────────────────────────────────────────────────────┐   │
@@ -78,7 +78,7 @@
 * **Why we picked it over Flutter or Android Kotlin:**
   1. **One Single Codebase:** Writing separate code for web browsers and Android phones doubles development time. Capacitor lets one single codebase run everywhere.
   2. **Access to Phone Hardware:** Allows the app to use the phone microphone, storage, and local network without complicated extra plugins.
-  3. **Direct APK File:** Generates a real native `.apk` file (`SetuVani-v1.0-debug.apk`) that can be shared via pendrive or Bluetooth and installed on any Android device.
+  3. **Direct APK File:** Generates a real native `.apk` file (`BhashaGyan-v1.0-debug.apk`) that can be shared via pendrive or Bluetooth and installed on any Android device.
 
 ---
 
@@ -110,9 +110,9 @@
 
 ---
 
-## 📊 Comparison: SetuVani vs. Standard Online Cloud Apps
+## 📊 Comparison: Bhasha Gyan vs. Standard Online Cloud Apps
 
-| Feature | Standard Online Cloud App | SetuVani App |
+| Feature | Standard Online Cloud App | Bhasha Gyan App |
 |---|---|---|
 | **Internet Required?** | ❌ Yes (Needs continuous 4G / Wi-Fi) | ✅ **No (Works 100% in Airplane Mode)** |
 | **Monthly Server Cost** | ❌ Expensive cloud server bills | ✅ **₹0 (Free Forever)** |
@@ -125,6 +125,6 @@
 
 ## 🗣️ Quick 30-Second Answer for Judges
 
-> *"Judges, we built **SetuVani** using **React 18 and TypeScript** for an instant, responsive UI, packaged into a native Android APK using **Capacitor 6**.*
+> *"Judges, we built **Bhasha Gyan** using **React 18 and TypeScript** for an instant, responsive UI, packaged into a native Android APK using **Capacitor 6**.*
 >
 > *To solve the internet problem in rural Jharkhand primary schools, we used **WebRTC Peer-to-Peer Data Channels** to sync classroom tablets over a local hotspot with zero internet. All dictionary lookups (0.0375 ms speed) and voice rhythm pattern math run **100% on the device**, meaning zero server costs and complete offline reliability in Airplane Mode."*

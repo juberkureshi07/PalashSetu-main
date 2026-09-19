@@ -15,8 +15,8 @@ export interface TeacherProfile {
   createdAt: string;
 }
 
-const STORAGE_KEY_PROFILES = 'setuvani_teacher_profiles';
-const STORAGE_KEY_ACTIVE_SESSION = 'setuvani_active_teacher_id';
+const STORAGE_KEY_PROFILES = 'bhashagyan_teacher_profiles';
+const STORAGE_KEY_ACTIVE_SESSION = 'bhashagyan_active_teacher_id';
 
 const AVATAR_COLORS = ['#1a365d', '#2b6cb0', '#2c7a7b', '#285e61', '#744210', '#6b46c1'];
 

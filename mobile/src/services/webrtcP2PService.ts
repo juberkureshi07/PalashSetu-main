@@ -33,7 +33,7 @@ class WebRTCP2PServiceManager {
   constructor() {
     // Shared BroadcastChannel for same-device multi-tab local preview
     if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
-      const bc = new BroadcastChannel('setuvani_lan_p2p_channel');
+      const bc = new BroadcastChannel('bhashagyan_lan_p2p_channel');
       bc.onmessage = (event) => {
         if (event.data?.type === 'P2P_CAPTION_SIGNAL') {
           this.notifyCaption(event.data.payload);
@@ -60,13 +60,13 @@ class WebRTCP2PServiceManager {
 
     // Announce session locally
     if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
-      const bc = new BroadcastChannel('setuvani_lan_p2p_channel');
+      const bc = new BroadcastChannel('bhashagyan_lan_p2p_channel');
       bc.postMessage({ type: 'P2P_SESSION_ANNOUNCE', sessionCode: this.sessionCode });
     }
 
     // Persist active session in local storage for local network discovery
-    localStorage.setItem('setuvani_active_host_code', this.sessionCode);
-    localStorage.setItem('setuvani_host_active_ts', String(Date.now()));
+    localStorage.setItem('bhashagyan_active_host_code', this.sessionCode);
+    localStorage.setItem('bhashagyan_host_active_ts', String(Date.now()));
 
     this.notifyStatus();
     return this.sessionCode;
@@ -76,7 +76,7 @@ class WebRTCP2PServiceManager {
   public stopHostSession() {
     this.isHost = false;
     this.connectionState = 'disconnected';
-    localStorage.removeItem('setuvani_active_host_code');
+    localStorage.removeItem('bhashagyan_active_host_code');
     
     this.dataChannels.forEach((dc) => dc.close());
     this.peerConnections.forEach((pc) => pc.close());
@@ -96,7 +96,7 @@ class WebRTCP2PServiceManager {
     this.notifyStatus();
 
     // Check local storage or BroadcastChannel for session match
-    const activeHostCode = localStorage.getItem('setuvani_active_host_code');
+    const activeHostCode = localStorage.getItem('bhashagyan_active_host_code');
     if (activeHostCode === cleanCode || cleanCode.length >= 6) {
       this.connectionState = 'connected';
       this.notifyStatus();
@@ -131,12 +131,12 @@ class WebRTCP2PServiceManager {
 
     // 2. Broadcast to BroadcastChannel & localStorage
     if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
-      const bc = new BroadcastChannel('setuvani_lan_p2p_channel');
+      const bc = new BroadcastChannel('bhashagyan_lan_p2p_channel');
       bc.postMessage({ type: 'P2P_CAPTION_SIGNAL', payload });
     }
 
     try {
-      localStorage.setItem('setuvani_latest_lan_caption', JSON.stringify(payload));
+      localStorage.setItem('bhashagyan_latest_lan_caption', JSON.stringify(payload));
     } catch (e) {
       console.error('Failed to update LAN caption storage', e);
     }
@@ -165,7 +165,7 @@ class WebRTCP2PServiceManager {
   }
 
   public getSessionCode(): string {
-    return this.sessionCode || localStorage.getItem('setuvani_active_host_code') || '';
+    return this.sessionCode || localStorage.getItem('bhashagyan_active_host_code') || '';
   }
 
   public getStatus() {

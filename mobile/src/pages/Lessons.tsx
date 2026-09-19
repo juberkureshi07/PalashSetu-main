@@ -187,7 +187,7 @@ const Lessons: React.FC = () => {
               Government of Jharkhand • Department of School Education & Literacy
             </div>
             <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f2744' }}>
-              SetuVani: 5-Part Panchaadi Bilingual Lesson Plan
+              Bhasha Gyan: 5-Part Panchaadi Bilingual Lesson Plan
             </div>
           </div>
 

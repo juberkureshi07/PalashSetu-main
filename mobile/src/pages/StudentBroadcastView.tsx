@@ -34,7 +34,7 @@ export const StudentBroadcastView: React.FC = () => {
     });
 
     // 3. Auto-load latest broadcast if present locally
-    const saved = localStorage.getItem('setuvani_latest_lan_caption');
+    const saved = localStorage.getItem('bhashagyan_latest_lan_caption');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);

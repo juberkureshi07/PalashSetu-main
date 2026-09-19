@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace = "com.ambivert.setuvani"
+    namespace = "com.ambivert.bhashagyan"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.ambivert.setuvani"
+        applicationId "com.ambivert.bhashagyan"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -29,7 +29,7 @@ android {
 
     applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "SetuVani-v${variant.versionName}-${variant.buildType.name}.apk"
+            outputFileName = "BhashaGyan-v${variant.versionName}-${variant.buildType.name}.apk"
         }
     }
 }

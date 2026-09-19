@@ -3,7 +3,7 @@
  * Admin endpoint: returns all stored feedback reports.
  * Protected by a simple key query param.
  *
- * GET /api/complaints?key=palashsetu-admin
+ * GET /api/complaints?key=bhashagyan-admin
  */
 
 // Standalone lightweight interface (no external @vercel/node dependency required)
@@ -21,8 +21,8 @@ interface ApiResponse {
 // Must match the store in feedback.ts
 // In production: use shared Vercel KV — for hackathon demo this is fine
 // as both functions share the same process in Vercel's dev server
-declare const global: { __palashReports?: unknown[] };
-if (!global.__palashReports) global.__palashReports = [];
+declare const global: { __bhashaReports?: unknown[] };
+if (!global.__bhashaReports) global.__bhashaReports = [];
 
 // Seed with some demo data so the admin page always has something to show
 const DEMO_REPORTS = [
@@ -74,7 +74,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
   // Fetch real-time submitted reports from pubsub
   const liveReports: any[] = [];
   try {
-    const pubsubRes = await fetch('https://ntfy.sh/setuvani_field_complaints/json?poll=1');
+    const pubsubRes = await fetch('https://ntfy.sh/bhashagyan_field_complaints/json?poll=1');
     if (pubsubRes.ok) {
       const text = await pubsubRes.text();
       const lines = text.trim().split('\n').filter(Boolean);
@@ -98,7 +98,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
   const seenIds = new Set<string>();
   const combined = [
     ...liveReports,
-    ...((global as any).__palashReports || []),
+    ...((global as any).__bhashaReports || []),
     ...DEMO_REPORTS,
   ].filter(r => {
     if (!r.id || seenIds.has(r.id)) return false;

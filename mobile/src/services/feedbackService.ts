@@ -8,10 +8,10 @@
 import { Preferences } from '@capacitor/preferences';
 import { Network } from '@capacitor/network';
 
-const QUEUE_KEY = 'palashsetu_feedback_queue';
+const QUEUE_KEY = 'bhashagyan_feedback_queue';
 
 // Absolute Vercel URL — points to the live Vercel deployment
-const SYNC_ENDPOINT = 'https://palashsetu-xi.vercel.app/api/feedback';
+const SYNC_ENDPOINT = '/api/feedback';
 
 export interface FeedbackReport {
   id: string;

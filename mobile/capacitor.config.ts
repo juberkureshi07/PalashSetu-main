@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.ambivert.setuvani',
-  appName: 'SetuVani',
+  appId: 'com.ambivert.bhashagyan',
+  appName: 'Bhasha Gyan',
   webDir: 'dist',
   server: {
     androidScheme: 'https'
