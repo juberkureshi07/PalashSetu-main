@@ -4,7 +4,6 @@ import Sidebar from './Sidebar';
 import { Header } from './Header';
 import { BottomNav } from './BottomNav';
 import { QRModal } from './QRModal';
-import { CustomModelLoaderModal } from './CustomModelLoaderModal';
 import { TeacherProfile } from '../services/authService';
 import { sfx } from '../utils/sfx';
 
@@ -16,7 +15,6 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ activeTeacher, onSwitchTeacher }) => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [showQRModal, setShowQRModal] = useState(false);
-  const [showCustomModelModal, setShowCustomModelModal] = useState(false);
 
   // Check user role from LocalStorage profile
   const profileSaved = localStorage.getItem('bhashagyan_user_profile');
@@ -87,26 +85,7 @@ const Layout: React.FC<LayoutProps> = ({ activeTeacher, onSwitchTeacher }) => {
                 gap: '4px',
               }}
             >
-              <span>📡 LAN QR / PIN</span>
-            </button>
-
-            <button
-              onClick={() => { sfx.playTap(); setShowCustomModelModal(true); }}
-              style={{
-                backgroundColor: '#10b981',
-                color: '#ffffff',
-                border: 'none',
-                padding: '6px 12px',
-                borderRadius: '10px',
-                fontWeight: 800,
-                fontSize: '0.8rem',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '4px',
-              }}
-            >
-              <span>🧠 Custom AI Model Engine</span>
+              <span>📡 LAN Hotspot QR / PIN Sync</span>
             </button>
           </div>
         </div>
@@ -126,12 +105,6 @@ const Layout: React.FC<LayoutProps> = ({ activeTeacher, onSwitchTeacher }) => {
         role={userRole}
         userName={userName}
         userGrade={userGrade}
-      />
-
-      {/* Custom AI Model Loader & Inference Modal */}
-      <CustomModelLoaderModal
-        isOpen={showCustomModelModal}
-        onClose={() => setShowCustomModelModal(false)}
       />
     </div>
   );
