@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "cd mobile && npm install && npm run build",
+    "build": "if [ -d mobile ]; then cd mobile && npm install && npm run build; else npm install && npm run build; fi",
     "dev": "npm --prefix mobile run dev"
   },
   "dependencies": {
