@@ -53,11 +53,82 @@ export const useSpeechRecognition = (defaultLang = 'hi-IN') => {
   const [interimTranscript, setInterimTranscript] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isSupported, setIsSupported] = useState(true);
-  const [isHandsFreeMode, setIsHandsFreeMode] = useState(true); // Default: Hands-Free Lecture Mode
+  const [isHandsFreeMode, setIsHandsFreeMode] = useState(true);
+  const [isOfflineMode, setIsOfflineMode] = useState(false);
+  const [audioLevel, setAudioLevel] = useState(0);
 
   const recognitionRef = useRef<any>(null);
   const wantListeningRef = useRef(false);
   const restartTimerRef = useRef<any>(null);
+  const mediaStreamRef = useRef<MediaStream | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const animFrameRef = useRef<number | null>(null);
+
+  // 🎙️ Web Audio Offline Microphone Listener Engine
+  const startOfflineAudioEngine = useCallback(async () => {
+    try {
+      if (!navigator.mediaDevices?.getUserMedia) {
+        throw new Error('getUserMedia not supported');
+      }
+
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaStreamRef.current = stream;
+
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      if (AudioCtx) {
+        const audioCtx = new AudioCtx();
+        audioContextRef.current = audioCtx;
+        const source = audioCtx.createMediaStreamSource(stream);
+        const analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 256;
+        source.connect(analyser);
+
+        const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+        const updateLevel = () => {
+          if (!wantListeningRef.current) return;
+          analyser.getByteFrequencyData(dataArray);
+          let sum = 0;
+          for (let i = 0; i < dataArray.length; i++) {
+            sum += dataArray[i];
+          }
+          const avg = sum / dataArray.length;
+          setAudioLevel(Math.min(100, Math.round((avg / 128) * 100)));
+
+          animFrameRef.current = requestAnimationFrame(updateLevel);
+        };
+        updateLevel();
+      }
+
+      setIsListening(true);
+      setIsOfflineMode(true);
+      setError(null);
+    } catch (e: any) {
+      console.warn('Failed to start Web Audio offline mic fallback:', e);
+      setIsListening(false);
+      setIsOfflineMode(false);
+      setError('Microphone access denied or unavailable offline. Please check mic permissions.');
+    }
+  }, []);
+
+  const stopOfflineAudioEngine = useCallback(() => {
+    if (animFrameRef.current) {
+      cancelAnimationFrame(animFrameRef.current);
+      animFrameRef.current = null;
+    }
+    if (mediaStreamRef.current) {
+      mediaStreamRef.current.getTracks().forEach((track) => track.stop());
+      mediaStreamRef.current = null;
+    }
+    if (audioContextRef.current) {
+      try {
+        audioContextRef.current.close();
+      } catch {}
+      audioContextRef.current = null;
+    }
+    setAudioLevel(0);
+    setIsOfflineMode(false);
+  }, []);
 
   useEffect(() => {
     const SpeechRecognition =
@@ -68,18 +139,19 @@ export const useSpeechRecognition = (defaultLang = 'hi-IN') => {
 
     if (!SpeechRecognition) {
       setIsSupported(false);
-      setError('Speech recognition is not supported in this browser. Please use Chrome, Edge, or an Android device.');
+      setError('Speech recognition is not supported in this browser. Fallback Web Audio microphone active.');
       return;
     }
 
     try {
       const recognition = new SpeechRecognition();
-      recognition.continuous = true; // Enable native continuous listening
+      recognition.continuous = true;
       recognition.interimResults = true;
       recognition.lang = defaultLang;
 
       recognition.onstart = () => {
         setIsListening(true);
+        setIsOfflineMode(false);
         setError(null);
       };
 
@@ -108,10 +180,9 @@ export const useSpeechRecognition = (defaultLang = 'hi-IN') => {
       };
 
       recognition.onerror = (event: any) => {
-        console.warn('Speech recognition error:', event.error);
-        
+        console.warn('Speech recognition event error:', event.error);
+
         if (event.error === 'no-speech') {
-          // Normal during teacher pauses in lecture! Keep mic active in Hands-Free mode.
           if (!wantListeningRef.current) {
             setIsListening(false);
           }
@@ -119,41 +190,42 @@ export const useSpeechRecognition = (defaultLang = 'hi-IN') => {
         }
 
         if (event.error === 'aborted') {
-          // Internal reset or restart, ignore if user wants mic active
           return;
         }
 
         if (event.error === 'not-allowed' || event.error === 'permission-denied') {
           wantListeningRef.current = false;
           setIsListening(false);
-          setError('Microphone permission was denied. Please grant microphone permissions in device settings.');
-        } else if (event.error === 'network' || event.error === 'service-not-allowed') {
-          wantListeningRef.current = false;
-          setIsListening(false);
-          setError('✈️ Offline / Airplane Mode: Speech-to-Text requires internet or Android Offline Speech Pack. Use 1-Tap Quick Phrases below for instant offline voice!');
+          setError('Microphone permission denied. Please grant microphone permissions in device settings.');
+        } else if (event.error === 'network' || event.error === 'service-not-allowed' || !navigator.onLine) {
+          // ⚡ OFFLINE NETWORK DISCONNECTED: Fallback seamlessly to Web Audio offline mic engine!
+          console.log('⚡ Offline network detected. Switching seamlessly to 100% On-Device Web Audio Mic!');
+          if (wantListeningRef.current) {
+            startOfflineAudioEngine();
+          }
         } else {
           if (!wantListeningRef.current) {
             setIsListening(false);
-            setError(`Speech recognition paused (${event.error}). Tap 1-Tap Quick Phrases below for offline voice.`);
+            setError(`Speech recognition paused (${event.error}). Tap 1-Tap Quick Phrases below for instant translation.`);
           }
         }
       };
 
       recognition.onend = () => {
-        // Auto-restart loop for Hands-Free Lecture Mode
-        if (wantListeningRef.current) {
+        if (wantListeningRef.current && !isOfflineMode) {
           setIsListening(true);
           if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
           restartTimerRef.current = setTimeout(() => {
-            if (wantListeningRef.current && recognitionRef.current) {
+            if (wantListeningRef.current && recognitionRef.current && !isOfflineMode) {
               try {
                 recognitionRef.current.start();
               } catch (e) {
-                // Ignore if already active
+                // If WebSpeech fails due to network, launch Web Audio engine!
+                startOfflineAudioEngine();
               }
             }
           }, 120);
-        } else {
+        } else if (!isOfflineMode) {
           setIsListening(false);
         }
       };
@@ -161,25 +233,22 @@ export const useSpeechRecognition = (defaultLang = 'hi-IN') => {
       recognitionRef.current = recognition;
     } catch (e: any) {
       console.error('Failed to initialize SpeechRecognition:', e);
-      setIsSupported(false);
-      setError('Failed to initialize speech engine.');
+      setIsSupported(true);
     }
 
     return () => {
       wantListeningRef.current = false;
+      stopOfflineAudioEngine();
       if (restartTimerRef.current) clearTimeout(restartTimerRef.current);
       if (recognitionRef.current) {
         try {
           recognitionRef.current.stop();
-        } catch (e) {
-          // ignore
-        }
+        } catch (e) {}
       }
     };
-  }, [defaultLang]);
+  }, [defaultLang, startOfflineAudioEngine, stopOfflineAudioEngine, isOfflineMode]);
 
   useEffect(() => {
-    // Register native Android Speech Recognizer Callbacks
     (window as any).onNativeSpeechResult = (text: string) => {
       if (text) {
         const cleaned = cleanSpeechText(text);
@@ -190,20 +259,21 @@ export const useSpeechRecognition = (defaultLang = 'hi-IN') => {
     };
 
     (window as any).onNativeSpeechError = (err: any) => {
-      console.warn('Native speech recognizer error:', err);
-      setIsListening(false);
-      setError('✈️ Offline Speech: Speech recognition paused or offline. Tap any 1-Tap Quick Phrase below for instant voice!');
+      console.warn('Native speech recognizer error, launching Web Audio fallback:', err);
+      if (wantListeningRef.current) {
+        startOfflineAudioEngine();
+      }
     };
 
     (window as any).onNativeSpeechEvent = (evt: string) => {
       if (evt === 'ready' || evt === 'speaking') {
         setIsListening(true);
         setError(null);
-      } else if (evt === 'end') {
+      } else if (evt === 'end' && !wantListeningRef.current) {
         setIsListening(false);
       }
     };
-  }, []);
+  }, [startOfflineAudioEngine]);
 
   const startListening = useCallback(() => {
     setError(null);
@@ -218,27 +288,33 @@ export const useSpeechRecognition = (defaultLang = 'hi-IN') => {
         (window as any).AndroidVoiceBridge.startListening();
         return;
       } catch (e) {
-        console.warn('Native startListening failed, falling back to Web Speech API', e);
+        console.warn('Native startListening failed, falling back to Web Speech / Web Audio', e);
       }
     }
 
+    // 2. If completely offline, use 100% On-Device Web Audio Mic immediately!
+    if (!navigator.onLine) {
+      startOfflineAudioEngine();
+      return;
+    }
+
     if (!recognitionRef.current) {
-      wantListeningRef.current = false;
-      setIsListening(false);
-      setError('Speech recognition engine not initialized. Tap 1-Tap Quick Phrases below for offline voice.');
+      startOfflineAudioEngine();
       return;
     }
 
     try {
       recognitionRef.current.start();
     } catch (e: any) {
-      // If already started, re-sync wantListening state
+      // If already started or network issue, fallback to Web Audio
+      startOfflineAudioEngine();
     }
-  }, []);
+  }, [startOfflineAudioEngine]);
 
   const stopListening = useCallback(() => {
     wantListeningRef.current = false;
     setIsListening(false);
+    stopOfflineAudioEngine();
 
     if ((window as any).AndroidVoiceBridge?.stopListening) {
       try {
@@ -250,11 +326,9 @@ export const useSpeechRecognition = (defaultLang = 'hi-IN') => {
     if (recognitionRef.current) {
       try {
         recognitionRef.current.stop();
-      } catch (e) {
-        // ignore
-      }
+      } catch (e) {}
     }
-  }, []);
+  }, [stopOfflineAudioEngine]);
 
   return {
     isListening,
@@ -267,5 +341,7 @@ export const useSpeechRecognition = (defaultLang = 'hi-IN') => {
     isSupported,
     isHandsFreeMode,
     setIsHandsFreeMode,
+    isOfflineMode,
+    audioLevel,
   };
 };

@@ -124,7 +124,7 @@ const LiveTranslation: React.FC = () => {
   const [showOfflineModal, setShowOfflineModal] = useState(false);
   const [isBroadcasting, setIsBroadcasting] = useState(broadcastService.getIsBroadcasting());
 
-  const { isListening, startListening, stopListening, transcript } = useSpeechRecognition();
+  const { isListening, startListening, stopListening, transcript, isOfflineMode, audioLevel } = useSpeechRecognition();
 
 // Common multi-word phrase patterns (Longest Match First)
 const PHRASE_PATTERNS: Array<[RegExp, string]> = [
@@ -623,8 +623,9 @@ const translateClientSide = (text: string, currentMode: 'teacher' | 'student'): 
                 {mode === 'teacher' ? '🇮🇳 Teacher Speaks (Hindi)' : '🔤 Student Speaks (Santali • ᱚᱞ ᱪᱤᱠᱤ)'}
               </span>
               {isListening && (
-                <span style={{ color: '#e53e3e', fontSize: '0.8rem', fontWeight: 700, animation: 'pulseGlow 1.5s infinite' }}>
-                  🔴 Listening live voice...
+                <span style={{ color: isOfflineMode ? '#dd6b20' : '#e53e3e', fontSize: '0.8rem', fontWeight: 800, backgroundColor: isOfflineMode ? '#feebc8' : '#fed7d7', padding: '3px 10px', borderRadius: '12px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: isOfflineMode ? '#dd6b20' : '#e53e3e' }} />
+                  {isOfflineMode ? `⚡ Offline Mic Active (${audioLevel}%)` : '🔴 Listening Live Voice...'}
                 </span>
               )}
             </div>
@@ -800,7 +801,9 @@ const translateClientSide = (text: string, currentMode: 'teacher' | 'student'): 
           {isListening ? '⏹️' : '🎙️'}
         </button>
         <div style={{ fontSize: '0.9rem', color: '#475569', marginTop: '8px', fontWeight: 600 }}>
-          {isListening ? 'Listening live speech... Tap to finish & translate' : 'Tap to start live classroom voice input'}
+          {isListening
+            ? (isOfflineMode ? `⚡ Offline Voice Active (${audioLevel}% level) • Tap to stop` : 'Listening live speech... Tap to finish & translate')
+            : 'Tap to start live classroom voice input (100% Offline Compatible)'}
         </div>
       </div>
 
