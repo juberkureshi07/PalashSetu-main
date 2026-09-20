@@ -3,120 +3,21 @@ import { Link } from 'react-router-dom';
 import { TeacherProfile } from '../services/authService';
 import { sfx } from '../utils/sfx';
 import { OfflineVoiceModal } from '../components/OfflineVoiceModal';
+import { useLanguage } from '../context/LanguageContext';
+import AudioSpeakerButton from '../components/AudioSpeakerButton';
 
 interface DashboardProps {
   activeTeacher?: TeacherProfile | null;
 }
 
-const STUDENT_ACTIONS = [
-  {
-    to: '/translate',
-    icon: '🎙️',
-    title: 'आवाज अनुवाद (Voice)',
-    santali: 'ᱥᱟᱱᱛᱟᱲᱤ ᱨᱚᱲ',
-    badge: 'Live Voice',
-    color: '#ed8936',
-  },
-  {
-    to: '/flashcards',
-    icon: '🃏',
-    title: 'चित्रात्मक फ्लैशकार्ड',
-    santali: 'ᱪᱤᱛᱟᱹᱨ ᱠᱟᱨᱰ',
-    badge: 'Visual Cards',
-    color: '#38a169',
-  },
-  {
-    to: '/practice',
-    icon: '🎮',
-    title: 'बच्चों का खेल अभ्यास',
-    santali: 'ᱜᱤᱫᱽᱨᱟᱹ ᱠᱷᱮᱞᱚᱸᱰ',
-    badge: 'Play & Learn',
-    color: '#ec4899',
-  },
-  {
-    to: '/worksheets',
-    icon: '📝',
-    title: 'अभ्यास पत्र (Worksheets)',
-    santali: 'ᱠᱟᱹᱢᱤ ᱥᱟᱠᱟᱢ',
-    badge: 'Print Worksheets',
-    color: '#805ad5',
-  },
-  {
-    to: '/books',
-    icon: '📖',
-    title: 'द्विभाषी पुस्तकें',
-    santali: 'ᱡᱮᱥᱤᱤᱟᱨᱴᱤ ᱯᱩᱛᱷᱤ',
-    badge: 'Audio Books',
-    color: '#0d9488',
-  },
-  {
-    to: '/student-view',
-    icon: '📡',
-    title: 'शिक्षिका कक्षा से जुड़ें',
-    santali: 'ᱥᱴᱩᱰᱮᱱᱴ ᱵᱷᱤᱭᱩ',
-    badge: 'LAN P2P',
-    color: '#06b6d4',
-  },
-];
-
-const TEACHER_ACTIONS = [
-  {
-    to: '/translate',
-    icon: '🎙️',
-    title: 'आवाज अनुवाद (Live Voice)',
-    santali: 'ᱥᱟᱱᱛᱟᱲᱤ ᱨᱚᱲ',
-    badge: 'Live Voice',
-    color: '#ed8936',
-  },
-  {
-    to: '/worksheets',
-    icon: '📝',
-    title: 'वर्कशीट जनरेटर',
-    santali: 'ᱠᱟᱹᱢᱤ ᱥᱟᱠᱟᱢ',
-    badge: 'Print A4',
-    color: '#805ad5',
-  },
-  {
-    to: '/flashcards',
-    icon: '🃏',
-    title: 'दृश्य फ्लैशकार्ड सेट',
-    santali: 'ᱪᱤᱛᱟᱹᱨ ᱠᱟᱨᱰ',
-    badge: '30+ Cards',
-    color: '#38a169',
-  },
-  {
-    to: '/pronounce',
-    icon: '🗣️',
-    title: 'उच्चारण अभ्यास',
-    santali: 'ᱨᱚᱲ ᱥᱮᱪᱮᱫ',
-    badge: 'Voice Coach',
-    color: '#8b5cf6',
-  },
-  {
-    to: '/books',
-    icon: '📖',
-    title: 'JCERT द्विभाषी पुस्तकें',
-    santali: 'ᱡᱮᱥᱤᱤᱟᱨᱴᱤ ᱯᱩᱛᱷᱤ',
-    badge: 'Audio Books',
-    color: '#0d9488',
-  },
-  {
-    to: '/student-view',
-    icon: '📡',
-    title: 'कक्षा छात्र मॉनिटर',
-    santali: 'ᱥᱴᱩᱰᱮᱱᱴ ᱵᱷᱤᱭᱩ',
-    badge: 'LAN Sync',
-    color: '#06b6d4',
-  },
-];
-
 const Dashboard: React.FC<DashboardProps> = ({ activeTeacher }) => {
   const [showOfflineModal, setShowOfflineModal] = useState(false);
+  const { t, currentLanguageOption } = useLanguage();
 
   // Read saved user profile from localStorage
   const savedProfileStr = localStorage.getItem('bhashagyan_user_profile');
   let userRole: 'teacher' | 'student' = 'teacher';
-  let displayName = activeTeacher?.name || 'शिक्षिका';
+  let displayName = activeTeacher?.name || t('teacherRole');
   let schoolName = 'Govt. Primary School';
   let district = activeTeacher?.district || 'झारखंड';
   let gradeOrId = activeTeacher?.assignedGrade || '';
@@ -133,6 +34,109 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTeacher }) => {
   }
 
   const isTeacher = userRole === 'teacher';
+
+  const STUDENT_ACTIONS = [
+    {
+      to: '/translate',
+      icon: '🎙️',
+      title: t('dashActionVoiceTitle'),
+      desc: t('dashActionVoiceDesc'),
+      badge: t('badgeVoice'),
+      color: '#ed8936',
+    },
+    {
+      to: '/flashcards',
+      icon: '🃏',
+      title: t('dashActionCardsTitle'),
+      desc: t('dashActionCardsDesc'),
+      badge: t('badgeFlashcards'),
+      color: '#38a169',
+    },
+    {
+      to: '/practice',
+      icon: '🎮',
+      title: t('dashActionPracticeTitle'),
+      desc: t('dashActionPracticeDesc'),
+      badge: t('badgePractice'),
+      color: '#ec4899',
+    },
+    {
+      to: '/worksheets',
+      icon: '📝',
+      title: t('dashActionWorksheetsTitle'),
+      desc: t('dashActionWorksheetsDesc'),
+      badge: t('badgeWorksheets'),
+      color: '#805ad5',
+    },
+    {
+      to: '/books',
+      icon: '📖',
+      title: t('dashActionBooksTitle'),
+      desc: t('dashActionBooksDesc'),
+      badge: t('badgeBooks'),
+      color: '#0d9488',
+    },
+    {
+      to: '/student-view',
+      icon: '📡',
+      title: t('dashActionStudentViewTitle'),
+      desc: t('dashActionStudentViewDesc'),
+      badge: t('badgeLan'),
+      color: '#06b6d4',
+    },
+  ];
+
+  const TEACHER_ACTIONS = [
+    {
+      to: '/translate',
+      icon: '🎙️',
+      title: t('dashActionVoiceTitle'),
+      desc: t('dashActionVoiceDesc'),
+      badge: t('badgeVoice'),
+      color: '#ed8936',
+    },
+    {
+      to: '/worksheets',
+      icon: '📝',
+      title: t('dashActionWorksheetsTitle'),
+      desc: t('dashActionWorksheetsDesc'),
+      badge: t('badgeWorksheets'),
+      color: '#805ad5',
+    },
+    {
+      to: '/flashcards',
+      icon: '🃏',
+      title: t('dashActionCardsTitle'),
+      desc: t('dashActionCardsDesc'),
+      badge: t('badgeFlashcards'),
+      color: '#38a169',
+    },
+    {
+      to: '/pronounce',
+      icon: '🗣️',
+      title: t('dashActionPronounceTitle'),
+      desc: t('dashActionPronounceDesc'),
+      badge: t('badgeCoach'),
+      color: '#8b5cf6',
+    },
+    {
+      to: '/books',
+      icon: '📖',
+      title: t('dashActionBooksTitle'),
+      desc: t('dashActionBooksDesc'),
+      badge: t('badgeBooks'),
+      color: '#0d9488',
+    },
+    {
+      to: '/student-view',
+      icon: '📡',
+      title: t('dashActionStudentViewTitle'),
+      desc: t('dashActionStudentViewDesc'),
+      badge: t('badgeLan'),
+      color: '#06b6d4',
+    },
+  ];
+
   const actions = isTeacher ? TEACHER_ACTIONS : STUDENT_ACTIONS;
 
   const handleResetProfile = () => {
@@ -160,15 +164,18 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTeacher }) => {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.5rem', position: 'relative', zIndex: 1 }}>
           <div>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(255,255,255,0.15)', padding: '4px 12px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 700, color: '#fcd34d', marginBottom: '0.75rem' }}>
-              <span>{isTeacher ? '👩‍🏫 Teacher Panel (शिक्षिका कक्ष)' : '👧 Student Panel (छात्र कक्ष)'}</span>
+              <span>{currentLanguageOption.flag} {currentLanguageOption.nativeName}</span>
+              <span>•</span>
+              <span>{isTeacher ? t('teacherRole') : t('studentRole')}</span>
               <span>•</span>
               <span>{district}</span>
             </div>
-            <h1 style={{ fontSize: '2.2rem', fontWeight: 800, margin: '0 0 0.5rem', letterSpacing: '-0.5px' }}>
-              ᱡᱚᱦᱟᱨ, {displayName}!
+            <h1 style={{ fontSize: '2.2rem', fontWeight: 800, margin: '0 0 0.5rem', letterSpacing: '-0.5px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <span>{t('welcomeTitle')} {displayName}!</span>
+              <AudioSpeakerButton textToSpeak={`${t('welcomeTitle')} ${displayName}`} size="lg" />
             </h1>
             <p style={{ color: '#e0f2fe', fontSize: '0.95rem', margin: 0, maxWidth: '600px' }}>
-              <strong>{schoolName}</strong> ({district}) • {isTeacher ? `Teacher ID: ${gradeOrId}` : `Grade: ${gradeOrId}`} • 100% ऑन-डिवाइस मातृभाषा संताली (Ol Chiki • ᱚᱞ ᱪᱤᱠᱤ) मंच।
+              {t('welcomeSub')}
             </p>
           </div>
 
@@ -176,11 +183,11 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTeacher }) => {
             <div style={{ display: 'flex', gap: '8px' }}>
               <div style={{ backgroundColor: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)', padding: '10px 14px', borderRadius: '14px', border: '1px solid rgba(255,255,255,0.15)', textAlign: 'center' }}>
                 <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#f6ad55' }}>7,500+</div>
-                <div style={{ fontSize: '0.7rem', color: '#cbd5e1', fontWeight: 500 }}>संताली शब्द</div>
+                <div style={{ fontSize: '0.7rem', color: '#cbd5e1', fontWeight: 500 }}>{t('badgeVoice')}</div>
               </div>
               <div style={{ backgroundColor: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)', padding: '10px 14px', borderRadius: '14px', border: '1px solid rgba(255,255,255,0.15)', textAlign: 'center' }}>
                 <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#68d391' }}>100%</div>
-                <div style={{ fontSize: '0.7rem', color: '#cbd5e1', fontWeight: 500 }}>ऑफ़लाइन</div>
+                <div style={{ fontSize: '0.7rem', color: '#cbd5e1', fontWeight: 500 }}>{t('offlineBadge')}</div>
               </div>
             </div>
 
@@ -227,8 +234,8 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTeacher }) => {
           </div>
           <div>
             <div style={{ fontWeight: 800, color: '#9c4221', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span>1-टैप ऑफ़लाइन आवाज सेट-अप</span>
-              <span style={{ fontSize: '0.7rem', backgroundColor: '#ed8936', color: '#fff', padding: '2px 8px', borderRadius: '10px' }}>ऑफ़लाइन पैक</span>
+              <span>1-ٹैप ऑफ़लाइन आवाज सेट-अप (Offline Voice Pack)</span>
+              <span style={{ fontSize: '0.7rem', backgroundColor: '#ed8936', color: '#fff', padding: '2px 8px', borderRadius: '10px' }}>{t('offlineBadge')}</span>
             </div>
             <div style={{ fontSize: '0.8rem', color: '#c05621', marginTop: '2px' }}>
               झारखंड के ग्रामीण स्कूलों के लिए बिना इंटरनेट माइक और आवाज़ डाउनलोड करें
@@ -256,12 +263,9 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTeacher }) => {
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
           <div>
-            <h2 style={{ fontSize: '1.35rem', fontWeight: 700, color: 'var(--text-main)', margin: 0 }}>
-              {isTeacher ? '👩‍🏫 शिक्षिका उपकरण (Teacher Classroom Tools)' : '👧 छात्र उपकरण (Student Learning Games & Tools)'}
+            <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-main)', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span>{t('quickStart')}</span>
             </h2>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', margin: '2px 0 0' }}>
-              {isTeacher ? 'लाइव प्रसारण, उच्चारण कोचिंग और शिक्षण उपकरण चुनें।' : 'खेल, फ्लैशकार्ड, पुस्तकें और लाइव कक्षा प्रसारण से जुड़ें।'}
-            </p>
           </div>
         </div>
 
@@ -311,34 +315,38 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTeacher }) => {
                 >
                   {action.icon}
                 </div>
-                <span
-                  style={{
-                    fontSize: '0.72rem',
-                    fontWeight: 700,
-                    padding: '3px 8px',
-                    borderRadius: '12px',
-                    backgroundColor: 'var(--surface-bg)',
-                    color: 'var(--text-muted)',
-                    border: '1px solid var(--border-subtle)',
-                  }}
-                >
-                  {action.badge}
-                </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <AudioSpeakerButton
+                    textToSpeak={`${action.title}. ${action.desc}`}
+                    size="sm"
+                  />
+                  <span
+                    style={{
+                      fontSize: '0.72rem',
+                      fontWeight: 700,
+                      padding: '3px 8px',
+                      borderRadius: '12px',
+                      backgroundColor: 'var(--surface-bg)',
+                      color: 'var(--text-muted)',
+                      border: '1px solid var(--border-subtle)',
+                    }}
+                  >
+                    {action.badge}
+                  </span>
+                </div>
               </div>
 
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px' }}>
-                  <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-main)', margin: 0 }}>
-                    {action.title}
-                  </h3>
-                </div>
-                <div style={{ fontSize: '1rem', color: action.color, fontWeight: 800, fontFamily: 'var(--font-santali)' }}>
-                  {action.santali}
+                <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-main)', margin: '0 0 4px' }}>
+                  {action.title}
+                </h3>
+                <div style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 500 }}>
+                  {action.desc}
                 </div>
               </div>
 
               <div style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem', fontWeight: 800, color: action.color }}>
-                <span>शुरू करें</span>
+                <span>{t('btnPlay')}</span>
                 <span>➔</span>
               </div>
             </Link>

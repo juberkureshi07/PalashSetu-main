@@ -1,40 +1,42 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { sfx } from '../utils/sfx';
+import { useLanguage } from '../context/LanguageContext';
+import { TranslationKey } from '../utils/translations';
 
 interface NavItemConfig {
   to: string;
   icon: string;
-  label: string;
-  badge?: string;
+  labelKey: TranslationKey;
+  badgeKey?: TranslationKey;
 }
 
 const STUDENT_NAV_ITEMS: NavItemConfig[] = [
-  { to: '/', icon: '🏠', label: 'मुख्य पृष्ठ (Dashboard)' },
-  { to: '/translate', icon: '🎙️', label: 'वॉइस अनुवाद (<3s Voice Dialogue)', badge: '<3s Voice' },
-  { to: '/worksheets', icon: '📝', label: 'NIPUN अभ्यास पत्र (Worksheets)', badge: 'A4 प्रिंट' },
-  { to: '/flashcards', icon: '🃏', label: 'NIPUN चित्र कार्ड (Flashcards)', badge: '30+ कार्ड' },
-  { to: '/student-view', icon: '📡', label: 'शिक्षिका कक्षा से जुड़ें', badge: 'LAN P2P' },
-  { to: '/practice', icon: '🎮', label: 'बच्चों का खेल (ᱜᱤᱫᱽᱨᱟᱹ ᱠᱷᱮᱞᱚᱸᱰ)', badge: 'खेल' },
-  { to: '/books', icon: '📖', label: 'पाठ्य पुस्तक (ᱡᱮᱥᱤᱤᱟᱨᱴᱤ)', badge: 'द्विभाषी' },
-  { to: '/lessons', icon: '📚', label: 'पाठशाला (ᱯᱟᱲᱦᱟᱣ ᱯᱚᱛᱷᱤ)', badge: 'NIPUN' },
-  { to: '/contribute', icon: '🤝', label: 'सामुदायिक योगदान (ᱜᱚᱲᱚ)', badge: 'योगदान' },
-  { to: '/settings', icon: '⚙️', label: 'सेटिंग्स (ᱥᱮᱴᱤᱝᱥ)' },
+  { to: '/', icon: '🏠', labelKey: 'navDashboard' },
+  { to: '/translate', icon: '🎙️', labelKey: 'navVoiceTranslate', badgeKey: 'badgeVoice' },
+  { to: '/worksheets', icon: '📝', labelKey: 'navWorksheets', badgeKey: 'badgeWorksheets' },
+  { to: '/flashcards', icon: '🃏', labelKey: 'navFlashcards', badgeKey: 'badgeFlashcards' },
+  { to: '/student-view', icon: '📡', labelKey: 'navStudentView', badgeKey: 'badgeLan' },
+  { to: '/practice', icon: '🎮', labelKey: 'navPractice', badgeKey: 'badgePractice' },
+  { to: '/books', icon: '📖', labelKey: 'navBooks', badgeKey: 'badgeBooks' },
+  { to: '/lessons', icon: '📚', labelKey: 'navLessons', badgeKey: 'badgeLessons' },
+  { to: '/contribute', icon: '🤝', labelKey: 'navContribute', badgeKey: 'badgeContribute' },
+  { to: '/settings', icon: '⚙️', labelKey: 'navSettings', badgeKey: 'badgeSettings' },
 ];
 
 const TEACHER_NAV_ITEMS: NavItemConfig[] = [
-  { to: '/', icon: '🏠', label: 'मुख्य पृष्ठ (Dashboard)' },
-  { to: '/translate', icon: '🎙️', label: 'रीयल-टाइम वॉइस अनुवाद (<3s)', badge: '<3s Latency' },
-  { to: '/worksheets', icon: '📝', label: 'NIPUN अभ्यास पत्र जनरेटर', badge: 'A4 प्रिंट' },
-  { to: '/flashcards', icon: '🃏', label: 'NIPUN चित्र फ्लैशकार्ड सेट', badge: '30+ कार्ड' },
-  { to: '/pronounce', icon: '🗣️', label: 'उच्चारण अभ्यास (ᱨᱚᱲ ᱥᱮᱪᱮᱫ)', badge: 'आवाज़' },
-  { to: '/student-view', icon: '📡', label: 'कक्षा छात्र मॉनिटर', badge: 'LAN P2P' },
-  { to: '/lessons', icon: '📚', label: 'NIPUN पाठ योजना (5-Step)', badge: 'NIPUN' },
-  { to: '/books', icon: '📖', label: 'पाठ्य पुस्तक (ᱡᱮᱥᱤᱤᱟᱨᱴᱤ)', badge: 'द्विभाषी' },
-  { to: '/contribute/review', icon: '🛡️', label: 'योगदान समीक्षा द्वार', badge: 'सत्यापन' },
-  { to: '/contribute', icon: '🤝', label: 'सामुदायिक योगदान (ᱜᱚᱲᱚ)', badge: 'योगदान' },
-  { to: '/settings', icon: '⚙️', label: 'सेटिंग्स (ᱥᱮᱴᱤᱝᱥ)' },
-  { to: '/report', icon: '🚩', label: 'रिपोर्ट / प्रतिक्रिया', badge: 'ऑफ़लाइन' },
+  { to: '/', icon: '🏠', labelKey: 'navDashboard' },
+  { to: '/translate', icon: '🎙️', labelKey: 'navVoiceTranslate', badgeKey: 'badgeVoice' },
+  { to: '/worksheets', icon: '📝', labelKey: 'navWorksheets', badgeKey: 'badgeWorksheets' },
+  { to: '/flashcards', icon: '🃏', labelKey: 'navFlashcards', badgeKey: 'badgeFlashcards' },
+  { to: '/pronounce', icon: '🗣️', labelKey: 'navPronounce', badgeKey: 'badgeCoach' },
+  { to: '/student-view', icon: '📡', labelKey: 'navStudentView', badgeKey: 'badgeLan' },
+  { to: '/lessons', icon: '📚', labelKey: 'navLessons', badgeKey: 'badgeLessons' },
+  { to: '/books', icon: '📖', labelKey: 'navBooks', badgeKey: 'badgeBooks' },
+  { to: '/contribute/review', icon: '🛡️', labelKey: 'navReview', badgeKey: 'badgeReview' },
+  { to: '/contribute', icon: '🤝', labelKey: 'navContribute', badgeKey: 'badgeContribute' },
+  { to: '/settings', icon: '⚙️', labelKey: 'navSettings', badgeKey: 'badgeSettings' },
+  { to: '/report', icon: '🚩', labelKey: 'navReport', badgeKey: 'badgeReport' },
 ];
 
 interface SidebarProps {
@@ -44,7 +46,9 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose, role = 'student' }) => {
+  const { t, currentLanguageOption, openLanguageModal } = useLanguage();
   const navItems = role === 'teacher' ? TEACHER_NAV_ITEMS : STUDENT_NAV_ITEMS;
+
   return (
     <>
       {/* Mobile Backdrop Overlay */}
@@ -108,10 +112,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose, role = 'stud
               </div>
               <div>
                 <div style={{ fontWeight: 800, fontSize: '1.15rem', letterSpacing: '-0.3px', color: '#ffffff' }}>
-                  Bhasha Gyan
+                  {t('appName')}
                 </div>
                 <div style={{ fontSize: '0.72rem', color: '#f59e0b', fontWeight: 500 }}>
-                  भाषा ज्ञान • ᱥᱟᱱᱛᱟᱲᱤ ᱚᱞ ᱪᱤᱠᱤ
+                  {t('appSubtitle')}
                 </div>
               </div>
             </div>
@@ -160,9 +164,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose, role = 'stud
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <span style={{ fontSize: '1.1rem' }}>{item.icon}</span>
-                  <span>{item.label}</span>
+                  <span>{t(item.labelKey)}</span>
                 </div>
-                {item.badge && (
+                {item.badgeKey && (
                   <span
                     style={{
                       fontSize: '0.65rem',
@@ -173,7 +177,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose, role = 'stud
                       fontWeight: 600,
                     }}
                   >
-                    {item.badge}
+                    {t(item.badgeKey)}
                   </span>
                 )}
               </NavLink>
@@ -181,22 +185,47 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose, role = 'stud
           </nav>
         </div>
 
-        {/* Footer Offline Badge */}
-        <div
-          style={{
-            padding: '10px 12px',
-            backgroundColor: 'rgba(255,255,255,0.04)',
-            borderRadius: '12px',
-            border: '1px solid rgba(255,255,255,0.06)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-          }}
-        >
-          <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#48bb78', boxShadow: '0 0 8px #48bb78' }} />
-          <div style={{ fontSize: '0.75rem', color: '#cbd5e1' }}>
-            <div style={{ fontWeight: 600, color: '#ffffff' }}>100% बिना इंटरनेट (Offline)</div>
-            <div style={{ color: '#94a3b8', fontSize: '0.68rem' }}>संताली (Ol Chiki • ᱚᱞ ᱪᱤᱠᱤ)</div>
+        {/* Footer Language & Offline Badge */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <button
+            onClick={openLanguageModal}
+            style={{
+              padding: '8px 12px',
+              backgroundColor: 'rgba(237, 137, 54, 0.15)',
+              borderRadius: '10px',
+              border: '1px solid rgba(237, 137, 54, 0.4)',
+              color: '#feebc8',
+              fontSize: '0.8rem',
+              fontWeight: 700,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span>{currentLanguageOption.flag}</span>
+              <span>{currentLanguageOption.nativeName}</span>
+            </div>
+            <span style={{ fontSize: '0.72rem', color: '#f59e0b' }}>🌐 {t('changeLanguage')}</span>
+          </button>
+
+          <div
+            style={{
+              padding: '8px 12px',
+              backgroundColor: 'rgba(255,255,255,0.04)',
+              borderRadius: '10px',
+              border: '1px solid rgba(255,255,255,0.06)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#48bb78', boxShadow: '0 0 8px #48bb78' }} />
+            <div style={{ fontSize: '0.72rem', color: '#cbd5e1' }}>
+              <div style={{ fontWeight: 600, color: '#ffffff' }}>{t('offlineBadge')}</div>
+            </div>
           </div>
         </div>
       </aside>

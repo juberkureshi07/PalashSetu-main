@@ -1,6 +1,7 @@
 import React from 'react';
 import { TeacherProfile } from '../services/authService';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
 
 interface HeaderProps {
   isOnline?: boolean;
@@ -11,6 +12,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ activeTeacher, onSwitchTeacher, onToggleSidebar }) => {
   const { isDarkMode, isSfxEnabled, toggleSfx } = useTheme();
+  const { currentLanguageOption, openLanguageModal, t } = useLanguage();
 
   return (
     <header
@@ -50,21 +52,41 @@ export const Header: React.FC<HeaderProps> = ({ activeTeacher, onSwitchTeacher, 
 
           <div>
             <div style={{ fontSize: '1.15rem', fontWeight: 800, color: isDarkMode ? '#f8fafc' : '#0f2744', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span>📚 BHASHA GYAN</span>
-              <span style={{ fontSize: '0.8rem', color: '#f59e0b', fontWeight: 700 }}>(भाषा ज्ञान • ᱥᱟᱱᱛᱟᱲᱤ ᱚᱞ ᱪᱤᱠᱤ)</span>
+              <span>📚 {t('appName')}</span>
+              <span style={{ fontSize: '0.8rem', color: '#f59e0b', fontWeight: 700 }}>({t('appSubtitle')})</span>
             </div>
             <div style={{ fontSize: '0.7rem', color: isDarkMode ? '#94a3b8' : '#64748b', fontWeight: 500 }}>
-              Govt. of Jharkhand • Primary Education Portal (100% Offline)
+              {t('deptTagline')}
             </div>
           </div>
         </div>
 
         {/* Right: Action Group */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-          {/* Language Indicator Pill */}
-          <div style={{ padding: '5px 10px', borderRadius: '12px', border: `1px solid ${isDarkMode ? '#334155' : '#cbd5e0'}`, fontSize: '0.8rem', fontWeight: 700, color: isDarkMode ? '#f8fafc' : '#0f2744', backgroundColor: isDarkMode ? '#1e293b' : '#f8fafc' }}>
-            🟢 संताली (Ol Chiki • ᱚᱞ ᱪᱤᱠᱤ)
-          </div>
+          {/* Interactive Language Selector Pill */}
+          <button
+            onClick={openLanguageModal}
+            title={t('selectLanguage')}
+            style={{
+              padding: '6px 12px',
+              borderRadius: '20px',
+              border: '2px solid #ed8936',
+              fontSize: '0.8rem',
+              fontWeight: 800,
+              color: '#c05621',
+              backgroundColor: '#fffaf0',
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              boxShadow: '0 2px 5px rgba(237,137,54,0.15)',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            <span>{currentLanguageOption.flag}</span>
+            <span>{currentLanguageOption.nativeName}</span>
+            <span style={{ fontSize: '0.75rem', color: '#dd6b20' }}>▼</span>
+          </button>
 
           {/* Sound Effects Toggle Button */}
           <button
@@ -83,7 +105,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTeacher, onSwitchTeacher, 
               cursor: 'pointer',
             }}
           >
-            <span>{isSfxEnabled ? '🔊 ध्वनि (SFX)' : '🔇 म्यूट (Mute)'}</span>
+            <span>{isSfxEnabled ? t('sfxOn') : t('sfxOff')}</span>
           </button>
 
           {/* Active Teacher Badge */}
@@ -111,7 +133,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTeacher, onSwitchTeacher, 
                   cursor: 'pointer',
                 }}
               >
-                🔄 बदलें
+                {t('switchTeacher')}
               </button>
             </div>
           )}
@@ -120,3 +142,4 @@ export const Header: React.FC<HeaderProps> = ({ activeTeacher, onSwitchTeacher, 
     </header>
   );
 };
+

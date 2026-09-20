@@ -74,6 +74,9 @@ const AppRoutes: React.FC = () => {
 
 import ErrorBoundary from './components/ErrorBoundary';
 
+import { LanguageProvider } from './context/LanguageContext';
+import LanguageSelectModal from './components/LanguageSelectModal';
+
 const App: React.FC = () => {
   const [showSplash, setShowSplash] = useState(true);
   const [showOnboarding, setShowOnboarding] = useState(false);
@@ -104,13 +107,16 @@ const App: React.FC = () => {
   return (
     <ErrorBoundary>
       <ThemeProvider>
-        {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
-        {!showSplash && showOnboarding && (
-          <OnboardingWizard onComplete={handleOnboardingComplete} />
-        )}
-        <BrowserRouter>
-          <AppRoutes />
-        </BrowserRouter>
+        <LanguageProvider>
+          {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
+          {!showSplash && showOnboarding && (
+            <OnboardingWizard onComplete={handleOnboardingComplete} />
+          )}
+          <BrowserRouter>
+            <AppRoutes />
+          </BrowserRouter>
+          <LanguageSelectModal />
+        </LanguageProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );
