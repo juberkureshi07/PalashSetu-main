@@ -20,7 +20,6 @@ const STUDENT_NAV_ITEMS: NavItemConfig[] = [
   { to: '/practice', icon: '🎮', labelKey: 'navPractice', badgeKey: 'badgePractice' },
   { to: '/books', icon: '📖', labelKey: 'navBooks', badgeKey: 'badgeBooks' },
   { to: '/lessons', icon: '📚', labelKey: 'navLessons', badgeKey: 'badgeLessons' },
-  { to: '/contribute', icon: '🤝', labelKey: 'navContribute', badgeKey: 'badgeContribute' },
   { to: '/settings', icon: '⚙️', labelKey: 'navSettings', badgeKey: 'badgeSettings' },
 ];
 
@@ -33,8 +32,6 @@ const TEACHER_NAV_ITEMS: NavItemConfig[] = [
   { to: '/student-view', icon: '📡', labelKey: 'navStudentView', badgeKey: 'badgeLan' },
   { to: '/lessons', icon: '📚', labelKey: 'navLessons', badgeKey: 'badgeLessons' },
   { to: '/books', icon: '📖', labelKey: 'navBooks', badgeKey: 'badgeBooks' },
-  { to: '/contribute/review', icon: '🛡️', labelKey: 'navReview', badgeKey: 'badgeReview' },
-  { to: '/contribute', icon: '🤝', labelKey: 'navContribute', badgeKey: 'badgeContribute' },
   { to: '/settings', icon: '⚙️', labelKey: 'navSettings', badgeKey: 'badgeSettings' },
   { to: '/report', icon: '🚩', labelKey: 'navReport', badgeKey: 'badgeReport' },
 ];

@@ -13,8 +13,6 @@ import AuthLogin from './pages/AuthLogin';
 import AuthRegister from './pages/AuthRegister';
 import PracticeMode from './pages/PracticeMode';
 import PronunciationCoach from './pages/PronunciationCoach';
-import Contribute from './pages/Contribute';
-import ContributionReview from './pages/ContributionReview';
 import StudentBroadcastView from './pages/StudentBroadcastView';
 import SplashScreen from './components/SplashScreen';
 import OnboardingWizard, { UserProfile } from './components/OnboardingWizard';
@@ -58,8 +56,6 @@ const AppRoutes: React.FC = () => {
         <Route path="translate" element={<LiveTranslation />} />
         <Route path="practice" element={<PracticeMode />} />
         <Route path="pronounce" element={<PronunciationCoach />} />
-        <Route path="contribute" element={<Contribute />} />
-        <Route path="contribute/review" element={<ContributionReview />} />
         <Route path="student-view" element={<StudentBroadcastView />} />
         <Route path="flashcards" element={<Flashcards />} />
         <Route path="lessons" element={<Lessons />} />
