@@ -57,6 +57,7 @@ data/test/*
 *.mp4
 
 # Presentation & Pitch Docs (keep locally, not in repo)
+*.pptx
 *.pdf
 PALASHSETU_*.md
 TEAM_ONBOARDING*.md

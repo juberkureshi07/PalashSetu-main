@@ -5,5 +5,8 @@
   "scripts": {
     "build": "if [ -d mobile ]; then cd mobile && npm install && npm run build && cd .. && mkdir -p dist && cp -r mobile/dist/* dist/ 2>/dev/null || true; else npm install && npm run build && mkdir -p mobile/dist && cp -r dist/* mobile/dist/ 2>/dev/null || true; fi",
     "dev": "npm --prefix mobile run dev"
+  },
+  "dependencies": {
+    "pptxgenjs": "^4.0.1"
   }
 }
