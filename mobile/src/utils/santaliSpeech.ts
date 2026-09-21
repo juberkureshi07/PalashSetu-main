@@ -107,9 +107,38 @@ const SANTALI_VOCAB_PHONETICS: Record<string, string> = {
   'ᱥᱚᱦᱨᱟᱭ': 'सोहराय',
   'ᱯᱟᱨᱟᱵᱽ': 'पाराब',
   'ᱦᱟᱯᱲᱟᱢ': 'हापड़ाम',
-  'ᱠᱟᱹᱦᱱᱤ': 'काहनी',
-  'ᱴᱟᱠᱟ': 'टाका',
+  // Agglutinative Case Suffix & Postposition Vocab
+  'ᱯᱩᱛᱷᱤᱨᱮ': 'पुथीरे',
+  'ᱟᱥᱲᱟᱨᱮ': 'आशड़ारे',
+  'ᱚᱲᱟᱜᱠᱷᱚᱱ': 'ओड़ागखोन',
+  'ᱟᱹᱛᱩᱨᱮ': 'आतुरे',
+  'ᱠᱚᱞᱚᱢᱛᱮ': 'कोलम्ते',
+  'ᱫᱟᱜᱛᱮ': 'दागते',
+  'ᱤᱥᱠᱩᱞᱨᱮ': 'स्कूलरे',
+  'ᱠᱞᱟᱥᱨᱮ': 'क्लासरे',
+  'ᱜᱤᱫᱽᱨᱟᱹᱠᱚ': 'गिदराको',
+  'ᱯᱩᱛᱷᱤᱠᱚ': 'पुथीको',
+  'ᱟᱢᱟᱜ': 'आमाग',
+  'ᱤᱧᱟᱜ': 'इञाग',
 };
+
+/**
+ * Agglutinative Morphological Case Suffix Combiner for Santali (Ol Chiki)
+ * In Santali, locative (-ᱨᱮ), instrumental (-ᱛᱮ), source (-ᱠᱷᱚᱱ), and possessive (-ᱟᱜ/-ᱨᱮᱱᱟᱜ)
+ * suffixes attach directly to the preceding noun stem without whitespace.
+ * e.g., "ᱯᱩᱛᱷᱤ ᱨᱮ" -> "ᱯᱩᱛᱷᱤᱨᱮ" (in book), "ᱚᱲᱟᱜ ᱠᱷᱚᱱ" -> "ᱚᱲᱟᱜᱠᱷᱚᱱ" (from house)
+ */
+export function agglutinateSantaliSuffixes(text: string): string {
+  if (!text) return '';
+  return text
+    .replace(/([\u1C50-\u1C7F]+)\s+ᱨᱮ(?=\s|$|[।,.!?])/g, '$1ᱨᱮ')       // Locative: -re (in/on)
+    .replace(/([\u1C50-\u1C7F]+)\s+ᱛᱮ(?=\s|$|[।,.!?])/g, '$1ᱛᱮ')       // Instrumental: -te (with/by)
+    .replace(/([\u1C50-\u1C7F]+)\s+ᱠᱷᱚᱱ(?=\s|$|[।,.!?])/g, '$1ᱠᱷᱚᱱ')   // Source/Ablative: -khon (from)
+    .replace(/([\u1C50-\u1C7F]+)\s+ᱟᱜ(?=\s|$|[।,.!?])/g, '$1ᱟᱜ')       // Possessive: -ag (of)
+    .replace(/([\u1C50-\u1C7F]+)\s+ᱨᱮᱱᱟᱜ(?=\s|$|[।,.!?])/g, '$1ᱨᱮᱱᱟᱜ') // Possessive: -renag (of)
+    .replace(/([\u1C50-\u1C7F]+)\s+ᱠᱚ(?=\s|$|[।,.!?])/g, '$1ᱠᱚ')       // Plural: -ko (plural marker)
+    .replace(/([\u1C50-\u1C7F]+)\s+ᱠᱤᱱ(?=\s|$|[।,.!?])/g, '$1ᱠᱤᱱ');    // Dual: -kin (dual marker)
+}
 
 // Character-by-character mapping for any Ol Chiki letter/diacritic
 const OL_CHIKI_TO_DEVANAGARI: Record<string, string> = {
@@ -245,14 +274,17 @@ export function transliterateDevanagariToOlChiki(text: string): string {
 export function transliterateOlChikiToPhonetic(text: string): string {
   if (!text) return '';
 
+  // 0. Apply agglutinative case suffix combining (e.g. "ᱯᱩᱛᱷᱤ ᱨᱮ" -> "ᱯᱩᱛᱷᱤᱨᱮ")
+  const agglutinated = agglutinateSantaliSuffixes(text);
+
   // 1. Direct whole-word dictionary lookup for perfect pronunciation
-  const trimmed = text.trim();
+  const trimmed = agglutinated.trim();
   if (SANTALI_VOCAB_PHONETICS[trimmed]) {
     return SANTALI_VOCAB_PHONETICS[trimmed];
   }
 
   // 2. Tokenize and replace known vocabulary words
-  const words = text.split(/(\s+|[।,.!?:;()\-+×÷=/])/);
+  const words = agglutinated.split(/(\s+|[।,.!?:;()\-+×÷=/])/);
   const resultWords = words.map(w => {
     const clean = w.trim();
     if (SANTALI_VOCAB_PHONETICS[clean]) {
@@ -280,6 +312,20 @@ export function transliterateOlChikiToPhonetic(text: string): string {
   return resultWords.join('');
 }
 
+// Pre-warm browser voices on module load
+if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+  try {
+    window.speechSynthesis.getVoices();
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {
+      window.speechSynthesis.onvoiceschanged = () => {
+        window.speechSynthesis.getVoices();
+      };
+    }
+  } catch {
+    // Ignore early initialization errors
+  }
+}
+
 /**
  * Plays speech audio for Hindi or Santali (Ol Chiki or Romanized).
  * Automatically detects Ol Chiki and converts to phonetic speech audio.
@@ -300,6 +346,8 @@ export function speakText(text: string, options?: { lang?: string; rate?: number
     }
 
     // 🎙️ Native Android OS Hardware TTS Bridge (Highest priority on Android APK)
+    console.log(`%c[BhashaGyan Engine] 🔊 Audio TTS Output Triggered:\nText: "${textToSpeak}"`, 'color: #8b5cf6; font-weight: bold; font-size: 12px;');
+
     if ((window as any).AndroidVoiceBridge?.speak) {
       (window as any).AndroidVoiceBridge.speak(textToSpeak);
       if (options?.onEnd) {
@@ -319,12 +367,14 @@ export function speakText(text: string, options?: { lang?: string; rate?: number
     utterance.rate = options?.rate || 0.85; // Crisp pedagogical clarity
     utterance.pitch = 1.0;
 
-    // Pick best available voice or fallback to Indian/English voice
+    // Pick best available voice or fallback to Indian/English/default system voice
     const voices = window.speechSynthesis.getVoices();
     if (voices && voices.length > 0) {
       const matched = voices.find(v => v.lang === 'hi-IN' || v.lang.startsWith('hi')) ||
                       voices.find(v => v.lang === 'en-IN' || v.lang.includes('IN')) ||
-                      voices.find(v => v.lang.startsWith('en'));
+                      voices.find(v => v.lang.startsWith('en')) ||
+                      voices.find(v => v.default) ||
+                      voices[0];
       if (matched) {
         utterance.voice = matched;
         utterance.lang = matched.lang;
@@ -336,7 +386,10 @@ export function speakText(text: string, options?: { lang?: string; rate?: number
     }
 
     utterance.onerror = (e) => {
-      console.warn('Speech synthesis utterance error, invoking WebAudio formant synth:', e);
+      // Ignore normal playback interruptions or cancellations when user taps new clip
+      if (e.error === 'interrupted' || e.error === 'canceled') {
+        return;
+      }
       playWebAudioFormantSpeech(textToSpeak);
     };
 

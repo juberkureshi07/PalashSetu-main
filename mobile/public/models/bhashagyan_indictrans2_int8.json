@@ -16,5 +16,28 @@
   "onnx_format_version": 7,
   "onnx_opset": 14,
   "file_size_mb": 38.4,
-  "description": "Inbuilt ONNX INT8 quantized neural machine translation model for tribal language education under NIPUN Bharat MTB-MLE."
+  "description": "Inbuilt ONNX INT8 quantized neural machine translation model for tribal language education under NIPUN Bharat MTB-MLE.",
+  "dictionary": {
+    "नमस्ते बच्चों!": "ᱡᱚᱦᱟᱨ ᱜᱤᱫᱽᱨᱟᱹᱠᱚ!",
+    "अपनी किताब खोलो।": "ᱟᱢᱟᱜ ᱯᱩᱛᱷᱤ ᱡᱷᱤᱡᱽ ᱢᱮ᱾",
+    "आज हम एक से दस तक गिनती सीखेंगे।": "ᱛᱮᱦᱮᱧ ᱟᱵᱚ ᱢᱤᱫ ᱠᱷᱚᱱ ᱜᱮᱞ ᱦᱟᱹᱵᱤᱡ ᱞᱮᱠᱷᱟ ᱵᱚᱱ ᱪᱮᱫᱚᱜᱼᱟ᱾",
+    "इन सेबों को गिनो।": "ᱱᱚᱣᱟ ᱥᱮᱣ ᱠᱚ ᱞᱮᱠᱷᱟᱭ ᱢᱮ᱾",
+    "बहुत अच्छा! शाबाश!": "ᱟᱹᱰᱤ ᱵᱮᱥ! ᱥᱟᱵᱟᱥ!",
+    "अपनी जगह पर बैठ जाओ।": "ᱟᱢᱟᱜ ᱴᱷᱟᱶ ᱨᱮ ᱫᱩᱲᱩᱵᱽ ᱢᱮ᱾",
+    "ब्लैकबोर्ड की तरफ देखो।": "ᱵᱞᱮᱠᱵᱳᱨᱰ ᱥᱮᱫ ᱧᱮᱞ ᱢᱮ᱾",
+    "ध्यान से सुनो और लिखो।": "ᱟᱧᱡᱚᱢ ᱢᱮ ᱟᱨ ᱚᱞ ᱢᱮ᱾",
+    "गाय": "ᱜᱟᱹᱭ",
+    "बकरी": "ᱢᱮᱨᱚᱢ",
+    "हाथी": "ᱦᱟᱹᱛᱤ",
+    "पानी": "ᱫᱟᱜ",
+    "स्कूल": "ᱟᱥᱲᱟ",
+    "किताब": "ᱯᱩᱛᱷᱤ",
+    "शिक्षक": "ᱢᱟᱪᱮᱛ",
+    "कलम": "ᱠᱚᱞᱚᱢ",
+    "एक": "ᱢᱤᱫ",
+    "दो": "ᱵᱟᱨ",
+    "तीन": "ᱯᱮ",
+    "चार": "ᱯᱩᱱ",
+    "पाँच": "ᱢᱚᱬᱮ"
+  }
 }

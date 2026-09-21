@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { sfx } from '../utils/sfx';
 import { useLanguage } from '../context/LanguageContext';
 import { TranslationKey } from '../utils/translations';
+import { useRole } from '../context/RoleContext';
 
 interface NavItemConfig {
   to: string;
@@ -13,14 +14,10 @@ interface NavItemConfig {
 
 const STUDENT_NAV_ITEMS: NavItemConfig[] = [
   { to: '/', icon: '🏠', labelKey: 'navDashboard' },
-  { to: '/translate', icon: '🎙️', labelKey: 'navVoiceTranslate', badgeKey: 'badgeVoice' },
-  { to: '/worksheets', icon: '📝', labelKey: 'navWorksheets', badgeKey: 'badgeWorksheets' },
-  { to: '/flashcards', icon: '🃏', labelKey: 'navFlashcards', badgeKey: 'badgeFlashcards' },
-  { to: '/student-view', icon: '📡', labelKey: 'navStudentView', badgeKey: 'badgeLan' },
   { to: '/practice', icon: '🎮', labelKey: 'navPractice', badgeKey: 'badgePractice' },
+  { to: '/student-view', icon: '📡', labelKey: 'navStudentView', badgeKey: 'badgeLan' },
+  { to: '/flashcards', icon: '🃏', labelKey: 'navFlashcards', badgeKey: 'badgeFlashcards' },
   { to: '/books', icon: '📖', labelKey: 'navBooks', badgeKey: 'badgeBooks' },
-  { to: '/lessons', icon: '📚', labelKey: 'navLessons', badgeKey: 'badgeLessons' },
-  { to: '/settings', icon: '⚙️', labelKey: 'navSettings', badgeKey: 'badgeSettings' },
 ];
 
 const TEACHER_NAV_ITEMS: NavItemConfig[] = [
@@ -42,9 +39,10 @@ interface SidebarProps {
   role?: 'teacher' | 'student';
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose, role = 'student' }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
   const { t, currentLanguageOption, openLanguageModal } = useLanguage();
-  const navItems = role === 'teacher' ? TEACHER_NAV_ITEMS : STUDENT_NAV_ITEMS;
+  const { role, isTeacher, lockStudentMode, openTeacherPinModal } = useRole();
+  const navItems = isTeacher ? TEACHER_NAV_ITEMS : STUDENT_NAV_ITEMS;
 
   return (
     <>
@@ -182,8 +180,63 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose, role = 'stud
           </nav>
         </div>
 
-        {/* Footer Language & Offline Badge */}
+        {/* Footer Language, Role Switch & Offline Badge */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {/* Role Switch Action Button */}
+          {isTeacher ? (
+            <button
+              onClick={() => {
+                sfx.playTap();
+                lockStudentMode();
+              }}
+              style={{
+                padding: '8px 12px',
+                backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                borderRadius: '10px',
+                border: '1px solid rgba(239, 68, 68, 0.4)',
+                color: '#fca5a5',
+                fontSize: '0.8rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span>🔒</span>
+                <span>बाल मोड चालू करें (Student Mode)</span>
+              </div>
+              <span style={{ fontSize: '0.72rem', color: '#f87171' }}>लॉक</span>
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                sfx.playTap();
+                openTeacherPinModal();
+              }}
+              style={{
+                padding: '8px 12px',
+                backgroundColor: 'rgba(245, 158, 11, 0.15)',
+                borderRadius: '10px',
+                border: '1px solid rgba(245, 158, 11, 0.4)',
+                color: '#fef3c7',
+                fontSize: '0.8rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span>🔐</span>
+                <span>शिक्षक मोड (Teacher Unlock)</span>
+              </div>
+              <span style={{ fontSize: '0.72rem', color: '#fbbf24' }}>PIN</span>
+            </button>
+          )}
+
           <button
             onClick={openLanguageModal}
             style={{

@@ -18,6 +18,9 @@ import SplashScreen from './components/SplashScreen';
 import OnboardingWizard, { UserProfile } from './components/OnboardingWizard';
 import { authService, TeacherProfile } from './services/authService';
 import { ThemeProvider } from './context/ThemeContext';
+import { RoleProvider } from './context/RoleContext';
+import ProtectedRoute from './components/ProtectedRoute';
+import PinModal from './components/PinModal';
 
 const AppRoutes: React.FC = () => {
   const navigate = useNavigate();
@@ -53,16 +56,58 @@ const AppRoutes: React.FC = () => {
         }
       >
         <Route index element={<Dashboard activeTeacher={activeTeacher} />} />
-        <Route path="translate" element={<LiveTranslation />} />
+        <Route
+          path="translate"
+          element={
+            <ProtectedRoute requireTeacher>
+              <LiveTranslation />
+            </ProtectedRoute>
+          }
+        />
         <Route path="practice" element={<PracticeMode />} />
-        <Route path="pronounce" element={<PronunciationCoach />} />
+        <Route
+          path="pronounce"
+          element={
+            <ProtectedRoute requireTeacher>
+              <PronunciationCoach />
+            </ProtectedRoute>
+          }
+        />
         <Route path="student-view" element={<StudentBroadcastView />} />
         <Route path="flashcards" element={<Flashcards />} />
-        <Route path="lessons" element={<Lessons />} />
-        <Route path="worksheets" element={<Worksheets />} />
+        <Route
+          path="lessons"
+          element={
+            <ProtectedRoute requireTeacher>
+              <Lessons />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="worksheets"
+          element={
+            <ProtectedRoute requireTeacher>
+              <Worksheets />
+            </ProtectedRoute>
+          }
+        />
         <Route path="books" element={<JCERTTextbooks />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="report" element={<ReportIssue activeTeacher={activeTeacher} />} />
+        <Route
+          path="settings"
+          element={
+            <ProtectedRoute requireTeacher>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="report"
+          element={
+            <ProtectedRoute requireTeacher>
+              <ReportIssue activeTeacher={activeTeacher} />
+            </ProtectedRoute>
+          }
+        />
       </Route>
     </Routes>
   );
@@ -103,16 +148,19 @@ const App: React.FC = () => {
   return (
     <ErrorBoundary>
       <ThemeProvider>
-        <LanguageProvider>
-          {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
-          {!showSplash && showOnboarding && (
-            <OnboardingWizard onComplete={handleOnboardingComplete} />
-          )}
-          <BrowserRouter>
-            <AppRoutes />
-          </BrowserRouter>
-          <LanguageSelectModal />
-        </LanguageProvider>
+        <RoleProvider>
+          <LanguageProvider>
+            {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
+            {!showSplash && showOnboarding && (
+              <OnboardingWizard onComplete={handleOnboardingComplete} />
+            )}
+            <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+              <AppRoutes />
+            </BrowserRouter>
+            <PinModal />
+            <LanguageSelectModal />
+          </LanguageProvider>
+        </RoleProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );

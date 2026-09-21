@@ -11,7 +11,7 @@ interface QRModalProps {
 }
 
 export const QRModal: React.FC<QRModalProps> = ({ isOpen, onClose, role, userName = 'Student', userGrade = 'Grade 1' }) => {
-  const [sessionData, setSessionData] = useState<{ pin: string; qrDataUrl: string } | null>(null);
+  const [sessionData, setSessionData] = useState<{ pin: string; qrSvgMarkup: string } | null>(null);
   const [connectedList, setConnectedList] = useState<ConnectedStudent[]>([]);
   const [inputPin, setInputPin] = useState('');
   const [joinSuccess, setJoinSuccess] = useState(false);
@@ -129,14 +129,13 @@ export const QRModal: React.FC<QRModalProps> = ({ isOpen, onClose, role, userNam
               </div>
             </div>
 
-            {/* QR Code Graphic Container */}
-            <div style={{ textAlign: 'center', marginBottom: '1.25rem' }}>
-              <img
-                src={sessionData?.qrDataUrl || 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=BHASHAGYAN_SESSION'}
-                alt="Classroom Session QR Code"
-                style={{ width: '160px', height: '160px', borderRadius: '12px', border: '1px solid #cbd5e1' }}
-              />
-            </div>
+            {/* 100% On-Device Standalone Offline SVG QR Code Container */}
+            <div
+              style={{ textAlign: 'center', marginBottom: '1.25rem', display: 'flex', justifyContent: 'center' }}
+              dangerouslySetInnerHTML={{
+                __html: sessionData?.qrSvgMarkup || '<svg width="200" height="200"><rect width="200" height="200" fill="#eee"/></svg>',
+              }}
+            />
 
             {/* Live Connected Students List */}
             <div

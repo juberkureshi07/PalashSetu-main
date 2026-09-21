@@ -196,11 +196,41 @@ class SoundEffectsEngine {
       gain.gain.setValueAtTime(0.06, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
 
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
       osc.start(now);
       osc.stop(now + 0.07);
+    } catch {
+      // AudioContext unavailable
+    }
+  }
+
+  /**
+   * 6. Error Sound / Buzz
+   * Ideal for: Invalid PIN entry, failed validation
+   */
+  public playError() {
+    if (!this.soundEnabled) return;
+    try {
+      const ctx = this.getContext();
+      if (!ctx) return;
+
+      const now = ctx.currentTime;
+      [220, 180].forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sawtooth';
+        osc.frequency.value = freq;
+
+        const startTime = now + idx * 0.08;
+        gain.gain.setValueAtTime(0.06, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.12);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(startTime);
+        osc.stop(startTime + 0.13);
+      });
     } catch {
       // AudioContext unavailable
     }

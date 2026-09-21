@@ -1,3 +1,5 @@
+import { generateOfflineQRCodeSVG } from '../utils/qrGenerator';
+
 export interface ConnectedStudent {
   id: string;
   name: string;
@@ -11,16 +13,16 @@ class QRP2PService {
   private connectedStudents: ConnectedStudent[] = [];
   private listeners: Array<(students: ConnectedStudent[]) => void> = [];
 
-  public startTeacherSession(): { pin: string; qrDataUrl: string } {
+  public startTeacherSession(): { pin: string; qrSvgMarkup: string } {
     // Generate random 6-digit offline PIN
     const pin = Math.floor(100000 + Math.random() * 900000).toString();
     this.activeSessionPin = pin;
     this.connectedStudents = [];
 
-    // Simple offline QR Data URL fallback (SVG QR code simulation)
-    const qrDataUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=BHASHAGYAN_SESSION_${pin}`;
+    // 100% Standalone On-Device Offline SVG QR Code
+    const qrSvgMarkup = generateOfflineQRCodeSVG(`BHASHAGYAN_SESSION_${pin}`, 220);
 
-    return { pin, qrDataUrl };
+    return { pin, qrSvgMarkup };
   }
 
   public joinStudentSession(pin: string, studentName: string, grade: string, rollNo?: string): boolean {

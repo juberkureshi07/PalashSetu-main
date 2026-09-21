@@ -1,7 +1,4 @@
-/**
- * Teacher Profile & Local Authentication Service
- * 100% Offline with local SHA-256 PIN Hashing
- */
+import { dbService } from './dbService';
 
 export interface TeacherProfile {
   id: string;
@@ -77,6 +74,14 @@ export const authService = {
     profiles.push(newProfile);
     localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(profiles));
     this.setActiveSession(newProfile.id);
+
+    // Sync to IndexedDB asynchronously
+    try {
+      await dbService.saveTeacherProfile(newProfile);
+    } catch (e) {
+      console.warn('Failed to sync profile to IndexedDB:', e);
+    }
+
     return newProfile;
   },
 

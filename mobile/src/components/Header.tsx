@@ -2,6 +2,7 @@ import React from 'react';
 import { TeacherProfile } from '../services/authService';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
+import { useRole } from '../context/RoleContext';
 
 interface HeaderProps {
   isOnline?: boolean;
@@ -13,6 +14,7 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ activeTeacher, onSwitchTeacher, onToggleSidebar }) => {
   const { isDarkMode, isSfxEnabled, toggleSfx } = useTheme();
   const { currentLanguageOption, openLanguageModal, t } = useLanguage();
+  const { isTeacher, lockStudentMode, openTeacherPinModal } = useRole();
 
   return (
     <header
@@ -63,6 +65,51 @@ export const Header: React.FC<HeaderProps> = ({ activeTeacher, onSwitchTeacher, 
 
         {/* Right: Action Group */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+          {/* Active Mode Pill Badge */}
+          {isTeacher ? (
+            <button
+              onClick={lockStudentMode}
+              title="Click to lock Student Mode"
+              style={{
+                padding: '6px 12px',
+                borderRadius: '20px',
+                border: '1px solid #fca5a5',
+                fontSize: '0.78rem',
+                fontWeight: 800,
+                color: '#991b1b',
+                backgroundColor: '#fef2f2',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+              }}
+            >
+              <span>👨‍🏫 शिक्षक मोड (Teacher)</span>
+              <span style={{ fontSize: '0.72rem', backgroundColor: '#ef4444', color: '#fff', padding: '2px 6px', borderRadius: '10px' }}>🔒 Lock</span>
+            </button>
+          ) : (
+            <button
+              onClick={() => openTeacherPinModal()}
+              title="Click to enter Teacher PIN"
+              style={{
+                padding: '6px 12px',
+                borderRadius: '20px',
+                border: '1px solid #fde68a',
+                fontSize: '0.78rem',
+                fontWeight: 800,
+                color: '#92400e',
+                backgroundColor: '#fffbeb',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+              }}
+            >
+              <span>🎒 बाल मोड (Student)</span>
+              <span style={{ fontSize: '0.72rem', backgroundColor: '#f59e0b', color: '#fff', padding: '2px 6px', borderRadius: '10px' }}>🔐 Unlock</span>
+            </button>
+          )}
+
           {/* Interactive Language Selector Pill */}
           <button
             onClick={openLanguageModal}
@@ -109,7 +156,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTeacher, onSwitchTeacher, 
           </button>
 
           {/* Active Teacher Badge */}
-          {activeTeacher && (
+          {activeTeacher && isTeacher && (
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginLeft: '4px' }}>
               <div style={{ textAlign: 'right' }}>
                 <div style={{ fontSize: '0.82rem', fontWeight: 800, color: isDarkMode ? '#f8fafc' : '#0f2744' }}>
